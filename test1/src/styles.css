@@ -1,1 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
+p{font-size: 14px}
+header {
+    display: flex;
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    background-color: #4280f4;
+    box-shadow: 0 0 2px rgba(0,0,0,.8);
+    font-size: .7em;
+    text-align: center;
+    color:#fff;
+    font-style: italic;
+    height: 55px;
+    top: 0;
+}
+header h1{
+    flex: 1;
+    font-weight: bold;
+    font-size: 2em;
+    margin-top: 17px;
+}
+header .header-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    font-size: 2em;
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
+}
+a{
+    transition: all .2s linear;
+    background-color: transparent;
+}
+
+body{
+    position: relative;
+    top: 25px;
+}
+
+.footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #4280f4;
+  box-shadow: 0 0 2px rgba(0,0,0,.8);
+  color:#fff;
+  font-style: italic;
+  height: 55px;
+  text-align: center;
+}
+
+.box{border-style: solid;}
+
+.game{
+    text-align: center;
+    width: 300px;
+    height: 800px;
+    border: 25px solid green;
+    position: relative;
+    padding: 25px;
+    margin: 25px;
+    background-color: #000000;
+}
+
+.scrollable{
+    overflow: scroll;
+}

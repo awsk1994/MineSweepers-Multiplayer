@@ -1,11 +1,11 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, Output, EventEmitter} from '@angular/core';
 
 class Joke {
   setup: string;
   punchline: string;
   hide: boolean;
 
-  constructor(setup: string, punchline: string, hide: boolean) {
+  constructor(setup: string, punchline: string, hide: boolean = true) {
     this.setup = setup;
     this.punchline = punchline;
     this.hide = hide;
@@ -22,14 +22,36 @@ class Joke {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
-  startAt = 'User Interaction & Outputs';
+  footer: string = "This is footer. <instructions should be here>";
+}
+
+@Component({
+  selector: 'joke-form',
+  template: `
+  <div class="card card-block">
+    <h1> Create form </h1>
+    <input type="text" class="form-control" placeholder="Enter the Heading" #heading>
+    <input type="text" class="form-control" placeholder="Enter the Content" #content>
+    <button type="button" class="btn btn-primary" (click)="createJoke(heading.value, content.value)">Create</button>
+  </div>
+  `
+})
+export class JokeFormComponent {
+  @Output() jokeCreated = new EventEmitter<Joke>();
+
+  createJoke(heading:string, content:string){
+    this.jokeCreated.emit(new Joke(heading, content));
+  }
 }
 
 @Component({
   selector: 'joke-list',
   template: `
-  <joke *ngFor="let j of jokes" [joke]="j"></joke>
+  <joke-form (jokeCreated)=addJoke($event)></joke-form>
+  <joke *ngFor="let j of jokes" [joke]="j">
+      <h2 class="card-title">{{j.setup}}</h2>
+      <p class="card-text" [hidden]=j.hide>{{j.punchline}}</p>
+  </joke>
   `,
   styleUrls: ['./app.component.css']
 })
@@ -42,14 +64,19 @@ export class JokeListComponent {
       new Joke("Joke3", "This is Joke 3", true)
     ];
   }
+
+  addJoke(joke:Joke){
+    console.log("new Joke: " + joke.setup + ", " + joke.punchline);
+    this.jokes.unshift(joke);
+  }
 }
 
 @Component({
   selector: 'joke',
   template: `
   <div class="card card-block">
-    <h4 class="card-title">{{data.setup}}</h4>
-    <p class="card-text" [hidden]=data.hide>{{data.punchline}}</p>
+    <ng-content select="h2"></ng-content>
+    <ng-content select="p"></ng-content>
     <a class="btn btn-primary" (click)="data.toggle()">Tell me</a>
   </div>
   `,

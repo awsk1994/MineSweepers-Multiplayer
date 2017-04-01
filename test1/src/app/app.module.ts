@@ -3,13 +3,16 @@ import { NgModule, Input} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AppComponent, JokeComponent, JokeListComponent} from './app.component';
+import { AppComponent, JokeComponent, JokeListComponent, JokeFormComponent} from './app.component';
+import { GameComponent } from './game/game.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     JokeComponent,
-    JokeListComponent
+    JokeListComponent,
+    JokeFormComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,

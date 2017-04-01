@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-p{font-size: 14px}
+p {
+    font-size: 14px;
+}
+
 header {
     display: flex;
     position: fixed;
@@ -24,8 +27,8 @@ header .header-btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
     font-size: 2em;
+    margin-right: 30px;
     cursor: pointer;
     color: #fff;
     text-decoration: none;
@@ -35,9 +38,67 @@ a{
     background-color: transparent;
 }
 
-body{
+.body{
     position: relative;
-    top: 25px;
+    top: 55px;
+    margin-bottom: 55px;
+}
+
+.header{
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #4280f4;
+  box-shadow: 0 0 2px rgba(0,0,0,.8);
+  color:#fff;
+  font-style: italic;
+  height: 55px;
+  text-align: center;
+}
+
+.topnav {
+    top: 0;
+    text-align: center;
+    z-index: 999;
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
+    background-color: #4280f4;
+    color: white;
+    height: 55px;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  height: 100%;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav h2{
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  height: 100%;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.topnav a:hover {
+  background-color: #5555ff;
+  color: black;
+}
+
+.topnav a.active {
+    background-color: #4CAF50;
+    color: white;
 }
 
 .footer {
@@ -58,15 +119,85 @@ body{
 
 .game{
     text-align: center;
-    width: 300px;
     height: 800px;
-    border: 25px solid green;
+    border: 2px solid green;
     position: relative;
-    padding: 25px;
-    margin: 25px;
-    background-color: #000000;
+    background-color: #dddddd;
 }
 
 .scrollable{
     overflow: scroll;
 }
+
+.grid {
+  background-color: #5555ff;
+  position: relative;
+  box-shadow: inset 0 0 5px #00ff00;
+  transition: box-shadow .5s linear;
+  flex-direction: column;
+  color: #ffffff;
+  height: 400px;
+}
+
+.tile-1{
+    box-sizing: border-box;
+    background-color: #000000; 
+    text-align: center; 
+    vertical-align: text-bottom; 
+    border: 0.2em solid #ffcccc;
+    height: inherit;
+}
+
+.row-1{
+    box-sizing: border-box;
+    border: 0.2em solid #ff0000;
+    height: inherit;
+}
+
+
+/* Awesome font */
+.fa.fa-flag{
+    color: #dd0000;
+}
+
+
+/* game board css, copied from: https://github.com/hsbalar/zombie-finder/blob/master/client/assets/styles/app.scss */
+.game-board {
+  display: table;
+  margin: 0 auto;
+}
+
+.game-container {
+  position: relative;
+  padding: 15px;
+  cursor: default;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  background: #bbada0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: auto;
+  display: inline-block;
+}
+
+.tile {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  float: left;
+  border-radius: 0px;
+  background: #eee4da;
+  text-align: center;
+  font-weight: bold;
+  z-index: 10;
+  font-size: 15px;
+  border: 1px solid #bbada0;
+}
+
+.tile:hover{
+  background-color: #eeefdf;
+  color: black;
+}
+

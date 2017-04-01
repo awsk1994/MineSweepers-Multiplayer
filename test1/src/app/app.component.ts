@@ -1,5 +1,15 @@
 import { Component, Input, Output, EventEmitter} from '@angular/core';
 
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html'
+})
+export class AppComponent {
+  footer: string = "Created by Alex Wong 2017 (Powered by Angular2)";
+}
+
+/*
 class Joke {
   setup: string;
   punchline: string;
@@ -16,14 +26,6 @@ class Joke {
   }
 }
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
-export class AppComponent {
-  footer: string = "This is footer. <instructions should be here>";
-}
 
 @Component({
   selector: 'joke-form',
@@ -85,3 +87,4 @@ export class JokeListComponent {
 export class JokeComponent {
   @Input('joke') data: Joke;
 }
+*/

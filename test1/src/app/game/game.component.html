@@ -1,1 +1,14 @@
-<div class="game">blah</div>
+<div class="game-board">
+  <div class="game-container">
+    <div *ngFor="let row of tiles">
+      <div *ngFor="let tile of row" class="tile">
+        <span [ngSwitch]="tile">
+          <i *ngSwitchCase="'F'" class="fa fa-flag" aria-hidden="true"></i>
+          <i *ngSwitchCase="'B'" class="fa fa-bomb" aria-hidden="true"></i>
+          <i *ngSwitchCase="'E'"></i>
+          <i *ngSwitchDefault>{{tile}}</i>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

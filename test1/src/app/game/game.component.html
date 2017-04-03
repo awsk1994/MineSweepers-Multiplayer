@@ -2,12 +2,14 @@
   <div class="game-container">
     <div *ngFor="let row of tiles">
       <div *ngFor="let tile of row" class="tile">
-        <span [ngSwitch]="tile">
-          <i *ngSwitchCase="'F'" class="fa fa-flag" aria-hidden="true"></i>
-          <i *ngSwitchCase="'B'" class="fa fa-bomb" aria-hidden="true"></i>
-          <i *ngSwitchCase="'E'"></i>
-          <i *ngSwitchDefault>{{tile}}</i>
-        </span>
+        <div style="height: 100%; width: 100%" [hidden]="tile.hide==true" [ngSwitch]="tile.value" (click)="tile.click()">
+            <i *ngSwitchCase="'F'" class="fa fa-flag" aria-hidden="true"></i>
+            <i *ngSwitchCase="'B'" class="fa fa-bomb" aria-hidden="true"></i>
+            <i *ngSwitchCase="'E'"></i>
+            <span *ngSwitchDefault>{{tile.value}}</span>
+        </div>
+        <div style="height: 100%; width: 100%" [hidden]="tile.hide==false" (click)="tile.click()">
+        </div>
       </div>
     </div>
   </div>

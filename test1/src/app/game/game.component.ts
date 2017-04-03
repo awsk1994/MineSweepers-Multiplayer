@@ -36,17 +36,6 @@ export class GameComponent{
   constructor(){
     this.initiateBoard(this.length, this.numBombs);
     this.assignBombs(this.length, this.numBombs);
-    // for(let i=0; i<this.length; i++){
-    //   this.tiles[i] = [];
-    //   for(let j=0; j<this.length; j++){
-    //     this.tiles[i][j] = new Tile('0');
-    //   }
-    // }
-
-    // this.tiles[0][0] = new Tile('F');
-    // this.tiles[0][1] = new Tile('1');
-    // this.tiles[1][0] = new Tile('B');
-    // this.tiles[1][1] = new Tile('2');
   }
 
 
@@ -64,18 +53,14 @@ export class GameComponent{
   }
 
   assignBombs(length:number, numBombs:number){
-    console.log("START ASSING BOMB");
     // randomly assign bombs.
     for(let i:number=0;i<numBombs;i++){
       let tileCoord = this.getRandomTile(length);
-      console.log("tile(1). bomb #: " + numBombs + ", x: " + tileCoord.x + ", y: " + tileCoord.y);
-
+      // if this tile is already a bomb, then get another random tile.
       if(this.tiles[tileCoord.x][tileCoord.y].value == 'B'){
         let tileCoord = this.getRandomTile(length);
-        console.log("tile(2). bomb #: " + numBombs + ", x: " + tileCoord.x + ", y: " + tileCoord.y);
       }
-      this.tiles[tileCoord.x][tileCoord.y] = new Tile('B');
-      //console.log("tileCoord: (" + tileCoord.x + ", " + tileCoord.y + ")");
+      this.tiles[tileCoord.x][tileCoord.y].value = 'B';
     }
 
     // calculate the num value of each non-bomb tile.
@@ -88,14 +73,14 @@ export class GameComponent{
           let leftValid:boolean = (i-1)>0;
           let rightValid:boolean = (i+1)<(length-1);
 
-          // // top limit
+          // top limit
           if(this.tiles[i]!=null && this.tiles[i][j-1]!=null){
             if(this.tiles[i][j-1].value == 'B'){
               count++;
             }
           }
 
-          // // bottom limit
+          // bottom limit
           if(this.tiles[i]!=null && this.tiles[i][j+1]!=null){
             if(this.tiles[i][j+1].value == 'B'){
               count++;
@@ -167,9 +152,8 @@ export class GameComponent{
       col = 0;
     } else {
       row = Math.floor(rand/length);
-      col = rand - (row * length) - 1;
+      col = rand - (row * length);
     }
-    console.log("rand: " + rand + ", row: " + row + ", col: " + col);
     return new coord(row, col);
   }
 

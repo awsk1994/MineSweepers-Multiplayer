@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 
 @Component({
   selector: 'game-info',
@@ -9,9 +9,13 @@ export class GameInfoComponent {
   score:number;
   bombsLeft:number;
 
+  @Input() flagged = 0;
+
+
   constructor() {
     this.time = "05:00";
     this.score = 0;
     this.bombsLeft = 10;
+    this.flagged = 0;
   }
 }

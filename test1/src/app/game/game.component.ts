@@ -2,16 +2,39 @@ import { Component, OnInit } from '@angular/core';
 
 class Tile {
   value: string;
-  hide: boolean;
-
-  constructor(value:string, hide:boolean = false) {
+  state: number;  // 0=hide, 1=reveal, 2=flag.
+  
+  constructor(value:string, state:number = 0) {
     this.value = value;
-    this.hide = hide;
+    this.state = state;
   }
 
-  click(){
-    this.hide = !this.hide;
-    console.log("Tile info: value: " + this.value + ", hide: " + this.hide);
+  click(mouse:number){
+    let flagChange:number = 0;
+
+    if (mouse == 1){  //left click
+      if(this.state == 0){
+        this.state = 1;
+      } else if(this.state == 1){
+        // do nothing; once revealed, cannot hide.
+      } else if (this.state == 2){
+        // do nothing if left click on a flag.
+      }
+    } else if (mouse == 3){ //right click
+      if(this.state == 0){
+        this.state = 2;
+        flagChange = 1;
+      } else if(this.state == 1){
+        // do nothing if right clcik on a revealed tile
+      } else if(this.state == 2){
+        this.state = 0;
+        flagChange = -1;
+      }
+    } else {
+      alert("unexpected mouse event!");
+    }
+    return flagChange;
+    //console.log("Tile info: value: " + this.value + ", state: " + this.state);
   }
 }
 
@@ -29,15 +52,40 @@ class coord{
   templateUrl: './game.component.html'
 })
 export class GameComponent{
-  length:number = 10;   // max length (as of 20170401) is 29.
-  tiles:Tile[][] = [[]];
-  numBombs:number = 10;
+  length:number = 7;   // max length (as of 20170401) is 29.
+  numBombs:number = 7;
+
+  tiles:Tile[][];
+  flagged:number;
 
   constructor(){
+    this.flagged = 0;
+    this.tiles = [[]];
     this.initiateBoard(this.length, this.numBombs);
     this.assignBombs(this.length, this.numBombs);
   }
 
+  revealAll(){
+    for(let i:number=0; i<this.tiles.length; i++){
+      for(let j:number=0; j<this.tiles[i].length; j++){
+        this.tiles[i][j].state = 1;
+      }
+    }
+  }
+
+  hideAll(){
+    for(let i:number=0; i<this.tiles.length; i++){
+      for(let j:number=0; j<this.tiles[i].length; j++){
+        this.tiles[i][j].state = 0;
+      }
+    }
+  }
+
+  handleClick(event, tile){
+    console.log("event: " + event.which + ", tile: " + tile.value);
+    let flagChange:number = tile.click(event.which);
+    this.flagged += flagChange;
+  }
 
   initiateBoard(length:number, numBombs:number){
     console.log("initiateBoard. length: " + length + ", numBombs: " + numBombs);

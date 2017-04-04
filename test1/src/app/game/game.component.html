@@ -1,14 +1,18 @@
 <div class="game-board">
+  <game-info [flagged]="flagged"></game-info>
+  <button class="btn btn-primary" (click)="revealAll()">Reveal all</button>
+  <button class="btn btn-primary" (click)="hideAll()">Hide all</button>
+  <hr>
   <div class="game-container">
     <div *ngFor="let row of tiles">
       <div *ngFor="let tile of row" class="tile">
-        <div style="height: 100%; width: 100%" [hidden]="tile.hide==true" [ngSwitch]="tile.value" (click)="tile.click()">
-            <i *ngSwitchCase="'F'" class="fa fa-flag" aria-hidden="true"></i>
-            <i *ngSwitchCase="'B'" class="fa fa-bomb" aria-hidden="true"></i>
-            <i *ngSwitchCase="'E'"></i>
-            <span *ngSwitchDefault>{{tile.value}}</span>
-        </div>
-        <div style="height: 100%; width: 100%" [hidden]="tile.hide==false" (click)="tile.click()">
+        <div style="height: 100%; width: 100%" [ngSwitch]="tile.state" oncontextmenu="return false" (mouseup) = "handleClick($event, tile);">
+            <i *ngSwitchCase="0"></i>
+            <i *ngSwitchCase="1">
+              <i [hidden]="tile.value!='B'" class="fa fa-bomb" aria-hidden="true"></i>
+              <span [hidden]="tile.value=='B'">{{tile.value}}</span>
+            </i>
+            <i *ngSwitchCase="2" class="fa fa-flag" aria-hidden="true"></i>
         </div>
       </div>
     </div>

@@ -1,12 +1,13 @@
 <div class="game-board">
-  <game-info [flagged]="flagged"></game-info>
+  <game-info [flagged]="flagged" [gameState]="state"></game-info>
   <button class="btn btn-primary" (click)="revealAll()">Reveal all</button>
   <button class="btn btn-primary" (click)="hideAll()">Hide all</button>
+  <button class="btn btn-primary" (click)="reset()">Reset</button>
   <hr>
   <div class="game-container">
-    <div *ngFor="let row of tiles">
-      <div *ngFor="let tile of row" class="tile">
-        <div style="height: 100%; width: 100%" [ngSwitch]="tile.state" oncontextmenu="return false" (mouseup) = "handleClick($event, tile);">
+    <div *ngFor="let row of tiles; let i=index">
+      <div *ngFor="let tile of row; let j=index" class="tile">
+        <div style="height: 100%; width: 100%" [ngSwitch]="tile.state" oncontextmenu="return false" (mouseup) = "handleClick($event, tile, i, j);">
             <i *ngSwitchCase="0"></i>
             <i *ngSwitchCase="1">
               <i [hidden]="tile.value!='B'" class="fa fa-bomb" aria-hidden="true"></i>

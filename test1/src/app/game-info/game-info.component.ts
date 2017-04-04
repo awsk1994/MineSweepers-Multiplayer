@@ -10,7 +10,7 @@ export class GameInfoComponent {
   bombsLeft:number;
 
   @Input() flagged = 0;
-
+  @Input() gameState = "init";
 
   constructor() {
     this.time = "05:00";

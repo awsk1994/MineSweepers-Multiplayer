@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
+class coord{
+  x:number;
+  y:number;
+  constructor(x:number, y:number){
+    this.x = x;
+    this.y = y;
+  }
+}
+
 class Tile {
   value: string;
   state: number;  // 0=hide, 1=reveal, 2=flag.
@@ -11,39 +20,36 @@ class Tile {
 
   click(mouse:number){
     let flagChange:number = 0;
+    let bombTriggered:boolean = false;
+    let spreadReveal:boolean = false;
 
     if (mouse == 1){  //left click
-      if(this.state == 0){
+      if(this.state == 0){  //hidden -> reveal
         this.state = 1;
+        if(this.value == 'B'){
+          bombTriggered = true;
+        } else if(this.value == '0'){
+          spreadReveal = true;
+        }
       } else if(this.state == 1){
         // do nothing; once revealed, cannot hide.
       } else if (this.state == 2){
         // do nothing if left click on a flag.
       }
     } else if (mouse == 3){ //right click
-      if(this.state == 0){
+      if(this.state == 0){  // hidden -> flag
         this.state = 2;
         flagChange = 1;
       } else if(this.state == 1){
         // do nothing if right clcik on a revealed tile
-      } else if(this.state == 2){
+      } else if(this.state == 2){ // flag -> hidden
         this.state = 0;
         flagChange = -1;
       }
     } else {
       alert("unexpected mouse event!");
     }
-    return flagChange;
-    //console.log("Tile info: value: " + this.value + ", state: " + this.state);
-  }
-}
-
-class coord{
-  x:number;
-  y:number;
-  constructor(x:number, y:number){
-    this.x = x;
-    this.y = y;
+    return [flagChange, bombTriggered, spreadReveal];
   }
 }
 
@@ -57,10 +63,16 @@ export class GameComponent{
 
   tiles:Tile[][];
   flagged:number;
+  state:string;  //init, running, gameover, pause
 
   constructor(){
+    this.reset();
+  }
+
+  reset(){
     this.flagged = 0;
     this.tiles = [[]];
+    this.state = "init";
     this.initiateBoard(this.length, this.numBombs);
     this.assignBombs(this.length, this.numBombs);
   }
@@ -81,10 +93,30 @@ export class GameComponent{
     }
   }
 
-  handleClick(event, tile){
-    console.log("event: " + event.which + ", tile: " + tile.value);
-    let flagChange:number = tile.click(event.which);
-    this.flagged += flagChange;
+  handleClick(event, tile, i, j){
+    console.log("event: " + event.which + ", tile: " + tile.value);// + ", index: " + index);
+
+    if(this.state == "init"){
+      this.hideAll();
+      this.state = "running";
+    }
+
+    // don't do anything if gamover;; will change to click to reset in future.
+    if(this.state == "gameover"){
+      return;
+    }
+
+    if(this.state == "init" || this.state == "running"){
+      let result = tile.click(event.which); // [flagChange, bombTriggered, spreadReveal]
+      this.flagged += result[0];
+
+      if(result[1] == true){  //bomb triggered
+        this.revealAll();
+        this.state = "gameover";
+      } else if(result[2] == true){ //spread reveal
+        this.spreadReveal(i,j);
+      }
+    }
   }
 
   initiateBoard(length:number, numBombs:number){
@@ -184,6 +216,10 @@ export class GameComponent{
 
   }
 
+  spreadReveal(i,j){
+  
+  }
+
   getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -204,5 +240,4 @@ export class GameComponent{
     }
     return new coord(row, col);
   }
-
 }

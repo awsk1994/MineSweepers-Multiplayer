@@ -1,5 +1,6 @@
 <div class="game-board">
-  <game-info [flagged]="flagged" [gameState]="state"></game-info>
+  <game-settings></game-settings>
+  <game-info [flagged]="flagged" [gameState]="state" [tilesTouched]="tilesTouched"></game-info>
   <button class="btn btn-primary" (click)="revealAll()">Reveal all</button>
   <button class="btn btn-primary" (click)="hideAll()">Hide all</button>
   <button class="btn btn-primary" (click)="reset()">Reset</button>

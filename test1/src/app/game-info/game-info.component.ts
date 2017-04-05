@@ -11,6 +11,7 @@ export class GameInfoComponent {
 
   @Input() flagged = 0;
   @Input() gameState = "init";
+  @Input() tilesTouched = 0;
 
   constructor() {
     this.time = "05:00";

@@ -62,9 +62,10 @@ class Tile {
   templateUrl: './game.component.html'
 })
 export class GameComponent{
-  length:number = 10;   // max length (as of 20170401) is 29.
-  numBombs:number = 10;
-
+  sizes:number[] = [10, 17, 29]; // max selectedSize (as of 20170401) is 29.
+  selectedSize:number = this.sizes[0];   
+  
+  numBombs:number;
   tiles:Tile[][];
   flagged:number;
   state:string;  //init, running, gameover, pause
@@ -74,13 +75,19 @@ export class GameComponent{
     this.reset();
   }
 
+  selectSize(size){
+    this.selectedSize = size;
+    this.reset();
+  }
+
   reset(){
     this.flagged = 0;
     this.tiles = [[]];
     this.state = "init";
     this.tilesTouched = 0;
-    this.initiateBoard(this.length, this.numBombs);
-    this.assignBombs(this.length, this.numBombs);
+    this.numBombs = this.selectedSize;
+    this.initiateBoard(this.selectedSize, this.numBombs);
+    this.assignBombs(this.selectedSize, this.numBombs);
     //this.printBoard();
   }
 
@@ -134,19 +141,19 @@ export class GameComponent{
       }
 
       this.tilesTouched += result[3];
-      if(this.tilesTouched == (this.length * this.length)){
+      if(this.tilesTouched == (this.selectedSize * this.selectedSize)){
         this.gameOver(true);
       }
     }
   }
 
-  initiateBoard(length:number, numBombs:number){
-    console.log("initiateBoard. length: " + length + ", numBombs: " + numBombs);
+  initiateBoard(selectedSize:number, numBombs:number){
+    console.log("initiateBoard. selectedSize: " + selectedSize + ", numBombs: " + numBombs);
 
     // initiate each board with empty values.
-    for(let i=0; i<length; i++){
+    for(let i=0; i<selectedSize; i++){
       this.tiles[i] = [];
-      for(let j=0; j<length; j++){
+      for(let j=0; j<selectedSize; j++){
         this.tiles[i][j] = new Tile('');
       }
     }
@@ -163,26 +170,26 @@ export class GameComponent{
     }
   }
 
-  assignBombs(length:number, numBombs:number){
+  assignBombs(selectedSize:number, numBombs:number){
     // randomly assign bombs.
     for(let i:number=0;i<numBombs;i++){
-      let tileCoord = this.getRandomTile(length);
+      let tileCoord = this.getRandomTile(selectedSize);
       // if this tile is already a bomb, then get another random tile.
       if(this.tiles[tileCoord.x][tileCoord.y].value == 'B'){
-        let tileCoord = this.getRandomTile(length);
+        let tileCoord = this.getRandomTile(selectedSize);
       }
       this.tiles[tileCoord.x][tileCoord.y].value = 'B';
     }
 
     // calculate the num value of each non-bomb tile.
-    for(let i:number=0;i<length;i++){
-      for(let j:number=0;j<length;j++){
+    for(let i:number=0;i<selectedSize;i++){
+      for(let j:number=0;j<selectedSize;j++){
         if(this.tiles[i][j].value != 'B'){
           let count:number = 0;
           let topValid:boolean = (j-1)>0;
-          let bottomValid:boolean = (j+1)<(length-1);
+          let bottomValid:boolean = (j+1)<(selectedSize-1);
           let leftValid:boolean = (i-1)>0;
-          let rightValid:boolean = (i+1)<(length-1);
+          let rightValid:boolean = (i+1)<(selectedSize-1);
 
           // top limit
           if(this.tiles[i]!=null && this.tiles[i][j-1]!=null){
@@ -292,8 +299,8 @@ export class GameComponent{
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-  getRandomTile(length:number){
-    let rand:number = this.getRandomInt(0, (length * length));
+  getRandomTile(selectedSize:number){
+    let rand:number = this.getRandomInt(0, (selectedSize * selectedSize));
     let row:number;
     let col:number;
 
@@ -301,8 +308,8 @@ export class GameComponent{
       row = 0;
       col = 0;
     } else {
-      row = Math.floor(rand/length);
-      col = rand - (row * length);
+      row = Math.floor(rand/selectedSize);
+      col = rand - (row * selectedSize);
     }
     return new coord(row, col);
   }

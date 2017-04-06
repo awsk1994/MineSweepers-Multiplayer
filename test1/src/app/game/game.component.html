@@ -1,6 +1,6 @@
 <div class="game-board">
-  <game-settings></game-settings>
-  <game-info [flagged]="flagged" [gameState]="state" [tilesTouched]="tilesTouched"></game-info>
+  <game-settings [sizes]="sizes" [selectedSize]="selectedSize" (selectSize)=selectSize($event)></game-settings>
+  <game-info [numBombs]="numBombs" [flagged]="flagged" [gameState]="state" [tilesTouched]="tilesTouched"></game-info>
   <button class="btn btn-primary" (click)="revealAll()">Reveal all</button>
   <button class="btn btn-primary" (click)="hideAll()">Hide all</button>
   <button class="btn btn-primary" (click)="reset()">Reset</button>
@@ -9,12 +9,14 @@
     <div *ngFor="let row of tiles; let i=index">
       <div *ngFor="let tile of row; let j=index" class="tile">
         <div style="height: 100%; width: 100%" [ngSwitch]="tile.state" oncontextmenu="return false" (mouseup) = "handleClick($event, tile, i, j);">
-            <i *ngSwitchCase="0"></i>
-            <i *ngSwitchCase="1">
-              <i [hidden]="tile.value!='B'" class="fa fa-bomb" aria-hidden="true"></i>
-              <span [hidden]="tile.value=='B'">{{tile.value}}</span>
-            </i>
-            <i *ngSwitchCase="2" class="fa fa-flag" aria-hidden="true"></i>
+            <div *ngSwitchCase="0"></div>
+            <div *ngSwitchCase="1" class="revealedTile">
+              <span [ngSwitch]="tile.value">
+                <i *ngSwitchCase="'B'" class="fa fa-bomb" aria-hidden="true"></i>
+                <span *ngSwitchDefault>{{tile.value}}</span>
+              </span>
+            </div>
+            <div *ngSwitchCase="2" class="fa fa-flag" aria-hidden="true"></div>
         </div>
       </div>
     </div>

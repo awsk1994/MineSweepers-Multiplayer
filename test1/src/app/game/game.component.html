@@ -1,13 +1,19 @@
+<h1>Instructions</h1>
+<p> sfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfse sfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfse</p>
+<hr>
 <div class="game-board">
   <game-settings [sizes]="sizes" [selectedSize]="selectedSize" (selectSize)="selectSize($event)"></game-settings>
   <timer (reachedZero)="reachedZero()"></timer>
-  <game-info [numBombs]="numBombs" [flagged]="flagged" [gameState]="state" [tilesTouched]="tilesTouched"></game-info>
-  <button class="btn btn-primary" (click)="revealAll()">Reveal all</button>
-  <button class="btn btn-primary" (click)="hideAll()">Hide all</button>
+  <button class="btn btn-primary" [disabled]="state!='running'" (click)="pause()">Pause</button>
+  <button class="btn btn-primary" [disabled]="state!='pause'" (click)="resume()">Resume</button>
   <button class="btn btn-primary" (click)="reset()">Reset</button>
+  <game-info [numBombs]="numBombs" [flagged]="flagged" [gameState]="state" [tilesTouched]="tilesTouched"></game-info>
+  <!--<button class="btn btn-primary" (click)="revealAll()">Reveal all</button>
+  <button class="btn btn-primary" (click)="hideAll()">Hide all</button>-->
   <hr>
-  <h1 class="gameOverMsg" [hidden]="state!= 'gameover'">{{gameOverMsg}}</h1>
-  <div class="game-container">
+  <div class="game-container" [ngClass]="{'paused':(state=='pause')}">
+    <h1 class="gameStateMsg" [hidden]="state!= 'gameover'">{{gameOverMsg}}</h1>
+    <h1 class="gameStateMsg" [hidden]="state!= 'pause'">Game Paused</h1>
     <div *ngFor="let row of tiles; let i=index">
       <div *ngFor="let tile of row; let j=index" class="tile">
         <div style="height: 100%; width: 100%" [ngSwitch]="tile.state" oncontextmenu="return false" (mouseup) = "handleClick($event, tile, i, j);">

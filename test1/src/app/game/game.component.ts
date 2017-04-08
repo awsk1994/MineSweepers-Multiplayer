@@ -141,6 +141,10 @@ export class GameComponent{
       this.reset();
     }
 
+    if(this.state == "pause"){
+      this.resume();
+    }
+
     if(this.state == "init" || this.state == "running"){
       let result = tile.click(event.which); // [flagChange, bombTriggered, spreadReveal, tilesTouched]
       this.flagged += result[0];
@@ -326,5 +330,14 @@ export class GameComponent{
       col = rand - (row * selectedSize);
     }
     return new coord(row, col);
+  }
+
+  pause(){
+    this.state = "pause";
+    this.TimerComponent.pause();
+  }
+  resume(){
+    this.state = "running";
+    this.TimerComponent.resume();
   }
 }

@@ -3,7 +3,7 @@ import {SharedDataService} from '../shared-data.service'
 
 @Component({
   selector: 'timer',
-  templateUrl: './timer.component.html',
+  templateUrl: './timer.component.html'
 })
 export class TimerComponent implements OnInit, OnDestroy{
   totalTicks:number = 30;

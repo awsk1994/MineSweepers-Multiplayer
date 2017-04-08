@@ -166,6 +166,7 @@ a{
 .game-board {
   display: table;
   margin: 0 auto;
+  text-align: center;
 }
 
 .game-container {
@@ -174,6 +175,7 @@ a{
   cursor: default;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
+  -webkit-box-pack:center;
   -moz-user-select: none;
   background: #bbada0;
   -webkit-box-sizing: border-box;
@@ -212,10 +214,22 @@ a{
 
 }
 
-.gameOverMsg{
+.gameStateMsg{
     position:absolute;
-    background-color: rgba(200,200,200,0.5);
-    left:50%;
-    top:550px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    text-align: center;
+    top:40%;
+    width: 300px;
+    background-color: rgba(150, 150, 150,0.5);
+    color: rgb(0,0,0);
     z-index: 1;
+    text-decoration: underline;
+}
+
+.paused, .paused div div, .paused div div div div{
+    background-color: rgba(200,200,200, 0.55);
+    border-color: rgb(200,200,200);
+    color: rgb(200,200,200);
 }

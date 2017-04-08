@@ -7,13 +7,15 @@ import { AppComponent} from './app.component';
 import { GameComponent } from './game/game.component';
 import { GameInfoComponent } from './game-info/game-info.component';
 import { GameSettingsComponent } from './game-settings/game-settings.component';
+import { TimerComponent } from './timer/timer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GameComponent,
     GameInfoComponent,
-    GameSettingsComponent
+    GameSettingsComponent,
+    TimerComponent
   ],
   imports: [
     BrowserModule,

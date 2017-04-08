@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild} from '@angular/core';
+import { TimerComponent } from '../timer/timer.component';
 
 class coord{
   x:number;
@@ -64,7 +65,8 @@ class Tile {
 export class GameComponent{
   sizes:number[] = [10, 17, 29]; // max selectedSize (as of 20170401) is 29.
   selectedSize:number = this.sizes[0];   
-  
+  @ViewChild(TimerComponent) TimerComponent: TimerComponent;
+
   numBombs:number;
   tiles:Tile[][];
   flagged:number;
@@ -72,7 +74,7 @@ export class GameComponent{
   tilesTouched:number;
 
   constructor(){
-    this.reset();
+    this.reset(true);
   }
 
   selectSize(size){
@@ -80,7 +82,11 @@ export class GameComponent{
     this.reset();
   }
 
-  reset(){
+  reachedZero(){
+    this.gameOver();
+  }
+
+  reset(init:boolean=false){
     this.flagged = 0;
     this.tiles = [[]];
     this.state = "init";
@@ -88,6 +94,9 @@ export class GameComponent{
     this.numBombs = this.selectedSize;
     this.initiateBoard(this.selectedSize, this.numBombs);
     this.assignBombs(this.selectedSize, this.numBombs);
+    if(!init){
+      this.TimerComponent.reset();
+    }
     //this.printBoard();
   }
 
@@ -123,6 +132,7 @@ export class GameComponent{
     if(this.state == "init"){
       this.hideAll();
       this.state = "running";
+      this.TimerComponent.start();
     }
 
     // don't do anything if gamover;; will change to click to reset in future.

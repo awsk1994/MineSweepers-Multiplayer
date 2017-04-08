@@ -1,5 +1,6 @@
 <div class="game-board">
-  <game-settings [sizes]="sizes" [selectedSize]="selectedSize" (selectSize)=selectSize($event)></game-settings>
+  <game-settings [sizes]="sizes" [selectedSize]="selectedSize" (selectSize)="selectSize($event)"></game-settings>
+  <timer (reachedZero)="reachedZero()"></timer>
   <game-info [numBombs]="numBombs" [flagged]="flagged" [gameState]="state" [tilesTouched]="tilesTouched"></game-info>
   <button class="btn btn-primary" (click)="revealAll()">Reveal all</button>
   <button class="btn btn-primary" (click)="hideAll()">Hide all</button>

@@ -6,7 +6,7 @@
   <button class="btn btn-primary" (click)="hideAll()">Hide all</button>
   <button class="btn btn-primary" (click)="reset()">Reset</button>
   <hr>
-  <h1 class="gameOverMsg" [hidden]="state!= 'gameover'">Game Over</h1>
+  <h1 class="gameOverMsg" [hidden]="state!= 'gameover'">{{gameOverMsg}}</h1>
   <div class="game-container">
     <div *ngFor="let row of tiles; let i=index">
       <div *ngFor="let tile of row; let j=index" class="tile">

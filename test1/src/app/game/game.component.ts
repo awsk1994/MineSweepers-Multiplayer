@@ -63,7 +63,7 @@ class Tile {
   templateUrl: './game.component.html'
 })
 export class GameComponent{
-  sizes:number[] = [7, 10, 17, 29]; // max selectedSize (as of 20170401) is 29.
+  sizes:number[] = [5, 10, 20, 29]; // max selectedSize (as of 20170401) is 29.
   selectedSize:number = this.sizes[0];   
   @ViewChild(TimerComponent) TimerComponent: TimerComponent;
 
@@ -95,6 +95,7 @@ export class GameComponent{
     this.numBombs = this.selectedSize;
     this.initiateBoard(this.selectedSize, this.numBombs);
     this.assignBombs(this.selectedSize, this.numBombs);
+    console.log("reset");
     if(!init){
       this.TimerComponent.reset();
     }
@@ -129,7 +130,6 @@ export class GameComponent{
 
   handleClick(event, tile, i, j){
     console.log("event: " + event.which + ", tile: " + tile.value);// + ", index: " + index);
-
     if(this.state == "init"){
       this.hideAll();
       this.state = "running";
@@ -152,7 +152,7 @@ export class GameComponent{
       }
 
       this.tilesTouched += result[3];
-      if(this.tilesTouched == (this.selectedSize * this.selectedSize)){
+      if(this.tilesTouched == (this.selectedSize * this.selectedSize)){ // all tiles are triggered
         this.gameOver(true);
       }
     }
@@ -178,7 +178,10 @@ export class GameComponent{
     } else {
       this.gameOverMsg = "Game Over!";
     }
+        console.log("game over: " + win);
+
     this.state = "gameover";
+    this.TimerComponent.pause();
   }
 
   assignBombs(selectedSize:number, numBombs:number){

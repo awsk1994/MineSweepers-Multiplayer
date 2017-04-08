@@ -63,7 +63,7 @@ class Tile {
   templateUrl: './game.component.html'
 })
 export class GameComponent{
-  sizes:number[] = [10, 17, 29]; // max selectedSize (as of 20170401) is 29.
+  sizes:number[] = [7, 10, 17, 29]; // max selectedSize (as of 20170401) is 29.
   selectedSize:number = this.sizes[0];   
   @ViewChild(TimerComponent) TimerComponent: TimerComponent;
 
@@ -72,6 +72,7 @@ export class GameComponent{
   flagged:number;
   state:string;  //init, running, gameover, pause
   tilesTouched:number;
+  gameOverMsg:string;
 
   constructor(){
     this.reset(true);
@@ -172,12 +173,12 @@ export class GameComponent{
 
   gameOver(win:boolean = false){
     this.revealAll();
-    this.state = "gameover";
     if(win==true){
-      alert("Congrats. You won!");
+      this.gameOverMsg = "Congrats, you won!";
     } else {
-      alert("gameOver!!");
+      this.gameOverMsg = "Game Over!";
     }
+    this.state = "gameover";
   }
 
   assignBombs(selectedSize:number, numBombs:number){

@@ -113,6 +113,7 @@ a{
   font-style: italic;
   height: 55px;
   text-align: center;
+  z-index: 2;
 }
 
 .box{border-style: solid;}
@@ -209,4 +210,12 @@ a{
     background-color: #eed4ca;
   border: 1px solid #cccccc;
 
+}
+
+.gameOverMsg{
+    position:absolute;
+    background-color: rgba(200,200,200,0.5);
+    left:50%;
+    top:550px;
+    z-index: 1;
 }

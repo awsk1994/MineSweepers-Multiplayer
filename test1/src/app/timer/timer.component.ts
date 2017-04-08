@@ -5,7 +5,7 @@ import { Component, Input, Output, OnInit, OnDestroy, EventEmitter} from '@angul
   templateUrl: './timer.component.html'
 })
 export class TimerComponent implements OnInit, OnDestroy{
-  totalTicks:number = 10;
+  totalTicks:number = 30;
   ticks:number;
   timer;
   isPaused:boolean;

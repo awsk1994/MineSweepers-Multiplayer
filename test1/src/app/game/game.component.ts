@@ -128,12 +128,20 @@ export class GameComponent{
     }
   }
 
+  resetAndStart(){
+    this.reset();
+  }
+
+  start(){
+    this.hideAll();
+    this.state = "running";
+    this.TimerComponent.start();
+  }
+
   handleClick(event, tile, i, j){
     console.log("event: " + event.which + ", tile: " + tile.value);// + ", index: " + index);
     if(this.state == "init"){
-      this.hideAll();
-      this.state = "running";
-      this.TimerComponent.start();
+      this.start();
     }
 
     // don't do anything if gamover;; will change to click to reset in future.

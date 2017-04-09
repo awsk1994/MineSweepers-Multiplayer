@@ -1,4 +1,4 @@
-<h4 style="text-align: center">
+<!--<h4 style="text-align: center">
   <b>Time:</b> {{sharedData.getTime()}} |
   <b>Score:</b> {{score}}
 </h4>
@@ -9,4 +9,15 @@
 <h4 style="text-align: center">
   <b>GameState:</b> {{gameState}} | 
   <b>TilesTouched:</b> {{tilesTouched}}
-</h4>
+</h4>-->
+
+<table class="settingsText">
+  <tr>
+    <td style="text-align: right">
+      <b>Time:</b> {{sharedData.time}}
+    </td>
+    <td style="text-align: left">
+      <b>Bombs Left:</b> {{flagged}}/{{numBombs}} 
+    </td>
+  </tr>
+</table>

@@ -1,4 +1,4 @@
-BUGS/STORY:
+=== BUGS/STORY ===
 
 HIGH:
 
@@ -10,3 +10,6 @@ FOR LATER:
  - multiplayer -> needs to communicate with server.
  - info page
  - highscore
+ - UI enhancement
+ - instructions
+ - mobile support

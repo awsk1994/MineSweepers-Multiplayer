@@ -1,0 +1,12 @@
+BUGS/STORY:
+
+HIGH:
+
+MID:
+ - instructions should be collapsable
+LOW:
+
+FOR LATER:
+ - multiplayer -> needs to communicate with server.
+ - info page
+ - highscore

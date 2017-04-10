@@ -1,15 +1,24 @@
+=== NEXT TIME ===
+Figure out how to host and get API requests.
+
+
 === BUGS/STORY ===
 
-HIGH:
+>> HIGH:
 
-MID:
+>> MID:
  - instructions should be collapsable
-LOW:
 
-FOR LATER:
+>> LOW:
+ - actual content of instructions
+
+>> FOR LATER:
+ - clicking on the first tile should initialize it to zero and then reveal surrounding ones... so the user doesn’t need to keep clicking until it hits something. 
+ - mobile support
+
+
+=== BIG STORIES ===
  - multiplayer -> needs to communicate with server.
  - info page
  - highscore
  - UI enhancement
- - instructions
- - mobile support

@@ -6,7 +6,7 @@ import { Component, Input, Output, EventEmitter} from '@angular/core';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  footer: string = "Created by Alex Wong 2017 (Powered by Angular2)";
+  // footer: string = "Created by Alex Wong 2017 (Powered by Angular2)";
 }
 
 /*

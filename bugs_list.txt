@@ -1,20 +1,22 @@
 === NEXT TIME ===
-Figure out how to host and get API requests.
-
+ - instructions should be collapsable
 
 === BUGS/STORY ===
 
 >> HIGH:
+ - Should have a set number of bombs for each size of board
+ - actual content of instructions
 
 >> MID:
- - instructions should be collapsable
+ - decide on 3-4 hard coded sizes
 
 >> LOW:
- - actual content of instructions
+ - instructions is collapsable, but not animated. try to make it animated?
 
 >> FOR LATER:
  - clicking on the first tile should initialize it to zero and then reveal surrounding ones... so the user doesn’t need to keep clicking until it hits something. 
- - mobile support
+ - mobile support (shrink/re-arrange appropriately)
+ - take care of overflow (when board size too big, or browser window too small)
 
 
 === BIG STORIES ===

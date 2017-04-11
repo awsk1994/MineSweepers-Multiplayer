@@ -1,5 +1,11 @@
-<h1>Instructions</h1>
-<p> sfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfse sfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfse</p>
+<div>
+  <span [ngSwitch]="showInstr" style="font-size: 20px">
+    <i *ngSwitchCase='true' class="fa fa-plus" title='Toggle instructions' (click)="toggleShowInstr()"></i>
+    <i *ngSwitchCase='false' class="fa fa-minus" title='Toggle instructions' (click)="toggleShowInstr()"></i>
+  </span>
+  <span class="instrHeading">Instructions</span>
+</div>
+<p [hidden]="showInstr"> sfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfse sfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfse</p>
 <hr>
 <div class="game-board">
   <game-settings [sizes]="sizes" [selectedSize]="selectedSize" (selectSize)="selectSize($event)"></game-settings>

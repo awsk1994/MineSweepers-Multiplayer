@@ -111,9 +111,16 @@ a{
   box-shadow: 0 0 2px rgba(0,0,0,.8);
   color:#fff;
   font-style: italic;
-  height: 55px;
+  height: 25px;
   text-align: center;
   z-index: 2;
+}
+
+.footer2 {
+    color: gray;
+    font-style: italic;
+    text-align: center;
+    
 }
 
 .box{border-style: solid;}
@@ -264,4 +271,8 @@ table {
 
 .settingsText tr td{
     color: gray;
+}
+
+.instrHeading{
+    font-size: 25px;
 }

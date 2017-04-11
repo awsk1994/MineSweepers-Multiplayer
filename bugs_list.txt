@@ -19,7 +19,7 @@
  - take care of overflow (when board size too big, or browser window too small)
 
 
-=== BIG STORIES ===
+=== BIG STORY ===
  - multiplayer -> needs to communicate with server.
  - info page
  - highscore

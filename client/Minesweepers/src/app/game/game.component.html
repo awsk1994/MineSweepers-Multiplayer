@@ -1,20 +1,14 @@
-<div>
-  <span [ngSwitch]="showInstr" style="font-size: 20px">
-    <i *ngSwitchCase='true' class="fa fa-plus" title='Toggle instructions' (click)="toggleShowInstr()"></i>
-    <i *ngSwitchCase='false' class="fa fa-minus" title='Toggle instructions' (click)="toggleShowInstr()"></i>
-  </span>
-  <span class="instrHeading">Instructions</span>
-</div>
-<p [hidden]="showInstr"> sfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfse sfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfsesfjoasljfams afjpslekfla lefkalsfklaesmflesmf fkaselfse</p>
-<hr>
+<game-instruction></game-instruction>
 <div class="game-board">
   <game-settings [sizes]="sizes" [selectedSize]="selectedSize" (selectSize)="selectSize($event)"></game-settings>
+
   <timer (reachedZero)="reachedZero()"></timer>
   <button class="btn btn-primary" title='pause' *ngIf="state == 'running'" (click)="pause()"><i class="fa fa-pause-circle"></i></button>
   <button class="btn btn-primary" title='resume' *ngIf="state == 'pause'" (click)="resume()"><i class="fa fa-play-circle"></i></button>
   <button class="btn btn-primary" title='play' *ngIf="state == 'gameover'" (click)="reset(); start();"><i class="fa fa-play-circle"></i></button>
   <button class="btn btn-primary" title='play' *ngIf="state == 'init'" (click)="start();"><i class="fa fa-play-circle"></i></button>
   <button class="btn btn-secondary" title='reset' (click)="reset()"><i class="fa fa-refresh"></i> Reset</button>
+
   <game-info [numBombs]="numBombs" [flagged]="flagged" [gameState]="state" [tilesTouched]="tilesTouched"></game-info>
   <!--<button class="btn btn-primary" (click)="revealAll()">Reveal all</button>
   <button class="btn btn-primary" (click)="hideAll()">Hide all</button>-->

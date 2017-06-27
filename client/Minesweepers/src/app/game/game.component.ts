@@ -73,11 +73,6 @@ export class GameComponent{
   state:string;  //init, running, gameover, pause
   tilesTouched:number;
   gameOverMsg:string;
-  showInstr:boolean = true;
-
-  toggleShowInstr(){
-    this.showInstr = !this.showInstr;
-  }
 
   constructor(){
     this.reset(true);

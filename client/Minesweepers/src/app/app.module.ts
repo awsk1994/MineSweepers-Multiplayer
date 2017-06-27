@@ -10,14 +10,15 @@ import { GameInfoComponent } from './game-info/game-info.component';
 import { GameSettingsComponent } from './game-settings/game-settings.component';
 import { TimerComponent } from './timer/timer.component';
 import {SharedDataService} from './shared-data.service';
-import { GameOnlineComponent } from './game-online/game-online.component';
+import { OnlineComponent } from './online/online.component';
 import { HighscoreComponent } from './highscore/highscore.component';
 import { InfoComponent } from './info/info.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { GameInstructionComponent } from './game-instruction/game-instruction.component'
 
 const appRoutes: Routes = [
   { path: '', component: GameComponent },
-  { path: 'minesweeperonline', component: GameOnlineComponent },
+  { path: 'minesweeperonline', component: OnlineComponent },
   { path: 'highscore', component: HighscoreComponent },
   { path: 'info', component: InfoComponent },
   { path: '**', component: PageNotFoundComponent }
@@ -30,10 +31,11 @@ const appRoutes: Routes = [
     GameInfoComponent,
     GameSettingsComponent,
     TimerComponent,
-    GameOnlineComponent,
+    OnlineComponent,
     HighscoreComponent,
     InfoComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    GameInstructionComponent
   ],
   imports: [
     BrowserModule,

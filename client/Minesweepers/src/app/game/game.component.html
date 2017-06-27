@@ -1,0 +1,38 @@
+<game-instruction></game-instruction>
+<div class="game-board">
+  <game-settings [sizes]="sizes" [selectedSize]="selectedSize" (selectSize)="selectSize($event)"></game-settings>
+
+  <timer (reachedZero)="reachedZero()"></timer>
+  <button class="btn btn-primary" title='pause' *ngIf="state == 'running'" (click)="pause()"><i class="fa fa-pause-circle"></i></button>
+  <button class="btn btn-primary" title='resume' *ngIf="state == 'pause'" (click)="resume()"><i class="fa fa-play-circle"></i></button>
+  <button class="btn btn-primary" title='play' *ngIf="state == 'gameover'" (click)="reset(); start();"><i class="fa fa-play-circle"></i></button>
+  <button class="btn btn-primary" title='play' *ngIf="state == 'init'" (click)="start();"><i class="fa fa-play-circle"></i></button>
+  <button class="btn btn-secondary" title='reset' (click)="reset()"><i class="fa fa-refresh"></i> Reset</button>
+
+  <game-info [numBombs]="numBombs" [flagged]="flagged" [gameState]="state" [tilesTouched]="tilesTouched"></game-info>
+  <!--<button class="btn btn-primary" (click)="revealAll()">Reveal all</button>
+  <button class="btn btn-primary" (click)="hideAll()">Hide all</button>-->
+  <hr>
+  <div class="game-container" [ngClass]="{'paused':(state=='pause')}">
+    <h1 class="gameStateMsg" [hidden]="state!= 'gameover'">{{gameOverMsg}}</h1>
+    <h1 class="gameStateMsg" [hidden]="state!= 'pause'">Game Paused</h1>
+    <div *ngFor="let row of tiles; let i=index">
+      <div *ngFor="let tile of row; let j=index" class="tile">
+        <div style="height: 100%; width: 100%" [ngSwitch]="tile.state" oncontextmenu="return false" (mouseup) = "handleClick($event, tile, i, j);">
+            <div *ngSwitchCase="0"></div>
+            <div *ngSwitchCase="1" class="revealedTile">
+              <span [ngSwitch]="tile.value">
+                <i *ngSwitchCase="'B'" class="fa fa-bomb" aria-hidden="true"></i>
+                <span *ngSwitchCase='0' style="color:gray">0</span>
+                <span *ngSwitchCase='1' style="color:blue">1</span>
+                <span *ngSwitchCase='2' style="color:green">2</span>
+                <span *ngSwitchCase='3' style="color:red">3</span>
+                <span *ngSwitchDefault>{{tile.value}}</span>
+              </span>
+            </div>
+            <div *ngSwitchCase="2" class="fa fa-flag" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

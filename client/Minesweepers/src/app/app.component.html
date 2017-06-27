@@ -1,0 +1,31 @@
+<div class="topnav">
+  <a style="float:right" routerLink="/info" routerLinkActive="active">
+    <i aria-hidden="true" title="Info" class="fa fa-info"></i>
+    <small>Info</small>
+  </a>
+  <a style="float:right" routerLink="/highscore" routerLinkActive="active">
+    <i aria-hidden="true" title="trophy" class="fa fa-trophy"></i>
+    <small>HighScore</small>
+  </a>
+  <a style="float:right" routerLink="/minesweeperonline" routerLinkActive="active">
+    <i aria-hidden="true" title="Play MineSweeper Online" class="fa fa-globe"></i>
+    <small>Play MineSweeper Online</small>
+  </a>
+  <a style="float:right" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    <i aria-hidden="true" title="Play MineSweeper" class="fa fa-gamepad"></i>
+    <small>Play MineSweeper</small>
+  </a>
+  <h2>Mine_!_Sweeper</h2>
+</div>
+<div class="body">
+  <div class="container m-t-1 scrollable">
+    <div class="card card-block">
+        <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<div class="footer2">
+  Created by Alex Wong 2017 (Powered by Angular2)
+</div>
+
+<!--<div class="footer">{{footer}}</div>-->

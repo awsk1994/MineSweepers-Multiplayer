@@ -8,7 +8,6 @@ import { DifficultyComponent } from './difficulty/difficulty.component';
 import { GameboardComponent } from './gameboard/gameboard.component';
 import { ActionComponent } from './action/action.component';
 import { SoloComponent } from './solo/solo.component';
-import { MultiplayerComponent } from './multiplayer/multiplayer.component';
 import { HighscoreComponent } from './highscore/highscore.component';
 import { FlagbombComponent } from './flagbomb/flagbomb.component';
 import { FooterComponent } from './footer/footer.component';
@@ -18,8 +17,8 @@ import { ChatComponent } from './chat/chat.component';
 
 const appRoutes:Routes = [
   { path: '', redirectTo: '/solo', pathMatch: 'full'},
-  { path: 'solo', component: SoloComponent },
-  { path: 'multiplayer', component: MultiplayerComponent },
+  { path: 'solo', component: SoloComponent, data: {isSolo: true}},
+  { path: 'multiplayer', component: SoloComponent, data: {isSolo: false}},
   { path: 'highscore', component: HighscoreComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -32,7 +31,6 @@ const appRoutes:Routes = [
     GameboardComponent,
     ActionComponent,
     SoloComponent,
-    MultiplayerComponent,
     HighscoreComponent,
     FlagbombComponent,
     FooterComponent,

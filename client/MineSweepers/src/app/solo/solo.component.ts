@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'solo',
@@ -6,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./solo.component.css']
 })
 export class SoloComponent implements OnInit {
+  isSolo:string;
 
-  constructor() { }
+  constructor(route: ActivatedRoute) {
+    this.isSolo = route.snapshot.data['isSolo'];
+  }
 
   ngOnInit() {
   }

@@ -1,6 +1,7 @@
-Solo works
+Is solo? {{isSolo}}
 <div class="grid">
-  <difficulty class="item-difficulty"></difficulty>
+  <difficulty class="item-left" [hidden]="!isSolo"></difficulty>
+  <chat class="item-left" [hidden]="isSolo"></chat>
   <timer class="item-timer"></timer>
   <gameboard class="item-gameboard"></gameboard>
   <flagbomb class="item-flagbomb"></flagbomb>

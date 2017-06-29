@@ -2,16 +2,19 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-template-rows: 1fr 1fr 1fr;
+  padding: 20px;
 }
 
 .item-flag {
   grid-column: 1;
   grid-row: 1/4;
+  padding-right: 20px;
 }
 
 .item-bomb {
   grid-column: 3;
   grid-row: 1/4;
+  padding-left: 20px;
 }
 
 .item-progress {

@@ -1,0 +1,6 @@
+To Improve:
+ - pass isSolo information to action-solo/multi so that can combine into one.
+ - button is not really in the middle in action-solo/multi
+
+Bug:
+ - (game service - assignBombs) todo: while loop doesn't work - crashes chrome... somehow...

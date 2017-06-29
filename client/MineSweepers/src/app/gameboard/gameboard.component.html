@@ -1,5 +1,14 @@
-<div class="center" style="height: 100%">
-  <p>
-    gameboard works!
-  </p>
+<div class="center" style="height: 100%; padding: 10px; text-align: center">
+  <div class="flex-board">
+    <div *ngFor="let row of gameBoard">
+      <div *ngFor="let tile of row" class="tile">
+        <span style='background-color: red' *ngIf="tile.bomb==1">
+          B
+        </span>        
+        <span *ngIf="tile.bomb==0">
+          {{tile.value}}
+        </span>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActionComponent } from './action.component';
+import { ActionMultiplayerComponent } from './action-multiplayer.component';
 
-describe('ActionComponent', () => {
-  let component: ActionComponent;
-  let fixture: ComponentFixture<ActionComponent>;
+describe('ActionMultiplayerComponent', () => {
+  let component: ActionMultiplayerComponent;
+  let fixture: ComponentFixture<ActionMultiplayerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ActionComponent ]
+      declarations: [ ActionMultiplayerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ActionComponent);
+    fixture = TestBed.createComponent(ActionMultiplayerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

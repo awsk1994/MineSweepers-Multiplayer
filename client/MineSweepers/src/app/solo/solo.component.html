@@ -1,9 +1,10 @@
 Is solo? {{isSolo}}
 <div class="grid">
-  <difficulty class="item-left" [hidden]="!isSolo"></difficulty>
-  <chat class="item-left" [hidden]="isSolo"></chat>
+  <difficulty class="item-left" *ngIf="isSolo"></difficulty>
+  <chat class="item-left" *ngIf="!isSolo"></chat>
   <timer class="item-timer"></timer>
   <gameboard class="item-gameboard"></gameboard>
   <flagbomb class="item-flagbomb"></flagbomb>
-  <action class="item-action"></action>
+  <action-solo class="item-action" *ngIf="isSolo"></action-solo>
+  <action-multiplayer class="item-action" *ngIf="!isSolo"></action-multiplayer>
 </div>

@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { TimerComponent } from './timer/timer.component';
 import { DifficultyComponent } from './difficulty/difficulty.component';
 import { GameboardComponent } from './gameboard/gameboard.component';
-import { ActionComponent } from './action/action.component';
 import { SoloComponent } from './solo/solo.component';
 import { HighscoreComponent } from './highscore/highscore.component';
 import { FlagbombComponent } from './flagbomb/flagbomb.component';
@@ -14,6 +13,11 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ChatComponent } from './chat/chat.component';
+import { ActionSoloComponent } from './action-solo/action-solo.component';
+import { ActionMultiplayerComponent } from './action-multiplayer/action-multiplayer.component';
+
+import { GameService } from './game.service';
+import { UtilsService } from './utils.service';
 
 const appRoutes:Routes = [
   { path: '', redirectTo: '/solo', pathMatch: 'full'},
@@ -29,20 +33,21 @@ const appRoutes:Routes = [
     TimerComponent,
     DifficultyComponent,
     GameboardComponent,
-    ActionComponent,
     SoloComponent,
     HighscoreComponent,
     FlagbombComponent,
     FooterComponent,
     HeaderComponent,
     PageNotFoundComponent,
-    ChatComponent
+    ChatComponent,
+    ActionSoloComponent,
+    ActionMultiplayerComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [GameService, UtilsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

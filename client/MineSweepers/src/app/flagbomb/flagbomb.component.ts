@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'flagbomb',
   templateUrl: './flagbomb.component.html',
   styleUrls: ['./flagbomb.component.css']
 })
-export class FlagbombComponent implements OnInit {
+export class FlagbombComponent {
 
-  constructor() { }
+  flagCount:number;
+  bombCount:number;
 
-  ngOnInit() {
+  constructor(private gameService:GameService) {
+      this.gameService.flagBombUpdated.subscribe(
+        (data)=>{
+          this.flagCount = data.flagCount;
+          this.bombCount = data.bombCount;
+        }
+      )
   }
-
 }

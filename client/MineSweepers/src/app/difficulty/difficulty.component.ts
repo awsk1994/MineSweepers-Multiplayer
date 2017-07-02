@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'difficulty',
   templateUrl: './difficulty.component.html',
   styleUrls: ['./difficulty.component.css']
 })
-export class DifficultyComponent implements OnInit {
+export class DifficultyComponent {
 
-  constructor() { }
+  constructor(private gameService:GameService) { }
 
-  ngOnInit() {
+  changeDifficulty(difficulty){
+    this.gameService.changeDifficulty(difficulty);
   }
-
 }

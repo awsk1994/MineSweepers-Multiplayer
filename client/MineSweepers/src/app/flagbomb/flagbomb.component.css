@@ -2,22 +2,38 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-template-rows: 1fr 1fr 1fr;
+
+  display: -ms-grid;
+  -ms-grid-columns: auto 1fr auto;
+  -ms-grid-rows: 1fr 1fr 1fr;
+
   padding: 20px;
 }
 
 .item-flag {
   grid-column: 1;
   grid-row: 1/4;
+
+  -ms-grid-row: 1;
+  -ms-grid-column: 1/4;
+
   padding-right: 20px;
 }
 
 .item-bomb {
   grid-column: 3;
   grid-row: 1/4;
+
+  -ms-grid-row: 3;
+  -ms-grid-column: 1/4;
+
   padding-left: 20px;
 }
 
 .item-progress {
   grid-column: 2;
   grid-row: 2;
+
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
 }

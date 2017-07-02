@@ -2,12 +2,12 @@
   <i class="fa fa-tachometer fa-5x" aria-hidden="true"></i>
   <hr>
   <div>
-    <button class="btn btn-outline-secondary" style="color: green; width: 100%"><i class="fa fa-star-o" aria-hidden="true"></i> EASY </button>
+    <button class="btn btn-outline-secondary" (click)="changeDifficulty(0)" style="color: green; width: 100%"><i class="fa fa-star-o" aria-hidden="true"></i> EASY </button>
   </div>
   <div>
-    <button class="btn btn-outline-secondary" style="color: orange; width: 100%"><i class="fa fa-star-half-o" aria-hidden="true"></i> MEDIUM </button>
+    <button class="btn btn-outline-secondary" (click)="changeDifficulty(1)" style="color: orange; width: 100%"><i class="fa fa-star-half-o" aria-hidden="true"></i> MEDIUM </button>
   </div>
   <div>
-    <button class="btn btn-outline-secondary" style="color: red; width: 100%"><i class="fa fa-star" aria-hidden="true"></i> HARD </button>
+    <button class="btn btn-outline-secondary" (click)="changeDifficulty(2)" style="color: red; width: 100%"><i class="fa fa-star" aria-hidden="true"></i> HARD </button>
   </div>
 </div>

@@ -1,0 +1,14 @@
+<div style="height: 100%; width: 100%" [ngSwitch]="tile.state" oncontextmenu="return false" (mouseup)="click($event);">
+  <div *ngSwitchCase="0"></div>
+  <div *ngSwitchCase="1" style="background-color: #FFEBCD">
+    <i *ngIf="tile.isBomb" class="fa fa-bomb" aria-hidden="true"></i>
+    <div *ngIf="!tile.isBomb" [ngSwitch]="tile.value">
+      <span *ngSwitchCase='0' style="color:gray">0</span>
+      <span *ngSwitchCase='1' style="color:blue">1</span>
+      <span *ngSwitchCase='2' style="color:green">2</span>
+      <span *ngSwitchCase='3' style="color:red">3</span>
+      <span *ngSwitchDefault>{{tile.value}}</span>
+    </div>
+  </div>
+  <div *ngSwitchCase="2" class="fa fa-flag" aria-hidden="true"></div>
+</div>

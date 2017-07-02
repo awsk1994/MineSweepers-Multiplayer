@@ -1,18 +1,19 @@
 export enum TileState {
   UnTouched,
-  Numbered,
-  Flagged,
-  Bombed
+  Revealed,
+  Flagged
 }
 
-export enum Bomb {
-  NotExist,
-  Exist
+export enum TileMsg{
+  ClickedOnNumber,
+  ClickedOnBomb,
+  Flagged,
+  UnFlagged
 }
 
 export class Tile {
   constructor(
-  public bomb: Bomb,
+  public isBomb: boolean,
   public state: TileState,
   public value: number){};
 }

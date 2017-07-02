@@ -1,14 +1,13 @@
 <div class="center" style="height: 100%; padding: 10px; text-align: center">
   <div class="flex-board">
-    <div *ngFor="let row of gameBoard">
-      <div *ngFor="let tile of row" class="tile">
-        <span style='background-color: red' *ngIf="tile.bomb==1">
-          B
-        </span>        
-        <span *ngIf="tile.bomb==0">
-          {{tile.value}}
-        </span>
+    <div *ngFor="let row of gameBoard; let i=index">
+      <div *ngFor="let tile of row; let j=index" class="tile">
+        <tile [tile]='tile' [x]='i' [y]='j' oncontextmenu="return false" (mouseup)="click($event);"></tile>
       </div>
     </div>
   </div>
 </div>
+
+<!--<button class="btn btn-outline-danger" (click)="prepareGameboard(5)">Prepare Gameboard. Size: 5</button>
+<button class="btn btn-outline-danger" (click)="prepareGameboard(10)">Prepare Gameboard. Size: 10</button>
+<button class="btn btn-outline-danger" (click)="revealAll()">RevealAll</button>-->

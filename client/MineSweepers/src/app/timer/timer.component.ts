@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TimerService } from './timer.service';
 
 @Component({
   selector: 'timer',
@@ -6,11 +7,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./timer.component.css']
 })
 export class TimerComponent implements OnInit {
-  time:number = 5000;
+  time: number;
 
-  constructor() { }
+  constructor(private timerService: TimerService) {
 
-  ngOnInit() {
   }
 
+  ngOnInit() {
+    this.timerService.timeUpdated.subscribe(
+      (time: number) => {
+        this.time = time;
+      });
+    this.resetTimer();
+  }
+
+  runTimer() {
+    this.timerService.run();
+  }
+
+  pauseTimer() {
+    this.timerService.pause();
+  }
+
+  resetTimer() {
+    this.timerService.reset();
+  }
 }

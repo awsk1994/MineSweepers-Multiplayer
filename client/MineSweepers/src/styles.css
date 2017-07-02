@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-
 .header {
   position: block;
   top: 0;
@@ -17,7 +16,7 @@
   background-color: #efefef;
 }
 
-.center{
+.center {
   text-align: center;
   border-style: solid;
 }
@@ -30,7 +29,7 @@
   height: auto;
 }
 
-.flex-board{
+.flex-board {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -48,4 +47,13 @@
   z-index: 10;
   font-size: 15px;
   border: 1px solid #bbada0;
+}
+
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh
 }

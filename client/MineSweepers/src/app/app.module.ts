@@ -15,9 +15,14 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ChatComponent } from './chat/chat.component';
 import { ActionSoloComponent } from './action-solo/action-solo.component';
 import { ActionMultiplayerComponent } from './action-multiplayer/action-multiplayer.component';
+import { TileComponent } from './tile/tile.component';
+import { ModalComponent } from './modal/modal.component';
 
 import { GameService } from './game.service';
 import { UtilsService } from './utils.service';
+import { TimerService } from './timer/timer.service';
+import { GameboardService } from './gameboard/gameboard.service';
+import { ModalService } from './modal/modal.service';
 
 const appRoutes:Routes = [
   { path: '', redirectTo: '/solo', pathMatch: 'full'},
@@ -41,13 +46,15 @@ const appRoutes:Routes = [
     PageNotFoundComponent,
     ChatComponent,
     ActionSoloComponent,
-    ActionMultiplayerComponent
+    ActionMultiplayerComponent,
+    TileComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [GameService, UtilsService],
+  providers: [GameService, UtilsService, TimerService, GameboardService, ModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

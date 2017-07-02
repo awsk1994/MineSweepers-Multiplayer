@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Coord } from './coord';
-import { Tile } from './tile';
+import { Tile } from './tile/tile.model';
 
 @Injectable()
 export class UtilsService {
@@ -15,7 +15,7 @@ export class UtilsService {
       let row:string = '';
       for(let j=0;j<gameBoard[i].length;j++){
         let tile = gameBoard[i][j];
-        row += "{ B:" + tile.bomb + ",S:" + tile.state + ",V:" + tile.value + "}, ";
+        row += "{ B:" + tile.isBomb + ",S:" + tile.state + ",V:" + tile.value + "}, ";
       }
       console.log(row);
     }

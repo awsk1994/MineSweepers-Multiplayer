@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GameService } from '../game.service';
 
 @Component({
@@ -6,10 +6,12 @@ import { GameService } from '../game.service';
   templateUrl: './action-solo.component.html',
   styleUrls: ['./action-solo.component.css']
 })
-export class ActionSoloComponent implements OnInit {
+export class ActionSoloComponent {
 
   constructor(private gameService:GameService) { }
 
-  ngOnInit() {
+  restart(){
+    this.gameService.restart();
   }
+
 }

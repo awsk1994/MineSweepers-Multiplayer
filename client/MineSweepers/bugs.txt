@@ -1,6 +1,15 @@
 To Improve:
- - pass isSolo information to action-solo/multi so that can combine into one.
  - button is not really in the middle in action-solo/multi
+ - combine action solo/multiplayer into one.
 
 Bug:
- - (game service - assignBombs) todo: while loop doesn't work - crashes chrome... somehow...
+ - submit highscore option after game won.
+
+ Todo:
+  - Progress bar needs to be dynamic.
+  - Move gameboard into the middle.
+  - submitScore (empty call in modal.component)
+  - UI Upgrade
+  
+Considerations:
+ - instead of having action-solo/multiplayer, let's have a chat... either global chat (of all users in this application) or peer chat (if in multiplayer mode). And then, move restart/surrender to difficulty place.

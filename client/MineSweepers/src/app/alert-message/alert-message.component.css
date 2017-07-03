@@ -1,0 +1,11 @@
+button{
+  margin: 10px;
+}
+
+.gameOverAlert{
+  position: absolute; 
+  background-color: rgba(250, 250, 250, 0.9);
+  left: 30%;
+  right: 30%;
+  top: 30%;
+}

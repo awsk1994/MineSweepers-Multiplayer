@@ -13,16 +13,16 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ChatComponent } from './chat/chat.component';
-import { ActionSoloComponent } from './action-solo/action-solo.component';
-import { ActionMultiplayerComponent } from './action-multiplayer/action-multiplayer.component';
 import { TileComponent } from './tile/tile.component';
 import { ModalComponent } from './modal/modal.component';
+import { AlertMessageComponent } from './alert-message/alert-message.component';
 
 import { GameService } from './game.service';
 import { UtilsService } from './utils.service';
 import { TimerService } from './timer/timer.service';
 import { GameboardService } from './gameboard/gameboard.service';
 import { ModalService } from './modal/modal.service';
+import { AlertMessageService } from './alert-message/alert-message.service';
 
 const appRoutes:Routes = [
   { path: '', redirectTo: '/solo', pathMatch: 'full'},
@@ -45,16 +45,15 @@ const appRoutes:Routes = [
     HeaderComponent,
     PageNotFoundComponent,
     ChatComponent,
-    ActionSoloComponent,
-    ActionMultiplayerComponent,
     TileComponent,
-    ModalComponent
+    ModalComponent,
+    AlertMessageComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [GameService, UtilsService, TimerService, GameboardService, ModalService],
+  providers: [GameService, UtilsService, TimerService, GameboardService, ModalService, AlertMessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

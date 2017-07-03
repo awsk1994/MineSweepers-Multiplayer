@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TimerService } from './timer/timer.service';
 import { GameboardService } from './gameboard/gameboard.service'
 import { TileMsg } from './tile/tile.model';
+import { AlertMessageService } from './alert-message/alert-message.service';
 
 import { ModalService } from './modal/modal.service';
 import { ModalContent } from './modal/modalContent.model';
@@ -36,7 +37,8 @@ export class GameService {
   constructor(
     private modalSerivce: ModalService,
     private gameboardService: GameboardService,
-    private timerService: TimerService) { }
+    private timerService: TimerService,
+    private alertMessageService: AlertMessageService) { }
 
   //------------------------------------------------//
 
@@ -149,8 +151,24 @@ export class GameService {
     this.state = GameState.GAMEOVER;
     this.timerService.pause();
     this.gameboardService.revealAll();
+
+    let difficulty;
+    if(this.difficulty == 0){
+      difficulty = 'easy';
+    } else if(this.difficulty == 1){
+      difficulty = 'medium';
+    } else if(this.difficulty == 2){
+      difficulty = 'hard';
+    };
+
+    this.alertMessageService.displayAlertMesssage(status, {
+      'Difficulty': difficulty,
+      'Time Used (seconds)': this.timerService.time,
+      'Flags Placed': this.flagCount,
+      'Total Bombs': this.bombCount
+    });
     // modal gameOver message. win or lose.
-    this.showGameoverModal(status);
+    //this.showGameoverModal(status);
   }
 
   // show up modal. Status = 0 if lose. Status = 1 if win.

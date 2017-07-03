@@ -1,0 +1,23 @@
+<div [hidden]="!displayAlertMessage">
+<div class="backdrop" (click)="backdropClicked()"></div>
+<div class="alert alert-info gameOverAlert">
+  <h4>{{title}}</h4>
+  <!--<table>
+    <tr>
+      <td>Difficulty</td>
+      <td>{{data.difficulty}}</td>
+    </tr>
+    <tr>
+      <td>Time Used (m:s)</td>
+      <td>{{data.timeUsed | date : 'mm:ss' }}</td>
+    </tr>
+    <tr>
+
+    </tr>
+  </table>-->
+  {{data | json}}
+  <hr>
+  <button class="btn btn-outline-danger" (click)="closeAlertMessageAndRestart()">Restart Game</button>
+  <button class="btn btn-outline-primary" (click)="submitHighscore()">Submit Highscore</button>
+</div>
+</div>

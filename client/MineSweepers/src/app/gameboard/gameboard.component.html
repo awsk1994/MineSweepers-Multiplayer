@@ -1,12 +1,18 @@
-<div class="center" style="height: 100%; padding: 10px; text-align: center">
+<hr style="width: 40%">
+<div class="center game-board" oncontextmenu="return false">
   <div class="flex-board">
-    <div *ngFor="let row of gameBoard; let i=index">
-      <div *ngFor="let tile of row; let j=index" class="tile">
-        <tile [tile]='tile' [x]='i' [y]='j' oncontextmenu="return false" (mouseup)="click($event);"></tile>
+    <div *ngFor="let row of gameBoard; let x=index">
+      <div *ngFor="let tile of row; let y=index" class="tile">
+        <tile [tile]='tile' [x]='x' [y]='y'></tile>
       </div>
     </div>
   </div>
 </div>
+<div [hidden]='!exceedFlagLimitError && !finishGameMsg'class="message">
+  <div [hidden]='!exceedFlagLimitError' class="alert alert-danger" role="alert"><strong>ERROR: </strong>You cannot add more flags than the total number of bombs.</div>
+  <div [hidden]='!finishGameMsg' class="alert alert-success" role="alert"><strong>INFO: </strong>You have put down max number of flags. To finish, reveal the rest of the tiles.</div>
+</div>
+<hr style="width: 40%">
 
 <!--<button class="btn btn-outline-danger" (click)="prepareGameboard(5)">Prepare Gameboard. Size: 5</button>
 <button class="btn btn-outline-danger" (click)="prepareGameboard(10)">Prepare Gameboard. Size: 10</button>

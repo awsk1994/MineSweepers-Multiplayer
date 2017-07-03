@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
   grid-template-rows: auto 1fr auto;
+  width: 80vw;
 }
 
 .item-left{
@@ -9,7 +10,7 @@
   grid-row: 1/4;
 }
 
-.item-action{
+.item-right{
   grid-column: 3;
   grid-row: 1/4;
 }

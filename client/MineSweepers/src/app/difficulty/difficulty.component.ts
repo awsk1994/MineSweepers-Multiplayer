@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { GameService } from '../game.service';
 
 @Component({
@@ -7,10 +7,15 @@ import { GameService } from '../game.service';
   styleUrls: ['./difficulty.component.css']
 })
 export class DifficultyComponent {
+  @Input() isSolo:boolean;
 
   constructor(private gameService:GameService) { }
 
   changeDifficulty(difficulty){
     this.gameService.changeDifficulty(difficulty);
+  }
+
+  restart(){
+    this.gameService.restart();
   }
 }

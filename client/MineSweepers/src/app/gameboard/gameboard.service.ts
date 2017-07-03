@@ -2,7 +2,6 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Tile, TileState, TileMsg } from '../tile/tile.model';
 import { Coord } from '../coord';
 import { UtilsService } from '../utils.service';
-import { GameService } from '../game.service';
 import { TimerService } from '../timer/timer.service';
 
 @Injectable()
@@ -12,42 +11,41 @@ export class GameboardService {
 
   gameBoard:Tile[][];
   gameboardUpdated = new EventEmitter<Tile[][]>();
+  tilesLeft = 0;
+  msgDetected = new EventEmitter();
+  resetErrorMsg = new EventEmitter();
 
   updateGameBoard(gameBoard){
     this.gameBoard = gameBoard;
   }
 
   spreadReveal(x,y, depth){
-    //console.log("spreadReveal: x: " + x + ", y: " + y);
-
     //todo: add this to config
     let spreadRevealDepthLimit = 4;
     
     // out of bounds.
     if(x < 0 || x > (this.gameBoard.length -1) 
     || y < 0 || y > (this.gameBoard.length -1)){
-      //console.log("out of bounds. x: " + x + ", y: " + y);
       return;
     }
 
     let tile = this.gameBoard[x][y];
     if(tile.isBomb || tile.state == TileState.Flagged){
-      //console.log("doesn't match criteria");
       return;
     }
 
     if(tile.state == TileState.UnTouched){
-      //console.log("is untouched");
       tile.state = TileState.Revealed;
+      this.tilesLeft--;
       this.updateGameBoard(this.gameBoard);
     
       if(tile.value == 0 && depth < spreadRevealDepthLimit){
         depth++;
         this.spreadReveal(x, y+1, depth);
         this.spreadReveal(x+1, y+1, depth);
-        this.spreadReveal(x+1, y, depth);
+        this.spreadReveal(x+1, y, depth,);
         this.spreadReveal(x+1, y-1, depth);
-        this.spreadReveal(x, y-1, depth);
+        this.spreadReveal(x, y-1, depth,);
         this.spreadReveal(x-1, y-1, depth);
         this.spreadReveal(x-1, y, depth);
         this.spreadReveal(x-1, y+1, depth);
@@ -67,6 +65,7 @@ export class GameboardService {
   }
 
   prepareGameBoard(size: number, numBombs: number) {
+    this.tilesLeft = size * size;
     let gameBoard: Tile[][] = this.createEmptyBoard(size);
     this.assignBombs(numBombs, gameBoard);
     this.gameBoard = gameBoard;
@@ -165,6 +164,19 @@ export class GameboardService {
     return true;
   }
 
+  triggerExceedFlagLimitError(status){
+    this.msgDetected.emit({'title': 'exceedFlagLimitError', 'status': status});
+  }
 
+  triggerFinishGameMsg(status){
+    this.msgDetected.emit({'title': 'finishGameMsg', 'status': status})
+  }
 
+  triggerResetErrorMsg(){
+    this.msgDetected.emit({'title': 'resetError', 'status': true})
+  }
+
+  triggerResetAllMsg(){
+    this.msgDetected.emit({'title': 'resetAll', 'status': true})
+  }
 }

@@ -30,6 +30,7 @@ export class GameService {
   bombCount: number = 0;
   difficulty: number = 0;
   state: number;
+  tilesRevealed:number = 0;
   flagBombUpdated = new EventEmitter();
 
   constructor(
@@ -40,7 +41,8 @@ export class GameService {
   //------------------------------------------------//
 
   handleClick(tileMsg: number) {
-    console.log("gameService: click detected. state: " + this.state);
+    //console.log("gameService: click detected. state: " + this.state);
+    console.log("tilesLeft: " + this.gameboardService.tilesLeft);
     if (this.state == GameState.GAMEOVER) {
       this.prepareGame(this.difficulty);
       this.startGame();
@@ -57,17 +59,23 @@ export class GameService {
     } else if (tileMsg == TileMsg.Flagged) {
       this.flagCount++;
       this.sendUpdateFlagBombMsg();
+    } else if (tileMsg == TileMsg.UnFlagged) {
+      this.flagCount--;
+      this.sendUpdateFlagBombMsg();
+    }
 
-      if(this.flagCount >= this.bombCount){
+    if(this.flagCount >= this.bombCount){
+      this.gameboardService.triggerFinishGameMsg(true);
+    } else {
+      this.gameboardService.triggerFinishGameMsg(false);
+    }
+
+    if(this.gameboardService.tilesLeft == 0){
         if(this.checkWinGame()){
           this.gameOver(1);
         } else {
           this.gameOver(0);
         }
-      }
-    } else if (tileMsg == TileMsg.UnFlagged) {
-      this.flagCount--;
-      this.sendUpdateFlagBombMsg();
     }
   }
 
@@ -77,9 +85,11 @@ export class GameService {
     // prepare gameBoard (size).
     this.state = GameState.INIT;
     this.gameboardService.prepareGameBoard(this.difficultyConfig[difficulty].size, this.difficultyConfig[difficulty].bombs);
+    this.gameboardService.triggerResetAllMsg();
     this.timerService.reset();
     this.bombCount = this.difficultyConfig[difficulty].bombs;
     this.flagCount = 0;
+    this.tilesRevealed = 0;
     this.sendUpdateFlagBombMsg();
   }
 

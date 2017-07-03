@@ -1,9 +1,11 @@
-<div class="grid">
-  <difficulty class="item-left" *ngIf="isSolo"></difficulty>
-  <chat class="item-left" *ngIf="!isSolo"></chat>
-  <timer class="item-timer"></timer>
-  <gameboard class="item-gameboard"></gameboard>
-  <flagbomb class="item-flagbomb"></flagbomb>
-  <action-solo class="item-action" *ngIf="isSolo"></action-solo>
-  <action-multiplayer class="item-action" *ngIf="!isSolo"></action-multiplayer>
+<div class="forceCenter card card-block">
+  <div class="grid">
+    <difficulty class="item-left" [isSolo]="isSolo"></difficulty>
+    <chat class="item-right"></chat>
+    <timer class="item-timer"></timer>
+    <gameboard class="item-gameboard"></gameboard>
+    <flagbomb class="item-flagbomb"></flagbomb>
+    <!--<action-solo class="item-action" *ngIf="isSolo"></action-solo>
+    <action-multiplayer class="item-action" *ngIf="!isSolo"></action-multiplayer>-->
+  </div>
 </div>

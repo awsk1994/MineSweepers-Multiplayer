@@ -8,7 +8,8 @@ export enum TileMsg{
   ClickedOnNumber,
   ClickedOnBomb,
   Flagged,
-  UnFlagged
+  UnFlagged,
+  SpreadRevealed
 }
 
 export class Tile {

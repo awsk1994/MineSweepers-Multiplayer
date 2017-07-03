@@ -1,0 +1,15 @@
+.btn{
+  width: 100%;
+}
+
+.hard{
+  color:red;
+}
+
+.medium{
+  color: orange;
+}
+
+.easy{
+  color: green;
+}

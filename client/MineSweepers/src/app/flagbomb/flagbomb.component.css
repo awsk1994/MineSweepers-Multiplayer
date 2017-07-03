@@ -7,7 +7,7 @@
   -ms-grid-columns: auto 1fr auto;
   -ms-grid-rows: 1fr 1fr 1fr;
 
-  padding: 20px;
+  padding: 0 20px 20px 20px;
 }
 
 .item-flag {

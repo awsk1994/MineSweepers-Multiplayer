@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from "@angular/router"
+import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { TimerComponent } from './timer/timer.component';
@@ -24,10 +26,12 @@ import { GameboardService } from './gameboard/gameboard.service';
 import { ModalService } from './modal/modal.service';
 import { AlertMessageService } from './alert-message/alert-message.service';
 
-const appRoutes:Routes = [
-  { path: '', redirectTo: '/solo', pathMatch: 'full'},
-  { path: 'solo', component: SoloComponent, data: {isSolo: true}},
-  { path: 'multiplayer', component: SoloComponent, data: {isSolo: false}},
+import { ObjectPipe, MinToMsPipe } from './sharedPipes';
+
+const appRoutes: Routes = [
+  { path: '', redirectTo: '/solo', pathMatch: 'full' },
+  { path: 'solo', component: SoloComponent, data: { isSolo: true } },
+  { path: 'multiplayer', component: SoloComponent, data: { isSolo: false } },
   { path: 'highscore', component: HighscoreComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -47,13 +51,22 @@ const appRoutes:Routes = [
     ChatComponent,
     TileComponent,
     ModalComponent,
-    AlertMessageComponent
+    AlertMessageComponent,
+    ObjectPipe,
+    MinToMsPipe
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    FormsModule
   ],
-  providers: [GameService, UtilsService, TimerService, GameboardService, ModalService, AlertMessageService],
+  providers: [GameService,
+    UtilsService,
+    TimerService,
+    GameboardService,
+    ModalService,
+    AlertMessageService,
+    DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

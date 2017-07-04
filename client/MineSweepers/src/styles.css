@@ -19,7 +19,7 @@
 .center {
   text-align: center;
   /*border-style: solid;*/
-  padding: 0px; 
+  padding: 0px;
   height: 100%;
 }
 
@@ -51,7 +51,7 @@
   border: 1px solid #bbada0;
 }
 
-.tile:hover{
+.tile:hover {
   background-color: #D2B48C;
 }
 
@@ -64,26 +64,32 @@
   height: 100vh
 }
 
-.error{
+.error {
   color: red;
   font-weight: bold;
   font-size: 20px;
 }
 
-.info{
+.info {
   color: green;
   font-weight: bold;
   font-size: 20px;
 }
 
-
-.forceCenter{
+.forceCenter {
   width: 60vw;
-  display: table; 
-  margin: 10px auto 10px auto; 
+  display: table;
+  margin: 10px auto 10px auto;
   text-align: center;
 }
 
-.floatRight{
-  float:right;
+.floatRight {
+  float: right;
+}
+
+input.text {
+  background-color: transparent;
+  border-width: 0px;
+  border-bottom: 1px solid black;
+  text-align: center;
 }

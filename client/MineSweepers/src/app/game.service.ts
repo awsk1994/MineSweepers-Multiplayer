@@ -6,9 +6,9 @@ import { TimerService } from './timer/timer.service';
 import { GameboardService } from './gameboard/gameboard.service'
 import { TileMsg } from './tile/tile.model';
 import { AlertMessageService } from './alert-message/alert-message.service';
-
 import { ModalService } from './modal/modal.service';
 import { ModalContent } from './modal/modalContent.model';
+import { DatePipe } from '@angular/common';
 
 export enum GameState {
   INIT,
@@ -49,7 +49,7 @@ export class GameService {
       this.prepareGame(this.difficulty);
       this.startGame();
     } else if(this.state == GameState.INIT){
-      this.startGame();  
+      this.startGame();
     }else if(this.state == GameState.RUNNING || this.state == GameState.PAUSE){
       // do nothing
     }
@@ -67,9 +67,9 @@ export class GameService {
     }
 
     if(this.flagCount >= this.bombCount){
-      this.gameboardService.triggerFinishGameMsg(true);
+      this.gameboardService.triggerMsgByTitle('finishGameMsg', true);
     } else {
-      this.gameboardService.triggerFinishGameMsg(false);
+      this.gameboardService.triggerMsgByTitle('finishGameMsg', false);
     }
 
     if(this.gameboardService.tilesLeft == 0){
@@ -88,6 +88,7 @@ export class GameService {
     this.state = GameState.INIT;
     this.gameboardService.prepareGameBoard(this.difficultyConfig[difficulty].size, this.difficultyConfig[difficulty].bombs);
     this.gameboardService.triggerResetAllMsg();
+    this.gameboardService.triggerMsgByTitle('clickToStartMsg', true);
     this.timerService.reset();
     this.bombCount = this.difficultyConfig[difficulty].bombs;
     this.flagCount = 0;
@@ -101,6 +102,7 @@ export class GameService {
     this.state = GameState.RUNNING;
     this.timerService.reset();
     this.timerService.run();
+    this.gameboardService.triggerMsgByTitle('clickToStartMsg', false);
   }
 
   resumeGame() {
@@ -154,16 +156,16 @@ export class GameService {
 
     let difficulty;
     if(this.difficulty == 0){
-      difficulty = 'easy';
+      difficulty = 'Easy';
     } else if(this.difficulty == 1){
-      difficulty = 'medium';
+      difficulty = 'Medium';
     } else if(this.difficulty == 2){
-      difficulty = 'hard';
+      difficulty = 'Hard';
     };
 
     this.alertMessageService.displayAlertMesssage(status, {
       'Difficulty': difficulty,
-      'Time Used (seconds)': this.timerService.time,
+      'Time Used (min:sec)': new DatePipe('en-US').transform(this.timerService.time, 'mm:ss'),
       'Flags Placed': this.flagCount,
       'Total Bombs': this.bombCount
     });

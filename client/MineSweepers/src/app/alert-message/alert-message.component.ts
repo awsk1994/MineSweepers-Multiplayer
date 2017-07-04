@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertMessageService } from './alert-message.service';
 import { GameService } from '../game.service';
+import { MinToMsPipe } from '../sharedPipes';
 
 @Component({
   selector: 'alert-message',
@@ -11,36 +12,52 @@ export class AlertMessageComponent {
 
   title: string;
   data;
+  status;
+  nickname;
   displayAlertMessage: boolean;
+  displayNicknameInput: boolean = false;
 
   constructor(private alertMessageService: AlertMessageService,
-    private gameService:GameService) {
+    private gameService: GameService) {
     this.alertMessageService.triggerAlertMessage.subscribe(
       (data) => {
-        if(data.status == 0){
+        if (data.status == 0) {
           this.title = "Game Over";
-        } else if(data.status == 1){
+        } else if (data.status == 1) {
           this.title = "You Win!"
         }
-        this.data = data.data;
+        this.data = data;
         this.displayAlertMessage = true;
       }
     );
   }
 
-  closeAlertMessageAndRestart(){
-    this.displayAlertMessage = false;
+  closeAlertMessageAndRestart() {
+    this.resetVariables();
     this.gameService.restart();
   }
 
-  backdropClicked(){
+  resetVariables() {
+    this.displayAlertMessage = false;
+    this.displayNicknameInput = false;
+    this.nickname = null;
+    this.title = null;
+    this.data = null;
+    this.status = null;
+  }
+
+  backdropClicked() {
     console.log("backdropClicked");
     this.closeAlertMessageAndRestart();
   }
 
-  submitHighscore(){
+  submitHighscore(name, time) {
     // todo...
-    console.log("todo: submit highscore!.. call gameservice.");
+    console.log("name: " + name + ", time: " + time);
+    let timeInMs = new MinToMsPipe().transform(time);
+    console.log("todo: submit highscore!.. call gameservice. Name: " + name + ", Time: " + timeInMs);
+    alert("Score sent.")
+    this.closeAlertMessageAndRestart();
   }
 
 }

@@ -10,12 +10,9 @@
     </div>
   </div>
 </div>
-<div [hidden]='!exceedFlagLimitError && !finishGameMsg'class="message">
+<div [hidden]='!exceedFlagLimitError && !finishGameMsg && !clickToStartMsg'class="message">
   <div [hidden]='!exceedFlagLimitError' class="alert alert-danger" role="alert"><strong>ERROR: </strong>You cannot add more flags than the total number of bombs.</div>
   <div [hidden]='!finishGameMsg' class="alert alert-success" role="alert"><strong>INFO: </strong>You have put down max number of flags. To finish, reveal the rest of the tiles.</div>
+  <div [hidden]='!clickToStartMsg' class="alert alert-info" role="alert"><strong>INFO: </strong>Click any tiles to start the game.</div>
 </div>
 <hr style="width: 40%">
-
-<!--<button class="btn btn-outline-danger" (click)="prepareGameboard(5)">Prepare Gameboard. Size: 5</button>
-<button class="btn btn-outline-danger" (click)="prepareGameboard(10)">Prepare Gameboard. Size: 10</button>
-<button class="btn btn-outline-danger" (click)="revealAll()">RevealAll</button>-->

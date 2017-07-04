@@ -1,18 +1,15 @@
 To Improve:
- - button is not really in the middle in action-solo/multi
- - combine action solo/multiplayer into one.
 
-Bug:
- - submit highscore option after game won.
+Bugs:
 
  Todo:
-  - submitScore (empty call in modal.component)
-    - submit score call from gameover message
   - UI Upgrade
      - footer should be at bottom if page doesn't overflow
      - header/footer UI.
      - add instructions icon -> click to open modal with instructions
   - chat
+  - database setup for submit score.
+  - submit score http request.
+  - multiplayer
 
 Considerations:
- - instead of having action-solo/multiplayer, let's have a chat... either global chat (of all users in this application) or peer chat (if in multiplayer mode). And then, move restart/surrender to difficulty place.

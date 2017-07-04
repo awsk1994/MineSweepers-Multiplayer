@@ -44,7 +44,7 @@ export class TileComponent {
           this.gameboardService.tilesLeft--;
           this.gameService.handleClick(TileMsg.Flagged);
         } else if(this.gameService.flagCount >= this.gameService.bombCount){
-          this.gameboardService.triggerExceedFlagLimitError(true);
+          this.gameboardService.triggerMsgByTitle('exceedFlagLimitError', true);
         }
       } else if (this.tile.state == TileState.Flagged) {
         this.tile.state = TileState.UnTouched;

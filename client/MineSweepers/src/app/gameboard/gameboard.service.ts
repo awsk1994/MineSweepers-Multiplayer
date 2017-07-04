@@ -164,12 +164,8 @@ export class GameboardService {
     return true;
   }
 
-  triggerExceedFlagLimitError(status){
-    this.msgDetected.emit({'title': 'exceedFlagLimitError', 'status': status});
-  }
-
-  triggerFinishGameMsg(status){
-    this.msgDetected.emit({'title': 'finishGameMsg', 'status': status})
+  triggerMsgByTitle(title, status){
+    this.msgDetected.emit({'title': title, 'status': status})
   }
 
   triggerResetErrorMsg(){

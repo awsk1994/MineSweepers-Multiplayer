@@ -14,6 +14,7 @@ export class GameboardComponent implements OnInit {
 
   exceedFlagLimitError = false;
   finishGameMsg = false;
+  clickToStartMsg = false;
 
   constructor(private gameboardService: GameboardService,
     private gameService: GameService) {
@@ -24,16 +25,22 @@ export class GameboardComponent implements OnInit {
     )
     this.gameboardService.msgDetected.subscribe(
       (message) => {
+        console.log(message);
         if (message.title === 'resetError') {
           // reset any other error here.
           this.exceedFlagLimitError = false;
         } else if (message.title === 'resetAll') {
           this.exceedFlagLimitError = false;
           this.finishGameMsg = false;
-        } else if (message.title === 'exceedFlagLimitError') {
+          this.clickToStartMsg = false;
+        } 
+        
+        else if (message.title === 'exceedFlagLimitError') {
           this.exceedFlagLimitError = message.status;
         } else if (message.title === 'finishGameMsg') {
           this.finishGameMsg = message.status;
+        } else if(message.title === 'clickToStartMsg'){
+          this.clickToStartMsg = message.status;
         }
       }
     )

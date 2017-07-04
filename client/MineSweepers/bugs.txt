@@ -6,9 +6,8 @@ Bug:
  - submit highscore option after game won.
 
  Todo:
-  - gameOver messsage
-  - after gameOver, should have message... click to start game.
   - submitScore (empty call in modal.component)
+    - submit score call from gameover message
   - UI Upgrade
      - footer should be at bottom if page doesn't overflow
      - header/footer UI.

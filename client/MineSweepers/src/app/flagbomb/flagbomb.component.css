@@ -37,3 +37,15 @@
   -ms-grid-row: 2;
   -ms-grid-column: 2;
 }
+
+.fa-bomb{
+  color: gray;
+}
+
+.fa-flag{
+  color: #ffa400;
+}
+
+.bg-success{
+  background-color: #ffa400 !important;
+}

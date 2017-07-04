@@ -1,8 +1,9 @@
 .btn{
   width: 100%;
+  color: #e4f2f0;
 }
 
-.hard{
+/*.hard{
   color:red;
 }
 
@@ -12,4 +13,8 @@
 
 .easy{
   color: green;
+}*/
+
+.fa-tachometer{
+  color: #ffa400;
 }

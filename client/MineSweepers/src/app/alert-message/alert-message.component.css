@@ -4,20 +4,25 @@ button{
 
 .gameOverAlert{
   position: fixed; 
-  background-color: rgba(250, 250, 250, 0.9);
+  background-color: rgba(68, 68, 68, 0.9);
   left: 30%;
   right: 30%;
   top: 5%;
   padding: 20px;
   border-radius: .25rem;
+  color: white;
 }
 
-table.center{
+.tableCenter{
   margin-left: auto;
   margin-right: auto;
 }
 
 table, td, th{
-  border: 1px solid black;
+  border: 1px solid white;
   padding: 10px;
+}
+
+.inputText{
+  color: white;
 }

@@ -1,3 +1,14 @@
 .timeDisplay{
   vertical-align:middle;
 }
+
+.time{
+  vertical-align: 5px; 
+  font-size: 30px; 
+  padding-left: 10px;
+  color: #ffa400;
+}
+
+.fa-clock-o{
+  color: #ffa400;
+}

@@ -2,20 +2,20 @@
   <div class="backdrop" (click)="backdropClicked()"></div>
   <div class="gameOverAlert">
     <h4>{{title}}</h4>
-    <table class="center">
+    <table class="tableCenter">
       <tr *ngFor="let item of (data?.data | objectPipe)">
         <th>{{item.key}}</th>
         <td>{{item.value}}</td>
       </tr>
     </table>
     <hr>
-    <button class="btn btn-outline-danger" (click)="closeAlertMessageAndRestart()">Restart Game</button>
-    <button [hidden]='data?.status == 0' class="btn btn-outline-primary" (click)="displayNicknameInput = true">Submit Highscore</button>
+    <button class="btn btn-danger" (click)="closeAlertMessageAndRestart()">Restart Game</button>
+    <button [hidden]='data?.status == 0' class="btn btn-primary" (click)="displayNicknameInput = true">Submit Highscore</button>
     <div [hidden]='!displayNicknameInput'>
       <hr>
       <input size="30" type="text" class="text" [(ngModel)]="nickname" placeholder="Please enter your nickname.">
       <br>
-      <button [hidden]="nickname == null || nickname == ''" class="btn btn-outline-primary" (click)="submitHighscore(nickname, data.data['Time Used (min:sec)'])">Send Score</button>
+      <button [hidden]="nickname == null || nickname == ''" class="btn btn-primary" (click)="submitHighscore(nickname, data.data['Time Used (min:sec)'])">Send Score</button>
     </div>
   </div>
 </div>

@@ -1,19 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
-.header {
-  position: block;
-  top: 0;
-  margin: auto;
+.footer {
+  padding: 20px;
+  background-color: rgba(68,68,68, 0.6);
+  color: #e4f2f0;
+  position: fixed;
+  bottom: 0;
   left: 0;
   right: 0;
-  width: 100%;
-  background-color: #efefef;
-}
-
-.footer {
-  padding: 15px;
-  width: 100%;
-  background-color: #efefef;
+  text-align: center;
 }
 
 .center {
@@ -21,6 +16,7 @@
   /*border-style: solid;*/
   padding: 0px;
   height: 100%;
+  background-color: #444444;
 }
 
 .game-container {
@@ -43,16 +39,20 @@
   line-height: 35px;
   float: left;
   border-radius: 0px;
-  background: #eee4da;
+  background: gray;
   text-align: center;
   font-weight: bold;
   z-index: 10;
   font-size: 15px;
-  border: 1px solid #bbada0;
+  border: 1px solid #424242;
+}
+
+.tileRevealed{
+  background-color: #e4e4e4;
 }
 
 .tile:hover {
-  background-color: #D2B48C;
+  background-color: gray;
 }
 
 .backdrop {
@@ -77,10 +77,9 @@
 }
 
 .forceCenter {
-  width: 60vw;
-  display: table;
   margin: 10px auto 10px auto;
   text-align: center;
+  background: #444444;
 }
 
 .floatRight {
@@ -90,6 +89,20 @@
 input.text {
   background-color: transparent;
   border-width: 0px;
-  border-bottom: 1px solid black;
+  color: white;
+  font-size: 1.5em;
+  border-bottom: 1px solid white;
   text-align: center;
+}
+
+body{
+  background-color: #282828;
+}
+
+.viewPercent{
+  width: 70vw;
+}
+
+.app{
+  height: 100%;
 }

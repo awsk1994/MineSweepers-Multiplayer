@@ -49,3 +49,11 @@
 .bg-success{
   background-color: #ffa400 !important;
 }
+
+.bg-danger{
+  background-color: gray !important;
+}
+
+.progress-bar{
+  font-size: 1.8em;
+}

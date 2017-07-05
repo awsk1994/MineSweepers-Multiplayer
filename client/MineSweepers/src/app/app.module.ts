@@ -18,6 +18,7 @@ import { ChatComponent } from './chat/chat.component';
 import { TileComponent } from './tile/tile.component';
 import { ModalComponent } from './modal/modal.component';
 import { AlertMessageComponent } from './alert-message/alert-message.component';
+import { HowToPlayComponent } from './how-to-play/how-to-play.component';
 
 import { GameService } from './game.service';
 import { UtilsService } from './utils.service';
@@ -26,13 +27,14 @@ import { GameboardService } from './gameboard/gameboard.service';
 import { ModalService } from './modal/modal.service';
 import { AlertMessageService } from './alert-message/alert-message.service';
 
-import { ObjectPipe, MinToMsPipe } from './sharedPipes';
+import { ObjectPipe, MinToMsPipe, LengthLimit } from './sharedPipes';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/solo', pathMatch: 'full' },
   { path: 'solo', component: SoloComponent, data: { isSolo: true } },
   { path: 'multiplayer', component: SoloComponent, data: { isSolo: false } },
   { path: 'highscore', component: HighscoreComponent },
+  { path: 'howToPlay', component: HowToPlayComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -53,7 +55,9 @@ const appRoutes: Routes = [
     ModalComponent,
     AlertMessageComponent,
     ObjectPipe,
-    MinToMsPipe
+    MinToMsPipe,
+    LengthLimit,
+    HowToPlayComponent
   ],
   imports: [
     BrowserModule,

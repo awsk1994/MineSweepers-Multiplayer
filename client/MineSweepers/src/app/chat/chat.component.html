@@ -1,3 +1,21 @@
-<p style="color: #ffa400">
-  chat works!
-</p>
+<div class="chatContainer">
+  <div class="chatHeader bgOrange textWhite">
+    Chat ({{ username | lengthLimit:9 }})
+  </div>
+  <div class="chatLog bgLighterDarkGray">
+    <div class="log" *ngFor='let log of logs'>
+      <div class="logProfilePic bgLightGray">
+         A
+      </div>
+      <div class="logText bgLighterGray">
+          {{log}}
+        </div>  
+      <br>
+    </div>
+  </div>
+  <div class="chatText bgLighterDarkGray">
+    <button class="btn btn-primary" [disabled]="message == null || message == ''" (click)='sendMessage(message)'>SEND</button>
+    <textarea class="bgLighterDarkGray" [(ngModel)]='message'>
+    </textarea>
+  </div>
+</div>

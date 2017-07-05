@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 .footer {
-  padding: 20px;
+  padding: 0px;
   background-color: rgba(68,68,68, 0.6);
   color: #e4f2f0;
   position: fixed;
@@ -34,13 +34,14 @@
 }
 
 .tile {
-  width: 35px;
-  height: 35px;
-  line-height: 35px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;    /* should be saem as height */
   float: left;
   border-radius: 0px;
-  background: gray;
+  background-color: gray;
   text-align: center;
+  vertical-align: middle;
   font-weight: bold;
   z-index: 10;
   font-size: 15px;
@@ -52,7 +53,7 @@
 }
 
 .tile:hover {
-  background-color: gray;
+  background-color: #aaaaaa;
 }
 
 .backdrop {
@@ -100,9 +101,56 @@ body{
 }
 
 .viewPercent{
-  width: 70vw;
+  width: 80vw;
 }
 
 .app{
   height: 100%;
+}
+
+hr{
+  border-top: 1px solid rgba(255,255, 255,0.3);
+}
+
+/* ====== COLORS ======= */
+
+
+.bgWhite{
+  background-color: #e4e4e4;
+}
+
+.bgLighterGray{
+  background-color: #cacaca;
+}
+
+.bgLightGray{
+  background-color: #aaaaaa;
+}
+
+.bgDefaultGray{
+  background-color: gray;
+}
+
+.bgLighterDarkGray{
+  background-color: #656565;
+}
+
+.bgDarkGray{
+  background-color: #515151;
+}
+
+.bgOrange{
+  background-color: #ffa400;
+}
+
+.bgDarkOrange{
+  background-color: #cc8400;
+}
+
+.bgDarkerOrange{
+  background-color: #996300;
+}
+
+.textWhite{
+  color: white;
 }

@@ -3,7 +3,11 @@ To Improve:
 Bugs:
 
  Todo:
-  - chat (heading tab: switch between global and game left...)
+  - chat  
+     - heading tab: switch between global and game left
+     - hover over the header to see list of users
+     - layover for adding username and server not found
+     - date listing for the chat.
   - database setup for submit score.
   - submit score http request.
   - Use jQuery to detect changes in things.
@@ -15,8 +19,9 @@ Considerations:
  - have different size tiles depending on difficulty (board size).
 
 UI enhancement:
-1. Header has two buttons, they are all centered middle, but slightly off. Need to use grid and make them exactly symmetrical looking.
 2. Color consistency. Choose 4-5 colors, and apply them consistently. Now, there are like white and green-ish white.etc...
 3. Think about the bomb color, and the flagBomb progress bar... if it makes sense.
 4. Might want to consider changing the color scheme? Black-orange looks like pornhub.
 5. Make responsive; especially the tiles.
+6. Minesweeper title can be made better.
+7. title (in google chrome tab) and icon are not set.

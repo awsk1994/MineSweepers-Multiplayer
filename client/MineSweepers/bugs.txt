@@ -3,7 +3,10 @@ To Improve:
 Bugs:
 
  Todo:
-  - chat  
+  - chat:
+     - socket.broadcast.emit(..) didn't work on client side...
+     - understand observables.
+  - chat UI 
      - heading tab: switch between global and game left
      - hover over the header to see list of users
      - layover for adding username and server not found
@@ -36,3 +39,6 @@ Notes on Socket (2017/07/04):
 2. Go to client and npm start
 3. Go to localhost:4200 (for client)
 4. go to localhost:3000 (for client as well... but we'll act as a mock client chat)
+
+Socket Link:
+http://www.syntaxsuccess.com/viewarticle/socket.io-with-rxjs-in-angular-2.0

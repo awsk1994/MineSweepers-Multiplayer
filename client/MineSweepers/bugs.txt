@@ -7,7 +7,10 @@ Bugs:
      - heading tab: switch between global and game left
      - hover over the header to see list of users
      - layover for adding username and server not found
-     - date listing for the chat.
+     - date listing for the chat
+     - hit enter to submit... 
+     I prefer (keydown.enter)="mySubmit()" because there won't be added a line break if the cursor was somewhere within a <textarea> but not at its end.
+
   - database setup for submit score.
   - submit score http request.
   - Use jQuery to detect changes in things.
@@ -25,3 +28,4 @@ UI enhancement:
 5. Make responsive; especially the tiles.
 6. Minesweeper title can be made better.
 7. title (in google chrome tab) and icon are not set.
+8. animations

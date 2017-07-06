@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LengthLimit } from '../sharedPipes';
+import * as io from 'socket.io-client';
 
 @Component({
   selector: 'chat',
@@ -19,7 +20,13 @@ export class ChatComponent implements OnInit {
      ];
   message:string;
   username:string = 'awong1234567890';
-  constructor() { }
+  constructor() {
+    const socket = io('http://localhost:3000');
+    socket.on('chat message', function(msg){
+      console.log("got message: " + msg);
+      //this.logs.push(msg);
+    });
+  }
 
   ngOnInit() {
   }

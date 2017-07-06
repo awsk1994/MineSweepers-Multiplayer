@@ -29,3 +29,10 @@ UI enhancement:
 6. Minesweeper title can be made better.
 7. title (in google chrome tab) and icon are not set.
 8. animations
+
+
+Notes on Socket (2017/07/04):
+1. Go to server folder, and run npm start
+2. Go to client and npm start
+3. Go to localhost:4200 (for client)
+4. go to localhost:3000 (for client as well... but we'll act as a mock client chat)

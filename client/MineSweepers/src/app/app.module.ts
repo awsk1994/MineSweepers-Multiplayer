@@ -26,7 +26,7 @@ import { TimerService } from './timer/timer.service';
 import { GameboardService } from './gameboard/gameboard.service';
 import { ModalService } from './modal/modal.service';
 import { AlertMessageService } from './alert-message/alert-message.service';
-
+import { ChatService } from './chat/chat.service';
 import { ObjectPipe, MinToMsPipe, LengthLimit } from './sharedPipes';
 
 const appRoutes: Routes = [
@@ -70,7 +70,9 @@ const appRoutes: Routes = [
     GameboardService,
     ModalService,
     AlertMessageService,
-    DatePipe],
+    ChatService,
+    DatePipe
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

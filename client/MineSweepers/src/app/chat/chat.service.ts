@@ -8,23 +8,33 @@ export class ChatService {
   private url = 'http://localhost:3000';  
   private socket;
 
-  constructor() { }
-
-  sendMessage(message){
-    this.socket.emit('chat message', message);    
+  constructor() {
+    this.socket = io(this.url);
   }
 
-  getMessages() {
+  sendMessage(username, message){
+    this.socket.emit('globalChat', username, message);    
+  }
+
+  getLogs() {
     let observable = new Observable(observer => {
-      this.socket = io(this.url);
-      this.socket.on('chat message', (msg) => {
-        observer.next(msg);    
+      this.socket.on('globalChat', (log) => {
+        observer.next(log);    
       });
       return () => {
         this.socket.disconnect();
-      };  
-    })     
+      };
+    })
     return observable;
-  }  
+  }
+
+
+  createClient(){
+    this.socket.emit('createClient');
+  }
+
+  sendHighscore(name, time){
+    this.socket.emit('sendHighscore', name, time);
+  }
 
 }

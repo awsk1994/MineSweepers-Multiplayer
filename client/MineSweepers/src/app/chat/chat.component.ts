@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LengthLimit } from '../sharedPipes';
 import { ChatService } from './chat.service';
+import * as io from 'socket.io-client';
 
 @Component({
   selector: 'chat',
@@ -9,25 +10,23 @@ import { ChatService } from './chat.service';
 })
 export class ChatComponent implements OnInit {
 
-  logs = [
-    // 'Hey',
-    //  'Wassup',
-    //  'How are you?',
-    //  'Im doing great',
-     'I see. The weather is nice today',
-     'I hope it stays like this.',
-     'Its predicted to rain tomorrow though'
-     ];
+  logs = [];
   message:string;
   username:string = 'awong1234567890';
   connection;
 
-  constructor(private chatService:ChatService) {}
+  socket = null;
+  constructor(private chatService:ChatService) {
+    // this.socket = io('http://localhost:3000');
+    // this.socket.on('globalChat', function(msg){
+    //   console.log('globalchat: ' + msg);
+    // });
+  }
 
   ngOnInit() {
-    this.connection = this.chatService.getMessages().subscribe(
-      (msg:string) => {
-        this.logs.push(msg);
+    this.connection = this.chatService.getLogs().subscribe(
+      (log) => {
+        this.logs.push(log);
       }
     );
   }
@@ -39,9 +38,12 @@ export class ChatComponent implements OnInit {
   sendMessage(message){
     console.log('send message: ' + message);
     // http send message
-    this.chatService.sendMessage(message);
+    this.chatService.sendMessage(this.username, message);
     //this.logs.push(message);
     this.message = '';
+  }
+  createClient(){
+    this.chatService.createClient();
   }
 
 }

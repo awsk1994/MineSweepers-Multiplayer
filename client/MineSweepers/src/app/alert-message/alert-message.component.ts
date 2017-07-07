@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AlertMessageService } from './alert-message.service';
 import { GameService } from '../game.service';
 import { MinToMsPipe } from '../sharedPipes';
+import { ChatService } from '../chat/chat.service';
 
 @Component({
   selector: 'alert-message',
@@ -18,7 +19,8 @@ export class AlertMessageComponent {
   displayNicknameInput: boolean = false;
 
   constructor(private alertMessageService: AlertMessageService,
-    private gameService: GameService) {
+    private gameService: GameService,
+    private chatService: ChatService) {
     this.alertMessageService.triggerAlertMessage.subscribe(
       (data) => {
         if (data.status == 0) {
@@ -56,6 +58,7 @@ export class AlertMessageComponent {
     console.log("name: " + name + ", time: " + time);
     let timeInMs = new MinToMsPipe().transform(time);
     console.log("todo: submit highscore!.. call gameservice. Name: " + name + ", Time: " + timeInMs);
+    this.chatService.sendHighscore(name, time);
     alert("Score sent.")
     this.closeAlertMessageAndRestart();
   }

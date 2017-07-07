@@ -23,9 +23,7 @@ export class SoloComponent implements OnInit {
   startGame() { this.gameService.startGame(); };
   resumeGame() { this.gameService.resumeGame(); };
   pauseGame() { this.gameService.pauseGame(); };
-
   changeDifficulty(difficulty) { this.gameService.changeDifficulty(difficulty); };
   gameOver(status) { this.gameService.gameOver(status); };
-
   showGameoverModal(status) { this.gameService.showGameoverModal(status); };
 }

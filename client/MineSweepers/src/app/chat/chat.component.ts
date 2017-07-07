@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LengthLimit } from '../sharedPipes';
-import { ChatService } from './chat.service';
+import { SocketService } from '../socket.service';
 import * as io from 'socket.io-client';
 
 @Component({
@@ -16,7 +16,7 @@ export class ChatComponent implements OnInit {
   connection;
 
   socket = null;
-  constructor(private chatService:ChatService) {
+  constructor(private socketService:SocketService) {
     // this.socket = io('http://localhost:3000');
     // this.socket.on('globalChat', function(msg){
     //   console.log('globalchat: ' + msg);
@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.connection = this.chatService.getLogs().subscribe(
+    this.connection = this.socketService.getLogs().subscribe(
       (log) => {
         this.logs.push(log);
       }
@@ -38,12 +38,8 @@ export class ChatComponent implements OnInit {
   sendMessage(message){
     console.log('send message: ' + message);
     // http send message
-    this.chatService.sendMessage(this.username, message);
-    //this.logs.push(message);
+    this.socketService.sendMessage(this.username, message);
+    // this.logs.push(message);
     this.message = '';
   }
-  createClient(){
-    this.chatService.createClient();
-  }
-
 }

@@ -3,6 +3,9 @@ To Improve:
 Bugs:
 
  Todo:
+  - rooms:
+     - fix css so it only goes over the middle area.
+     - need to be able to remove the gray thing <rooms></rooms>
   - chat:
      - socket.broadcast.emit(..) didn't work on client side...
      - understand observables.
@@ -14,6 +17,7 @@ Bugs:
      - hit enter to submit... 
      I prefer (keydown.enter)="mySubmit()" because there won't be added a line break if the cursor was somewhere within a <textarea> but not at its end.
 
+  - send highscore not working...
   - database setup for submit score.
   - submit score http request.
   - Use jQuery to detect changes in things.

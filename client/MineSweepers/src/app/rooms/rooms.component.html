@@ -1,0 +1,13 @@
+<div class="roomsContainer">"
+
+  <hr>
+  <p style="color: white">Rooms:</p> 
+  <div *ngFor="let room of rooms">
+    <p style="color:black; background-color: #efefef">{{room.name}}</p>
+  </div>
+  <button (click)="createRoom('room1', 0)">Create Room 1</button>
+  <button (click)="createRoom('room2', 0)">Create Room 2</button>
+  <button (click)="createRoom('room3', 0)">Create Room 3</button>
+  <button (click)="getRooms(0)">Get Rooms</button>
+
+</div>

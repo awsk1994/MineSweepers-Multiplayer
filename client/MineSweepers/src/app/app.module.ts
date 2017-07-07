@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from "@angular/router"
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { HttpModule } from "@angular/http";
 
 import { AppComponent } from './app.component';
 import { TimerComponent } from './timer/timer.component';
@@ -26,8 +27,9 @@ import { TimerService } from './timer/timer.service';
 import { GameboardService } from './gameboard/gameboard.service';
 import { ModalService } from './modal/modal.service';
 import { AlertMessageService } from './alert-message/alert-message.service';
-import { ChatService } from './chat/chat.service';
+import { SocketService } from './socket.service';
 import { ObjectPipe, MinToMsPipe, LengthLimit } from './sharedPipes';
+import { RoomsComponent } from './rooms/rooms.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/solo', pathMatch: 'full' },
@@ -57,12 +59,14 @@ const appRoutes: Routes = [
     ObjectPipe,
     MinToMsPipe,
     LengthLimit,
-    HowToPlayComponent
+    HowToPlayComponent,
+    RoomsComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
-    FormsModule
+    FormsModule,
+    HttpModule
   ],
   providers: [GameService,
     UtilsService,
@@ -70,7 +74,7 @@ const appRoutes: Routes = [
     GameboardService,
     ModalService,
     AlertMessageService,
-    ChatService,
+    SocketService,
     DatePipe
     ],
   bootstrap: [AppComponent]

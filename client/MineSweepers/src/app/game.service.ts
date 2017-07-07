@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Http, Response, Headers } from "@angular/http";
+import 'rxjs/Rx';
+import { Observable } from "rxjs";
 
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -38,7 +41,8 @@ export class GameService {
     private modalSerivce: ModalService,
     private gameboardService: GameboardService,
     private timerService: TimerService,
-    private alertMessageService: AlertMessageService) { }
+    private alertMessageService: AlertMessageService,
+    private http:Http) { }
 
   //------------------------------------------------//
 
@@ -198,5 +202,17 @@ export class GameService {
 
   checkWinGame(){
     return this.gameboardService.checkWinGame();
+  }
+
+//todo: don't know if it works.
+  sendHighscore(name, time){
+        const body = {'name': name, 'time': time};
+        const headers = new Headers({'Content-Type': 'application/json'});
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+        return this.http.post('http://localhost:3000/sendHighscore', body, {headers: headers})
+            .map((response: Response) => {
+                const result = response.json();
+                return result.message;
+            });
   }
 }

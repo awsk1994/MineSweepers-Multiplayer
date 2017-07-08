@@ -3,11 +3,15 @@ To Improve:
 Bugs:
 
  Todo:
+  - highscore:
+     - need to sort by time taken
+    - need to filter by difficulty...
   - rooms:
-     - fix css so it only goes over the middle area.
      - need to be able to remove the gray thing <rooms></rooms>
+  - db: need to have delete somewhere...
+
+
   - chat:
-     - socket.broadcast.emit(..) didn't work on client side...
      - understand observables.
   - chat UI 
      - heading tab: switch between global and game left
@@ -27,6 +31,7 @@ Bugs:
 
 Considerations:
  - have different size tiles depending on difficulty (board size).
+- maybe make the website just whole page and then scale everything based on view height and width... no scroll...
 
 UI enhancement:
 2. Color consistency. Choose 4-5 colors, and apply them consistently. Now, there are like white and green-ish white.etc...

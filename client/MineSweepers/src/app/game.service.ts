@@ -34,7 +34,7 @@ export class GameService {
   bombCount: number = 0;
   difficulty: number = 0;
   state: number;
-  tilesRevealed:number = 0;
+  tilesRevealed: number = 0;
   flagBombUpdated = new EventEmitter();
 
   constructor(
@@ -42,7 +42,7 @@ export class GameService {
     private gameboardService: GameboardService,
     private timerService: TimerService,
     private alertMessageService: AlertMessageService,
-    private http:Http) { }
+    private http: Http) { }
 
   //------------------------------------------------//
 
@@ -52,9 +52,9 @@ export class GameService {
     if (this.state == GameState.GAMEOVER) {
       this.prepareGame(this.difficulty);
       this.startGame();
-    } else if(this.state == GameState.INIT){
+    } else if (this.state == GameState.INIT) {
       this.startGame();
-    }else if(this.state == GameState.RUNNING || this.state == GameState.PAUSE){
+    } else if (this.state == GameState.RUNNING || this.state == GameState.PAUSE) {
       // do nothing
     }
 
@@ -70,18 +70,18 @@ export class GameService {
       this.sendUpdateFlagBombMsg();
     }
 
-    if(this.flagCount >= this.bombCount){
+    if (this.flagCount >= this.bombCount) {
       this.gameboardService.triggerMsgByTitle('finishGameMsg', true);
     } else {
       this.gameboardService.triggerMsgByTitle('finishGameMsg', false);
     }
 
-    if(this.gameboardService.tilesLeft == 0){
-        if(this.checkWinGame()){
-          this.gameOver(1);
-        } else {
-          this.gameOver(0);
-        }
+    if (this.gameboardService.tilesLeft == 0) {
+      if (this.checkWinGame()) {
+        this.gameOver(1);
+      } else {
+        this.gameOver(0);
+      }
     }
   }
 
@@ -140,17 +140,17 @@ export class GameService {
     }
   }
 
-  restart(){
-    if(this.state == GameState.RUNNING || this.state == GameState.PAUSE){
-      if(this.confirmQuitGame()){
+  restart() {
+    if (this.state == GameState.RUNNING || this.state == GameState.PAUSE) {
+      if (this.confirmQuitGame()) {
         this.prepareGame(this.difficulty);
       } else {
         this.resumeGame();
       }
-    } else if(this.state == GameState.INIT || this.state == GameState.GAMEOVER){
+    } else if (this.state == GameState.INIT || this.state == GameState.GAMEOVER) {
       this.prepareGame(this.difficulty);
     }
-}
+  }
 
   // when user finishes or loses the game
   gameOver(status) {
@@ -159,11 +159,11 @@ export class GameService {
     this.gameboardService.revealAll();
 
     let difficulty;
-    if(this.difficulty == 0){
+    if (this.difficulty == 0) {
       difficulty = 'Easy';
-    } else if(this.difficulty == 1){
+    } else if (this.difficulty == 1) {
       difficulty = 'Medium';
-    } else if(this.difficulty == 2){
+    } else if (this.difficulty == 2) {
       difficulty = 'Hard';
     };
 
@@ -200,19 +200,28 @@ export class GameService {
     this.flagBombUpdated.emit({ 'flagCount': this.flagCount, 'bombCount': this.bombCount });
   }
 
-  checkWinGame(){
+  checkWinGame() {
     return this.gameboardService.checkWinGame();
   }
 
-//todo: don't know if it works.
-  sendHighscore(name, time){
-        const body = {'name': name, 'time': time};
-        const headers = new Headers({'Content-Type': 'application/json'});
-        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-        return this.http.post('http://localhost:3000/sendHighscore', body, {headers: headers})
-            .map((response: Response) => {
-                const result = response.json();
-                return result.message;
-            });
+  getHighscore() {
+    console.log('getHighscore');
+    return this.http.get('http://localhost:3000/highscore')
+      .map((response: Response) => {
+        return response.json();
+      })
+      .catch((error: Response) => {
+        return error.json();
+      });
+  }
+
+  sendHighscore(name, time) {
+    const body = { 'username': name, 'timeTaken': time, 'difficulty': this.difficulty };
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    return this.http.post('http://localhost:3000/highscore', body, { headers: headers })
+      .map((response: Response) => {
+        const result = response.json();
+        return result;
+      });
   }
 }

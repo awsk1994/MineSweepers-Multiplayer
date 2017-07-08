@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'highscore',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HighscoreComponent implements OnInit {
 
-  constructor() { }
+  scores = [];
+
+  constructor(private gameService:GameService) {
+      console.log('constructor');
+  }
 
   ngOnInit() {
+    this.gameService.getHighscore().subscribe(
+      (data) => {
+        if(data.error != null){
+          alert(data.error);
+        } else {
+          this.scores = data.detail;
+        }
+    }
+    )
   }
 
 }

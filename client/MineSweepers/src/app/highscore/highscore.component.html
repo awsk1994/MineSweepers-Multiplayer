@@ -1,5 +1,25 @@
 <div class="forceCenter card card-block viewPercent endWithExtra">
-  <p style="color: #ffa400">
-    highscore Coming soon!
-  </p>
+  <!--<p style="color: white">Scores:</p> 
+  <div *ngFor="let score of scores">
+    <p style="color:black; background-color: #efefef">{{score | json}}</p>
+  </div>-->
+
+  <table border=1>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Time Taken (Minute:Second)
+      </th>
+      <th>
+        Achieved Date
+      </th>
+    </tr>
+    <tr *ngFor="let score of scores">
+      <td>{{score.username}}</td>
+      <td>{{score.timeTaken | date : 'mm:ss'}}</td>
+      <td>{{score.created_at}}</td>
+    </tr>
+  </table>
 </div>

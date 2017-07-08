@@ -15,7 +15,7 @@ export class AlertMessageComponent {
   data;
   status;
   nickname;
-  displayAlertMessage: boolean;
+  displayAlertMessage: boolean = false;
   displayNicknameInput: boolean = false;
 
   constructor(private alertMessageService: AlertMessageService,
@@ -53,15 +53,18 @@ export class AlertMessageComponent {
     this.closeAlertMessageAndRestart();
   }
 
-//todo: don't know if it works.
   submitHighscore(name, time) {
-    // todo...
-    console.log("name: " + name + ", time: " + time);
     let timeInMs = new MinToMsPipe().transform(time);
-    console.log("todo: submit highscore!.. call gameservice. Name: " + name + ", Time: " + timeInMs);
-    this.gameService.sendHighscore(name, time);
-    alert("Score sent.")
-    this.closeAlertMessageAndRestart();
+    this.gameService.sendHighscore(name, timeInMs).subscribe(
+      (data) => {
+        console.log("data: " + data);
+        if(data.error != null){
+          alert(data.error);
+        } else {
+          alert(data.message)
+        }
+        this.closeAlertMessageAndRestart();
+      }
+    );
   }
-
 }

@@ -154,3 +154,10 @@ hr{
 .textWhite{
   color: white;
 }
+
+.text{
+  display: block;
+  padding: .5em 1em;
+  font-weight: bold;
+}
+

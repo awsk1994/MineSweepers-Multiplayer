@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { GameService } from '../game.service';
 
 @Component({
@@ -9,8 +9,10 @@ import { GameService } from '../game.service';
 export class HighscoreComponent implements OnInit {
 
   scores = [];
+  difficulty = 'hard';
 
-  constructor(private gameService:GameService) {
+  constructor(private gameService:GameService,
+              private ngZone:NgZone) {
       console.log('constructor');
   }
 
@@ -20,10 +22,14 @@ export class HighscoreComponent implements OnInit {
         if(data.error != null){
           alert(data.error);
         } else {
-          this.scores = data.detail;
+          this.scores = data;
         }
     }
     )
+  }
+
+  changeDifficulty(difficulty){
+    this.difficulty = difficulty;
   }
 
 }

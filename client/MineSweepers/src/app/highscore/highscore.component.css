@@ -1,3 +1,51 @@
-table, td, th, tr{
+.nav{
+  margin-bottom: 10px;
+}
+.nav-link.active{
   color: white;
+  border-bottom: 2px solid #ffa400;
+  font-weight: bold;
+}
+
+.nav-link.inactive{
+  color: #aaaaaa;
+}
+
+.nav-link.active:hover{
+  color: #efefef;
+}
+
+.nav-link.inactive:hover{
+  color: #efefef;
+}
+
+.centerTable{
+  margin: 0px auto;
+}
+
+table, td, th, tr{
+  margin: 5px;
+}
+
+table, th, td{
+  text-align: center;
+}
+
+th{
+  background-color: #555555;
+}
+
+th, td{
+  padding: 15px;
+  border-bottom: 1px solid #555555;
+  color: #e0e0e0;
+}
+
+tr:hover{
+  background-color: #4f4f4f;
+}
+
+.topThree{
+  color: white;
+  font-weight: bold;
 }

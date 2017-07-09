@@ -28,8 +28,11 @@ import { GameboardService } from './gameboard/gameboard.service';
 import { ModalService } from './modal/modal.service';
 import { AlertMessageService } from './alert-message/alert-message.service';
 import { SocketService } from './socket.service';
-import { ObjectPipe, MinToMsPipe, LengthLimit } from './sharedPipes';
+import { SoloService } from './solo/solo.service';
+
+import { ObjectPipe, MinToMsPipe, LengthLimit, TakeFirstCharacter } from './sharedPipes';
 import { RoomsComponent } from './rooms/rooms.component';
+import { RequestNameComponent } from './request-name/request-name.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/solo', pathMatch: 'full' },
@@ -59,8 +62,10 @@ const appRoutes: Routes = [
     ObjectPipe,
     MinToMsPipe,
     LengthLimit,
+    TakeFirstCharacter,
     HowToPlayComponent,
-    RoomsComponent
+    RoomsComponent,
+    RequestNameComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +80,7 @@ const appRoutes: Routes = [
     ModalService,
     AlertMessageService,
     SocketService,
+    SoloService,
     DatePipe
     ],
   bootstrap: [AppComponent]

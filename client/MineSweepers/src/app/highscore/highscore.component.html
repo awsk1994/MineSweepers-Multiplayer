@@ -1,11 +1,23 @@
 <div class="forceCenter card card-block viewPercent endWithExtra">
-  <!--<p style="color: white">Scores:</p> 
-  <div *ngFor="let score of scores">
-    <p style="color:black; background-color: #efefef">{{score | json}}</p>
-  </div>-->
-
-  <table border=1>
+  <div>
+    <ul class="nav justify-content-center">
+      <span class="text textWhite">Difficulty: </span>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="difficulty=='easy' ? 'active' : 'inactive'" (click)="changeDifficulty('easy')">EASY</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="difficulty=='medium' ? 'active' : 'inactive'" (click)="changeDifficulty('medium')">MEDIUM</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="difficulty=='hard' ? 'active' : 'inactive'" (click)="changeDifficulty('hard')">HARD</a>
+      </li>
+    </ul>
+  </div>
+  <table class="centerTable">
     <tr>
+      <th>
+        Ranking
+      </th>
       <th>
         Name
       </th>
@@ -16,10 +28,11 @@
         Achieved Date
       </th>
     </tr>
-    <tr *ngFor="let score of scores">
-      <td>{{score.username}}</td>
-      <td>{{score.timeTaken | date : 'mm:ss'}}</td>
-      <td>{{score.created_at}}</td>
+    <tr *ngFor="let score of scores[difficulty]; let ranking=index">
+      <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{ranking+1}}</td>
+      <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{score.username}}</td>
+      <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{score.timeTaken | date : 'mm:ss'}}</td>
+      <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{score.created_at}}</td>
     </tr>
   </table>
 </div>

@@ -8,18 +8,38 @@ router.get('/', function (req, res) {
 });
 
 router.get('/highscore', function(req, res, next){
-    Score.find().exec(function(err, scores){
+    Score.find({'difficulty': 0}).exec(function(err, easyScores){
         if(err){
             return res.status(500).json({
                 error: 'An error has occured.',
                 detail: err
             });
         }
-        res.status(200).json({
-            message: 'Success',
-            detail: scores
+        
+        Score.find({'difficulty': 1}).exec(function(err, mediumScores){
+            if(err){
+                return res.status(500).json({
+                    error: 'An error has occured.',
+                    detail: err
+                });
+            };
+            
+            Score.find({'difficulty': 2}).exec(function(err, hardScores){
+                if(err){
+                    return res.status(500).json({
+                        error: 'An error has occured.',
+                        detail: err
+                    });
+                };
+                return res.status(200).json({
+                    'easy': easyScores,
+                    'medium': mediumScores,
+                    'hard': hardScores
+                });
+            });
+            
         });
-    });
+    });    
 });
 
 router.post('/highscore', function(req, res, next){

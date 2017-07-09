@@ -9,10 +9,13 @@ Bugs:
   - rooms:
      - need to be able to remove the gray thing <rooms></rooms>
   - db: need to have delete somewhere...
+     - create a room UI (select bar dropdown for difficulty)
+     - Create a room form and submit stuff
 
 
   - chat:
      - understand observables.
+     - add: add nickname thing (<request-name></request-name>... check soloService for existing. If none, then ask. (apply this to when multiplayer is firstlyclicked).
   - chat UI 
      - heading tab: switch between global and game left
      - hover over the header to see list of users

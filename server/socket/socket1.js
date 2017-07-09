@@ -4,20 +4,19 @@ io.emit('message', 'check this');   // send to all listeners
 socket.broadcast.to('chatroom').emit('message', 'this is the message to all');  // send to a room.
 */
 
-
+var Room = require('../models/room');
 
 /* responses:
  - globalChat
  - roomsUpdate
 */
-var rooms = [];
 
 exports = module.exports = function (io) {
     io.on('connection', function (socket) {
         console.log('a user connected.');
 
         socket.on('disconnect', function () {
-            console.log('user disconnected');
+            console.log('a user disconnected');
         });
 
         // Global Chat
@@ -28,30 +27,42 @@ exports = module.exports = function (io) {
                 'message': message
             });
         });
-        
+
         // Create Room
-        socket.on('createRoom', function(roomName, difficulty){
-            console.log("createRoom | roomName: " + roomName + ", difficulty: " + difficulty);
-            var id = 123;
-            var room = {'id': id, 'name': roomName, 'difficulty': difficulty};
-            rooms.push(room);
-            // todo: add room in db, and fetch room
-            io.emit('roomsUpdate', rooms);
+        socket.on('createRoom', function (data) {
+            var room = new Room({
+                difficulty: data.difficulty,
+                people_in_it: 0,
+                created_by: data.created_by,
+                room_name: data.room_name
+            });
+            room.save(function (err, result) {
+                if (err) {
+                    console.log("Error has occured on socket message, createRoom");
+                    return;
+                }
+                io.emit('roomsNew', 'Created Room Successfully. : ' + result);
+            });
         });
-        
+
         // Get Rooms
-        socket.on('getRooms', function(difficulty){
-            console.log("getRoom | difficulty: " + difficulty);
-            // todo: fetch rooms from db.
-            socket.emit('roomsUpdate', rooms);
+        socket.on('getRooms', function (difficulty) {
+            console.log("get rooms: " + difficulty);
+            Room.find({'difficulty': difficulty}).exec(function (err, rooms) {
+                if (err) {
+                    console.log("Error has occured on socket message, getRooms");
+                    return;
+                }
+                io.emit('roomsUpdate', rooms);
+            })
         });
-        
+
         // Update Game
-        socket.on('updateGame', function(data){
+        socket.on('updateGame', function (data) {
             console.log("updateGame | data: " + data);
             // todo. 
         });
-        
+
 
         /* MULTIPLAYER */
         // socket.io('getRooms', 'difficulty');

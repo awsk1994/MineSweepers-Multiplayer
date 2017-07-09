@@ -55,7 +55,6 @@ export class LengthLimit implements PipeTransform {
     if (value == null || value == '') {
       return value;
     }
-    console.log(value + ", " + length);
     if (value.length < length) {
       return value;
     } else {
@@ -64,5 +63,17 @@ export class LengthLimit implements PipeTransform {
       else
         return value;
     }
+  }
+}
+
+@Pipe({
+  name: 'takeFirstCharacter'
+})
+export class TakeFirstCharacter implements PipeTransform {
+  transform(value: string, length: number): any {
+    if (value == null || value == '') {
+      return value;
+    }
+    return value.substring(0,1);
   }
 }

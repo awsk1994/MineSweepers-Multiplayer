@@ -5,7 +5,7 @@
   <div class="chatLog bgLighterDarkGray">
     <div class="log" *ngFor='let log of logs'>
       <div class="logProfilePic bgLightGray">
-         {{log.username}}
+         {{log.username | takeFirstCharacter}}
       </div>
       <div class="logText bgLighterGray">
           {{log.message}}

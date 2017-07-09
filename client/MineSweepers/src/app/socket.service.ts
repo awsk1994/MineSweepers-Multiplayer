@@ -31,13 +31,13 @@ export class SocketService {
 
 
 /* MULTIPLAYER */
-  createRoom(roomName: string, difficulty: number) {
-    this.socket.emit('createRoom', roomName, difficulty);
+  createRoom(data) {
+    this.socket.emit('createRoom', data);
   }
 
   // will trigger roomsUpdate message, and update rooms.
-  getRooms() {
-    this.socket.emit('getRooms');
+  getRooms(difficulty) {
+    this.socket.emit('getRooms', difficulty);
   }
 
   roomsUpdate() {

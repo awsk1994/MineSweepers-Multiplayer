@@ -1,11 +1,56 @@
-<div class="roomsContainer viewPercent">"
-  <button (click)="createRoom('room1', 0)">Create Room 1</button>
-  <button (click)="createRoom('room2', 0)">Create Room 2</button>
-  <button (click)="createRoom('room3', 0)">Create Room 3</button>
-  <button (click)="getRooms(0)">Get Rooms</button>
+<div class="roomsContainer viewPercent">
+  <span class="boldWhiteText">Create a Room: </span>
+  <input size="30" type="text" class="text" [(ngModel)]="newRoomName" placeholder="I want room name as...">
+  <br>
+  <input size="30" type="text" class="text" [(ngModel)]="newDifficulty" placeholder="Select Difficulty">
+  <br>
+  <button [disabled]="newRoomName == null || newRoomName == '' || newDifficulty == null" class="btn btn-primary" (click)="createRoom(newRoomName, newDifficulty)">Create Room!</button>
   <hr>
-  <p style="color: white">Rooms:</p> 
-  <div *ngFor="let room of rooms">
-    <p style="color:black; background-color: #efefef">{{room.name}}</p>
+  
+  <span class="boldWhiteText">Select a Difficulty: </span>
+  <div>
+    <ul class="nav justify-content-center">
+      <span class="text textWhite">Select Difficulty: </span>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="difficulty==0 ? 'active' : 'inactive'" (click)="getRooms(0)">EASY</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="difficulty==1 ? 'active' : 'inactive'" (click)="getRooms(1)">MEDIUM</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="difficulty==2 ? 'active' : 'inactive'" (click)="getRooms(2)">HARD</a>
+      </li>
+    </ul>
   </div>
+  <hr>
+
+  <div [hidden]='difficulty == null'>
+    <span class="boldWhiteText">Select a Room: </span>
+    <table class="centerTable">
+      <tr>
+        <th>Name</th>
+        <th>Occupancy</th>
+        <th>Created By</th>
+        <th>Created At</th>
+      </tr>
+      <tr *ngFor="let room of rooms; let ranking=index" (dblclick)="joinRoom(room._id)">
+        <td>{{room.room_name}}</td>
+        <td>{{room.people_in_it}}</td>
+        <td>{{room.created_by}}</td>
+        <td>{{room.created_at}}</td>
+      </tr>
+    </table>
+  </div>
+  <!--<div *ngFor="let room of rooms">
+    <p style="color:black; background-color: #efefef">{{room.name}}</p>
+  </div>-->
+
+  <hr>
+  <button (click)="createRoom(0, 'room1')">Create Room 1 easy</button>
+  <button (click)="createRoom(1, 'room2')">Create Room 2 medium</button>
+  <button (click)="createRoom(2, 'room3')">Create Room 3 hard</button>
+  <button (click)="getRooms(0)">Get Rooms - Easy</button>
+  <button (click)="getRooms(1)">Get Rooms - Medium</button>
+  <button (click)="getRooms(2)">Get Rooms - Hard</button>
+
 </div>

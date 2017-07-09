@@ -30,7 +30,7 @@ import { AlertMessageService } from './alert-message/alert-message.service';
 import { SocketService } from './socket.service';
 import { SoloService } from './solo/solo.service';
 
-import { ObjectPipe, MinToMsPipe, LengthLimit, TakeFirstCharacter } from './sharedPipes';
+import { ObjectPipe, MinToMsPipe, LengthLimit, TakeFirstCharacter, SortByPipe } from './sharedPipes';
 import { RoomsComponent } from './rooms/rooms.component';
 import { RequestNameComponent } from './request-name/request-name.component';
 
@@ -63,6 +63,7 @@ const appRoutes: Routes = [
     MinToMsPipe,
     LengthLimit,
     TakeFirstCharacter,
+    SortByPipe,
     HowToPlayComponent,
     RoomsComponent,
     RequestNameComponent

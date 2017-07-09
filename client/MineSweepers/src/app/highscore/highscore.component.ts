@@ -10,26 +10,37 @@ export class HighscoreComponent implements OnInit {
 
   scores = [];
   difficulty = 'hard';
+  title = 'timeTaken';
+  reverse = false;
 
-  constructor(private gameService:GameService,
-              private ngZone:NgZone) {
-      console.log('constructor');
-  }
-
-  ngOnInit() {
+  constructor(private gameService: GameService,
+    private ngZone: NgZone) {
     this.gameService.getHighscore().subscribe(
       (data) => {
-        if(data.error != null){
+        if (data.error != null) {
           alert(data.error);
         } else {
           this.scores = data;
         }
-    }
-    )
+      });
   }
 
-  changeDifficulty(difficulty){
+  ngOnInit() {
+
+  }
+
+  changeDifficulty(difficulty) {
     this.difficulty = difficulty;
+  }
+
+  sort(title) {
+    console.log("sort: " + title);
+    if (this.title == title) {
+      this.reverse = !this.reverse;
+    } else {
+      this.title = title;
+      this.reverse = false;
+    }
   }
 
 }

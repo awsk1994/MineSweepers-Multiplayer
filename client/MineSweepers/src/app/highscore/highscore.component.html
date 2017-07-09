@@ -15,21 +15,34 @@
   </div>
   <table class="centerTable">
     <tr>
-      <th>
+      <th (click)="sort('ranking')">
         Ranking
+        <i *ngIf="title!='ranking'" class="fa fa-sort" aria-hidden="true"></i>
+        <i *ngIf="title=='ranking' && reverse==false" class="fa fa-sort-asc" aria-hidden="true"></i>
+        <i *ngIf="title=='ranking' && reverse==true" class="fa fa-sort-desc" aria-hidden="true"></i>
       </th>
-      <th>
+      <th (click)="sort('username')">
         Name
+        <i *ngIf="title!='username'" class="fa fa-sort" aria-hidden="true"></i>
+        <i *ngIf="title=='username' && reverse==false" class="fa fa-sort-asc" aria-hidden="true"></i>
+        <i *ngIf="title=='username' && reverse==true" class="fa fa-sort-desc" aria-hidden="true"></i>
       </th>
-      <th>
+      <th (click)="sort('timeTaken')">
         Time Taken (Minute:Second)
+        <i *ngIf="title!='timeTaken'" class="fa fa-sort" aria-hidden="true"></i>
+        <i *ngIf="title=='timeTaken' && reverse==false" class="fa fa-sort-asc" aria-hidden="true"></i>
+        <i *ngIf="title=='timeTaken' && reverse==true" class="fa fa-sort-desc" aria-hidden="true"></i>
       </th>
-      <th>
+      <th (click)="sort('created_at')">
         Achieved Date
+        <i *ngIf="title!='created_at'" class="fa fa-sort" aria-hidden="true"></i>
+        <i *ngIf="title=='created_at' && reverse==false" class="fa fa-sort-asc" aria-hidden="true"></i>
+        <i *ngIf="title=='created_at' && reverse==true" class="fa fa-sort-desc" aria-hidden="true"></i>
       </th>
     </tr>
-    <tr *ngFor="let score of scores[difficulty]; let ranking=index">
-      <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{ranking+1}}</td>
+    <tr *ngFor="let score of scores[difficulty] | sortBy: title : reverse ; let ranking=index">
+      <!--<td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{ranking+1}}</td>-->
+      <td></td>
       <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{score.username}}</td>
       <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{score.timeTaken | date : 'mm:ss'}}</td>
       <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{score.created_at}}</td>

@@ -4,8 +4,7 @@ Bugs:
 
  Todo:
   - highscore:
-     - need to sort by time taken
-    - need to filter by difficulty...
+     - need to finish rank... need to process it and add to array somewhere...(after fetch from db in server?)
   - rooms:
      - need to be able to remove the gray thing <rooms></rooms>
   - db: need to have delete somewhere...

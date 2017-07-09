@@ -1,7 +1,7 @@
 .roomsContainer {
   position: absolute;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.95);
   padding: 30px;
   z-index: 1;
 }
@@ -64,4 +64,8 @@ tr:hover{
 input{
   display: inline-block;
   margin-bottom: 20px;
+}
+
+hr{
+  width: 50px;
 }

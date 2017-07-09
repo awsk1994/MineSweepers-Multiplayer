@@ -14,6 +14,7 @@ export class RoomsComponent implements OnInit {
   rooms;
   difficulty:number;
   displayCreateRoom:boolean = false;
+  
 
   ngOnInit(){
     this.socketService.roomsUpdate().subscribe(
@@ -39,5 +40,9 @@ export class RoomsComponent implements OnInit {
 
   joinRoom(roomId){
     console.log("join room: " + roomId);
+  }
+
+  toggleDisplayCreateRoom(){
+    this.displayCreateRoom = !this.displayCreateRoom;
   }
 }

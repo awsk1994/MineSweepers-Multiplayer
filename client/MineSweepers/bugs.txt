@@ -1,16 +1,17 @@
 To Improve:
-
+   - highscore:
+     - filter by name
+     - should fetch top 10, and then click to load more.
+     - UI enhancement:
+       - create filter by username.. and add search icon
 Bugs:
 
  Todo:
-  - highscore:
-     - need to finish rank... need to process it and add to array somewhere...(after fetch from db in server?)
   - rooms:
      - need to be able to remove the gray thing <rooms></rooms>
   - db: need to have delete somewhere...
      - create a room UI (select bar dropdown for difficulty)
      - Create a room form and submit stuff
-
 
   - chat:
      - understand observables.
@@ -30,6 +31,17 @@ Bugs:
      - footer should be semi-transparent when screen doesn't fit everything. When screen fits all, then should expanded footer (with About Me and Contact)
   - multiplayer
   - type up how to play (w/ screenshot)
+
+
+Todo (future):
+1. turn to phone app
+2. make website okay when browser size shrink
+3. Local storage save username so don't need to ask username again between Solo and multiplayer and chat ask name.
+
+Next Project?:
+1. Google+, Facebook.etc login
+2. Pass tokens... so can remember 
+
 
 Considerations:
  - have different size tiles depending on difficulty (board size).

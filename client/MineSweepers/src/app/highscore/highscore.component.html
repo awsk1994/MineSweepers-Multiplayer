@@ -22,7 +22,7 @@
         <i *ngIf="title=='ranking' && reverse==true" class="fa fa-sort-desc" aria-hidden="true"></i>
       </th>
       <th (click)="sort('username')">
-        Name
+        Username
         <i *ngIf="title!='username'" class="fa fa-sort" aria-hidden="true"></i>
         <i *ngIf="title=='username' && reverse==false" class="fa fa-sort-asc" aria-hidden="true"></i>
         <i *ngIf="title=='username' && reverse==true" class="fa fa-sort-desc" aria-hidden="true"></i>
@@ -41,11 +41,10 @@
       </th>
     </tr>
     <tr *ngFor="let score of scores[difficulty] | sortBy: title : reverse ; let ranking=index">
-      <!--<td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{ranking+1}}</td>-->
-      <td></td>
+      <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{score.ranking}}</td>
       <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{score.username}}</td>
       <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{score.timeTaken | date : 'mm:ss'}}</td>
-      <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{score.created_at}}</td>
+      <td [ngClass]="{'topThree': (ranking + 1) < 4 }">{{score.created_at | date : 'medium'}}</td>
     </tr>
   </table>
 </div>

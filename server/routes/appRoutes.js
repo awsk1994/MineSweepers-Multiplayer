@@ -31,6 +31,7 @@ router.get('/highscore', function(req, res, next){
                         detail: err
                     });
                 };
+                
                 return res.status(200).json({
                     'easy': easyScores,
                     'medium': mediumScores,

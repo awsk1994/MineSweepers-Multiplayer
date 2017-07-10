@@ -9,7 +9,7 @@ import { GameService } from '../game.service';
 export class HighscoreComponent implements OnInit {
 
   scores = [];
-  difficulty = 'hard';
+  difficulty = 'easy';
   title = 'timeTaken';
   reverse = false;
 
@@ -20,9 +20,19 @@ export class HighscoreComponent implements OnInit {
         if (data.error != null) {
           alert(data.error);
         } else {
+          this.addRanking(data['easy']);
+          this.addRanking(data['medium']);
+          this.addRanking(data['hard']);
+
           this.scores = data;
         }
       });
+  }
+
+  addRanking(scores){
+    for(var i=0;i<scores.length;i++){
+      scores[i].ranking = i + 1;
+    }
   }
 
   ngOnInit() {

@@ -10,6 +10,7 @@ export class SocketService {
   private socket;
 
   constructor() {
+    console.log("socket service constructor");
     this.socket = io(this.url);
   }
 
@@ -37,6 +38,7 @@ export class SocketService {
 
   // will trigger roomsUpdate message, and update rooms.
   getRooms(difficulty) {
+    console.log(this.socket);
     this.socket.emit('getRooms', difficulty);
   }
 

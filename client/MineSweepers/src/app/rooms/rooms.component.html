@@ -7,7 +7,12 @@
   <div [hidden]='!displayCreateRoom'>
     <input size="30" type="text" class="text" [(ngModel)]="newRoomName" placeholder="I want room name as...">
     <br>
-    <input size="30" type="text" class="text" [(ngModel)]="newDifficulty" placeholder="Select Difficulty">
+    <select class="form-control">
+      <option>- Select a Difficulty -</option>
+      <option>Easy</option>
+      <option>Medium</option>
+      <option>Hard</option>
+    </select>
     <br>
     <button [disabled]="newRoomName == null || newRoomName == '' || newDifficulty == null" class="btn btn-primary" (click)="createRoom(newRoomName, newDifficulty)">Create Room!</button>
   </div>

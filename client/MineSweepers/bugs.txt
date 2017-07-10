@@ -5,10 +5,12 @@ To Improve:
      - UI enhancement:
        - create filter by username.. and add search icon
 Bugs:
+ - when you change link, the socket disconnects, but doesn't re-connect.
 
  Todo:
+  - socket not working whenever I don't use debugger mode.
   - rooms:
-     - need to be able to remove the gray thing <rooms></rooms>
+     - create room
   - db: need to have delete somewhere...
      - create a room UI (select bar dropdown for difficulty)
      - Create a room form and submit stuff

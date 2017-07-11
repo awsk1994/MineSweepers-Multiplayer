@@ -67,3 +67,8 @@ Notes on Socket (2017/07/04):
 
 Socket Link:
 http://www.syntaxsuccess.com/viewarticle/socket.io-with-rxjs-in-angular-2.0
+
+
+3rd party libraries:
+ - https://mattlewis92.github.io/angular-gauge/#
+ - https://compodoc.github.io/website/

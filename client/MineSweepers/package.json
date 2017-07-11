@@ -8,8 +8,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
-  },
+    "e2e": "ng e2e",
+    "compodoc": "./node_modules/.bin/compodoc -p ./tsconfig.json",
+    "compodocOnline": "./node_modules/.bin/compodoc -s ./tsconfig.json" 
+ },
   "private": true,
   "dependencies": {
     "@angular/animations": "^4.0.0",

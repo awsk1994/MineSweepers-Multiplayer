@@ -4,13 +4,15 @@ import { GameService } from '../game.service';
 import { MinToMsPipe } from '../sharedPipes';
 import { SocketService } from '../socket.service';
 
+/**
+ *  AlertMessage Component displays a popover when one gives it a title and message. However, it has been adopted to be used to display a popover modal for Game Over.
+ */
 @Component({
   selector: 'alert-message',
   templateUrl: './alert-message.component.html',
   styleUrls: ['./alert-message.component.css']
 })
 export class AlertMessageComponent {
-
   title: string;
   data;
   status;
@@ -34,11 +36,17 @@ export class AlertMessageComponent {
     );
   }
 
+  /**
+   * Called by UI (reset button) or submitHighscore(). Reset the variables and restart the game.
+   */
   closeAlertMessageAndRestart() {
     this.resetVariables();
     this.gameService.restart();
   }
 
+  /**
+   * Resets all the AlertMessage Components
+   */
   resetVariables() {
     this.displayAlertMessage = false;
     this.displayNicknameInput = false;
@@ -48,17 +56,23 @@ export class AlertMessageComponent {
     this.status = null;
   }
 
+  /**
+   * Backdrop is the black background under the alertbox.
+   */
   backdropClicked() {
-    console.log("backdropClicked");
     this.closeAlertMessageAndRestart();
   }
 
-  submitHighscore(name, time) {
+  /**
+   * Triggered when game over popover shows up and user clicks to send highscore.
+   * @param {string} name username/nickname
+   * @param {number} time in milliseconds. (eg. 1 second = 1000 milliseconds)
+   */
+  submitHighscore(name: string, time: number) {
     let timeInMs = new MinToMsPipe().transform(time);
     this.gameService.sendHighscore(name, timeInMs).subscribe(
       (data) => {
-        console.log("data: " + data);
-        if(data.error != null){
+        if (data.error != null) {
           alert(data.error);
         } else {
           alert(data.message)

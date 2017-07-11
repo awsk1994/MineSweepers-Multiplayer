@@ -14,7 +14,6 @@ export class RoomsComponent implements OnInit {
   rooms;
   difficulty:number;
   displayCreateRoom:boolean = false;
-  
 
   ngOnInit(){
     this.socketService.roomsUpdate().subscribe(

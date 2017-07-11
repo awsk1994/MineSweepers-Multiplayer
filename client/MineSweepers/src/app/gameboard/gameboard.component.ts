@@ -3,6 +3,9 @@ import { GameboardService } from './gameboard.service';
 import { Tile, TileState } from '../tile/tile.model';
 import { GameService } from '../game.service';
 
+/**
+ * This is the gameboard where minesweeper takes place.
+ */
 @Component({
   selector: 'gameboard',
   templateUrl: './gameboard.component.html',
@@ -12,8 +15,17 @@ export class GameboardComponent implements OnInit {
   boardData: Tile[][];
   gameBoard: Tile[][];
 
+  /**
+   * Boolean triggered when user puts down more flags than the number of bombs. Note that when this message shows up, it does not mean that the user have put all the flags in the correct position. It simply means # of flags > # of bombs.
+   */
   exceedFlagLimitError = false;
+  /**
+   * Boolean triggered after all flags have been laid, and it triggers user to finish the game by clicking the rest of the tiles.
+   */
   finishGameMsg = false;
+  /**
+   * Boolean to trigger message to prompt user to click the board to start game.
+   */
   clickToStartMsg = false;
 
   constructor(private gameboardService: GameboardService,

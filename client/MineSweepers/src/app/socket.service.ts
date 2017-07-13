@@ -14,8 +14,13 @@ export class SocketService {
     this.socket = io(this.url);
   }
 
-  sendMessage(username, message) {
+  sendGlobalMessage(username, message) {
     this.socket.emit('globalChat', username, message);
+  }
+
+  sendRoomMessage(username, roomName, message){
+    console.log(username + ", " + roomName + "," + message);
+    this.socket.emit('roomChat', {'nickname': username, 'roomName': roomName, 'message': message})
   }
 
   getLogs() {

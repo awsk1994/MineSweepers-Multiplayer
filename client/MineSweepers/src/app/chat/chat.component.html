@@ -1,4 +1,10 @@
 <div class="chatContainer">
+  <!--<div>
+    <button class="btn btn-primary" (click)="joinGlobalChat()">Global Chat</button>
+    <button class="btn btn-primary" (click)="joinRoomChat('room_1')">Room 1 Chat</button>
+    <button class="btn btn-primary" (click)="joinRoomChat('room_2')">Room 2 Chat</button>
+    <button class="btn btn-primary" (click)="joinRoomChat('room_3')">Room 3 Chat</button>
+  </div>-->
   <div class="chatHeader bgOrange textWhite">
     Chat ({{ username | lengthLimit:9 }})
   </div>
@@ -16,6 +22,12 @@
   <div class="chatText bgLighterDarkGray">
     <textarea class="bgLighterDarkGray" [(ngModel)]='message'>
     </textarea>
-    <button class="btn btn-primary" [disabled]="message == null || message == ''" (click)='sendMessage(message)'>SEND</button>
+    <button class="btn btn-primary" [disabled]="message == null || message == ''" (click)='sendGlobalMessage(message)'>SEND</button>
+  </div>
+  <div class="chatText bgLighterDarkGray">
+    RoomName:
+    <textarea class="bgLighterDarkGray" [(ngModel)]='roomName'></textarea>
+    <textarea class="bgLighterDarkGray" [(ngModel)]='roomMessage'></textarea>
+    <button class="btn btn-primary" [disabled]="roomMessage == null || roomMessage == ''" (click)='sendRoomMessage(roomName, roomMessage)'>SEND</button>
   </div>
 </div>

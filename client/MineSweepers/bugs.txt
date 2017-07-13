@@ -15,11 +15,13 @@ To Improve (mid):
      - should perhaps make this a route? (eg. /mutliplayer/:difficulty, :roomId)
   - soloCompoennt's display room, rooms.etc.
      - should perhaps make it a number 0,1,2, each representing the different room, rooms.etc.
+  - header
+     - UI: displaying username.
 
 Bugs:
  - when localStorage's nickname is removed, the requestname will pop up and block the game. Should pause the game and continue game after submitted nickname.
 
- Todo:
+Todo:
   - chat:
      - Try to implement chat per rooms
      - Understand when a user connects/disconnects
@@ -27,6 +29,7 @@ Bugs:
      - Entering nickname should save it in localstorage (can set expire day?)
      - need to store chat record in db. When refresh, should fetch last n chat record. Normally, just keep socket open and append to list. If possible, better to refresh with db every n minutes.
      - understand observables.
+     - temp: can send message to rooms...
   - enter room:
      - require planning...
      - change room list to a different hyperlink: BASE_URL/multi/rooms

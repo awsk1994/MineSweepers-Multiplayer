@@ -10,10 +10,15 @@ var Room = require('../models/room');
 */
 exports = module.exports = function (io) {
   
-  io.on('connection', function (socket) {
-    console.log('a user connected.');
+  var clientsConnected = 0;
+  
+  io.on('connection', function (socket) {    
+    clientsConnected++;
+    console.log('>>> a user connected. (clientsConnected: ' + clientsConnected + ')');
+
     socket.on('disconnect', function () {
-      console.log('a user disconnected');
+      clientsConnected--;
+      console.log('<<< a user disconnected (clientsConnected: ' + clientsConnected + ')');
     });
     
     // Global Chat
@@ -77,8 +82,23 @@ exports = module.exports = function (io) {
       });
     });
     
-    // Join Room
-    socket.on('joinRoom', function (difficulty) {});
+    // Join Room. data: {'roomName': BLAH, 'nickname': nickname}
+    socket.on('joinRoom', function (nickname, roomname) {
+      console.log(nickname + " has joined " + roomname);
+      socket.join(room);
+    });
+    
+    // Send chat to specific room: {'roomName': BLAH, 'nickname': nickname , 'message': CONTENT }
+    socket.on('roomChat', function(data){
+      console.log(data.nickname + " wants to speak to " + data.roomName + ": " + data.message);
+      io.to(data.roomName).emit('roomChat', data.message);
+    });
+    
+    // leave chat: {'roomName': BLAH, 'nickname': nickname}
+    socket.on('leaveChat', function(nickname, roomName){
+      console.log(nickname + " is leaving " + roomName);
+      socket.leave(roomName);
+    });
     
     // Update Game
     socket.on('updateGame', function (data) {

@@ -37,9 +37,8 @@ export class SocketService {
   }
 
   // will trigger roomsUpdate message, and update rooms.
-  getRooms(difficulty) {
-    console.log(this.socket);
-    this.socket.emit('getRooms', difficulty);
+  getRooms() {
+    this.socket.emit('getRooms');
   }
 
   roomsUpdate() {

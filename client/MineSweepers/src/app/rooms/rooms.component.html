@@ -7,14 +7,14 @@
   <div [hidden]='!displayCreateRoom'>
     <input size="30" type="text" class="text" [(ngModel)]="newRoomName" placeholder="I want room name as...">
     <br>
-    <select class="form-control">
-      <option>- Select a Difficulty -</option>
-      <option>Easy</option>
-      <option>Medium</option>
-      <option>Hard</option>
+    <select class="form-control" [(ngModel)]="newDifficulty">
+      <option [value]="-1">- Select a Difficulty -</option>
+      <option [value]='0'>Easy</option>
+      <option [value]='1'>Medium</option>
+      <option [value]='2'>Hard</option>
     </select>
     <br>
-    <button [disabled]="newRoomName == null || newRoomName == '' || newDifficulty == null" class="btn btn-primary" (click)="createRoom(newRoomName, newDifficulty)">Create Room!</button>
+    <button [disabled]="newRoomName == null || newRoomName == '' || newDifficulty==-1" class="btn btn-primary" (click)="createRoom(newDifficulty, newRoomName)">Create Room!</button>
   </div>
   <hr>
   <span class="boldWhiteText">Find Room by Difficulty: </span>
@@ -41,11 +41,11 @@
         <th>Created By</th>
         <th>Created At</th>
       </tr>
-      <tr *ngFor="let room of rooms; let ranking=index" (dblclick)="joinRoom(room._id)">
+      <tr *ngFor="let room of rooms[difficulty]; let ranking=index" (dblclick)="joinRoom(room)">
         <td>{{room.room_name}}</td>
         <td>{{room.people_in_it}}</td>
         <td>{{room.created_by}}</td>
-        <td>{{room.created_at}}</td>
+        <td>{{room.created_at | date: 'medium'}}</td>
       </tr>
     </table>
   </div>
@@ -57,8 +57,6 @@
   <button (click)="createRoom(0, 'room1')">Create Room 1 easy</button>
   <button (click)="createRoom(1, 'room2')">Create Room 2 medium</button>
   <button (click)="createRoom(2, 'room3')">Create Room 3 hard</button>
-  <button (click)="getRooms(0)">Get Rooms - Easy</button>
-  <button (click)="getRooms(1)">Get Rooms - Medium</button>
-  <button (click)="getRooms(2)">Get Rooms - Hard</button>
+  <button (click)="deleteAllRooms()">Delete All Rooms</button>
 
 </div>

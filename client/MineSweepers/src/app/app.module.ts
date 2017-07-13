@@ -29,10 +29,13 @@ import { ModalService } from './modal/modal.service';
 import { AlertMessageService } from './alert-message/alert-message.service';
 import { SocketService } from './socket.service';
 import { SoloService } from './solo/solo.service';
+import { HttpService } from './http.service';
+import { RequestNameService } from './request-name/request-name.service';
 
 import { ObjectPipe, MinToMsPipe, LengthLimit, TakeFirstCharacter, SortByPipe } from './sharedPipes';
 import { RoomsComponent } from './rooms/rooms.component';
 import { RequestNameComponent } from './request-name/request-name.component';
+import { RoomComponent } from './room/room.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/solo', pathMatch: 'full' },
@@ -66,7 +69,8 @@ const appRoutes: Routes = [
     SortByPipe,
     HowToPlayComponent,
     RoomsComponent,
-    RequestNameComponent
+    RequestNameComponent,
+    RoomComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +86,8 @@ const appRoutes: Routes = [
     AlertMessageService,
     SocketService,
     SoloService,
+    HttpService,
+    RequestNameService,
     DatePipe
     ],
   bootstrap: [AppComponent]

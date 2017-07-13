@@ -161,3 +161,6 @@ hr{
   font-weight: bold;
 }
 
+.zIndex10{
+  z-index: 10;
+}

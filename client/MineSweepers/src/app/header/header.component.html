@@ -1,5 +1,9 @@
 <div class="header viewPercent">
-  <h3 class="headerCenter headerTitle">MineSweeper</h3>
+  <h3 class="headerCenter headerTitle">MineSweeper
+    <span [hidden]='nickname==null' style="color: white">({{nickname}})
+      <span style="color:red; font-size: 20px" (click)="removeNickname()">[X]</span>
+    </span>
+  </h3>
   <div class="headerCenter black">
     <button routerLink="/solo" routerLinkActive="active">Solo</button>
     <button routerLink="/multiplayer" routerLinkActive="active">Multiplayer</button>

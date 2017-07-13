@@ -1,5 +1,25 @@
-<div class="roomsContainer viewPercent">"
-    <input size="30" type="text" class="text" [(ngModel)]="nickname" placeholder="My username is...">
-    <br>
-    <button [disabled]="nickname == null || nickname == ''" class="btn btn-primary" (click)="submitNickname()">Enter nickname</button>
+<!--<div class="reqNameContainer viewPercent" [ngStyle]="{'display': display}">
+    <div *ngIf="currentNickname">
+        <h4>Is your nickname, {{currentNickname}}?</h4>
+        <button class="btn btn-primary" (click)="keepcurrentNickname(true)">Yes</button>
+        <button class="btn btn-danger" (click)="keepcurrentNickname(false)">No</button>
+    </div>
+    <div [hidden]="currentNickname">
+        <input size="30" type="text" class="text" [(ngModel)]="nickname" placeholder="My nickname is...">
+        <br>
+        <button [disabled]="nickname == null || nickname == ''" class="btn btn-primary" (click)="submitNickname(nickname)">Enter nickname</button>
+    </div>
+</div>-->
+
+<div class="modal" [ngStyle]="{'display': display}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <input size="30" type="text" class="text" [(ngModel)]="nickname" placeholder="My nickname is...">
+        <br>
+        <button class="btn btn-primary" (click)="continueAsGuest(nickname)">Continue as Guest</button>
+        <button [disabled]="nickname == null || nickname == ''" class="btn btn-primary" (click)="submitNickname(nickname)">Enter nickname</button>
+      </div>
+    </div>
+  </div>
 </div>

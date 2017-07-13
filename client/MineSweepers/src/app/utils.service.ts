@@ -4,6 +4,9 @@ import { Tile } from './tile/tile.model';
 
 @Injectable()
 export class UtilsService {
+
+  public BASE_URL:string = "http://localhost:3000";
+
   getRandomTile(size: number) {
     let x = Math.floor(Math.random() * (size - 1));
     let y = Math.floor(Math.random() * (size - 1));

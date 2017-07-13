@@ -1,6 +1,6 @@
 <div class="forceCenter viewPercent">
-    <request-name *ngIf="displayRequestName" (nicknameSubmitted)="getNickname($event)"></request-name>
-    <rooms *ngIf="displayRooms"></rooms>
+    <rooms *ngIf="displayRooms" (changeViewToRoom)="changeViewToRoom($event)"></rooms>
+    <room *ngIf="displayRoom" (changeViewToRoomList)="changeViewToRoomList()"></room>
 </div>
 <div class="forceCenter card card-block viewPercent endWithExtra">
   <div class="grid">

@@ -15,9 +15,19 @@ export class ChatComponent implements OnInit {
 
   logs = [];
   message:string;
-  username:string = 'awong1234567890';
+  username:string;
 
-  constructor(private socketService:SocketService) {}
+  constructor(private socketService:SocketService) {
+
+  }
+  
+  getNickname(){
+    let nickname = localStorage.getItem('nickname');
+    if(!nickname){
+      nickname = "Unknown";
+    }
+    return nickname;
+  }
 
   ngOnInit() {
     this.socketService.getLogs().subscribe(
@@ -33,8 +43,8 @@ export class ChatComponent implements OnInit {
   sendMessage(message){
     console.log('send message: ' + message);
     // http send message
+    this.username = this.getNickname();
     this.socketService.sendMessage(this.username, message);
-    // this.logs.push(message);
     this.message = '';
   }
 }

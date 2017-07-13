@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { RequestNameService } from './request-name.service';
 
 @Component({
   selector: 'request-name',
@@ -6,15 +7,52 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./request-name.component.css']
 })
 export class RequestNameComponent implements OnInit {
-
-  constructor() { }
   nickname:string;
-  @Output() nicknameSubmitted = new EventEmitter<string>();
+  //currentNickname:string;
+  //displayCreateNickname:boolean = false;
+  /**
+   * This will signal soloComponent to switch to the next tag, which is <rooms>
+   */
+  display = 'none';
+
+  constructor(private requestNameService:RequestNameService) {
+    // this.currentNickname = localStorage.getItem('nickname');
+    // if(this.currentNickname == null){
+    //   this.displayCreateNickname = true;
+    // }
+  }
 
   ngOnInit() {
+    this.requestNameService.triggerRequestName.subscribe(
+      ()=>{
+        this.display = 'block';
+      }
+    )
   }
 
-  submitNickname(){
-    this.nicknameSubmitted.emit(this.nickname);
+  /**
+   * This will save nickname in localStorage, and emit nicknameSubmitted, which will trigger soloComponent to switch to the next tag, which is <rooms>
+   */
+  submitNickname(nickname){
+    localStorage.setItem('nickname', nickname);
+    this.requestNameService.nicknameChanged.emit();
+    this.nickname = null;
+    this.display = 'none';
   }
+
+  continueAsGuest(){
+    localStorage.setItem('nickname', 'Guest');
+    this.requestNameService.nicknameChanged.emit();
+    this.nickname = null;
+    this.display = 'none';
+  }
+
+  // keepcurrentNickname(keep){
+  //   if(!keep){
+  //     localStorage.removeItem('nickname');
+  //     this.currentNickname = null;
+  //   } else {
+  //     this.display = 'none';
+  //   }
+  // }
 }

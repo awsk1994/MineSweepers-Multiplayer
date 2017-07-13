@@ -1,37 +1,49 @@
-To Improve:
+To Improve (high):
+  - socket: keep alive?
+  - keep track of user connect/disconnect on server.. is it doing it correctly?
+
+
+To Improve (mid):
    - highscore:
      - filter by name
      - should fetch top 10, and then click to load more.
      - UI enhancement:
        - create filter by username.. and add search icon
+   - room:
+     - create room should be using form.
+  - room, rooms, request name....
+     - should perhaps make this a route? (eg. /mutliplayer/:difficulty, :roomId)
+  - soloCompoennt's display room, rooms.etc.
+     - should perhaps make it a number 0,1,2, each representing the different room, rooms.etc.
+
 Bugs:
- - when you change link, the socket disconnects, but doesn't re-connect.
+ - when localStorage's nickname is removed, the requestname will pop up and block the game. Should pause the game and continue game after submitted nickname.
 
  Todo:
-  - socket not working whenever I don't use debugger mode.
-  - rooms:
-     - create room
-  - db: need to have delete somewhere...
-     - create a room UI (select bar dropdown for difficulty)
-     - Create a room form and submit stuff
-
   - chat:
+     - Try to implement chat per rooms
+     - Understand when a user connects/disconnects
+     - Understand socket room functionality for socket.io.
+     - Entering nickname should save it in localstorage (can set expire day?)
+     - need to store chat record in db. When refresh, should fetch last n chat record. Normally, just keep socket open and append to list. If possible, better to refresh with db every n minutes.
      - understand observables.
-     - add: add nickname thing (<request-name></request-name>... check soloService for existing. If none, then ask. (apply this to when multiplayer is firstlyclicked).
+  - enter room:
+     - require planning...
+     - change room list to a different hyperlink: BASE_URL/multi/rooms
+     - change each room to a hyperlink: BASE_URL/multi/rooms/:roomId
+     - req name modal will happen on a higher zIndex
+     - room model in db needs 'users' and 'state'
+     - how to increase/decrease occupancy.
   - chat UI 
-     - heading tab: switch between global and game left
+     - (todo later) heading tab: switch between global and game left
      - hover over the header to see list of users
-     - layover for adding username and server not found
+     - (todo later) layover for adding username and server not found
      - date listing for the chat
      - hit enter to submit... 
      I prefer (keydown.enter)="mySubmit()" because there won't be added a line break if the cursor was somewhere within a <textarea> but not at its end.
 
-  - send highscore not working...
-  - database setup for submit score.
-  - submit score http request.
   - Use jQuery to detect changes in things.
      - footer should be semi-transparent when screen doesn't fit everything. When screen fits all, then should expanded footer (with About Me and Contact)
-  - multiplayer
   - type up how to play (w/ screenshot)
 
 
@@ -47,7 +59,9 @@ Next Project?:
 
 Considerations:
  - have different size tiles depending on difficulty (board size).
-- maybe make the website just whole page and then scale everything based on view height and width... no scroll...
+ - maybe make the website just whole page and then scale everything based on view height and width... no scroll...
+ - changing DB? mongodb is not a relational database...! mySQL or presGre? or firebase? Only store chat with mongodb?
+- room list lists all the rooms regardless of difficulty, and then you can filter it if you want? or maybe display all with subheading?
 
 UI enhancement:
 2. Color consistency. Choose 4-5 colors, and apply them consistently. Now, there are like white and green-ish white.etc...

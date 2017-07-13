@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RequestNameService } from '../request-name/request-name.service';
 
 @Component({
   selector: 'header',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  nickname:string;
 
+  constructor(private requestNameService:RequestNameService) {
+       this.nickname = localStorage.getItem('nickname');
+  }
+  
   ngOnInit() {
+    this.requestNameService.nicknameChanged.subscribe(
+      ()=>{
+       this.nickname = localStorage.getItem('nickname');
+      }
+    );
+  }
+
+  removeNickname(){
+    localStorage.removeItem('nickname');
+    this.nickname = null;
+    this.requestNameService.triggerRequestName.emit();
   }
 
 }

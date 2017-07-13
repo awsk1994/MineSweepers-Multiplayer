@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Score = require('../models/score');
+var Room = require ('../models/room');
 
 router.get('/', function (req, res) {
     console.log("get /");
@@ -62,6 +63,41 @@ router.post('/highscore', function(req, res, next){
             detail: result
         });
     });
+});
+
+router.post('/createRoom', function(req, res, next){
+    var room = new Room({
+        difficulty: req.body.difficulty,
+        room_name: req.body.room_name,
+        created_by: req.body.created_by
+    });
+    room.save(function(err, result){
+        if(err){
+            return res.status(500).json({
+                error: 'An error has occured.',
+                detail: err
+            });
+        }
+        res.status(201).json({
+            message: 'Room created and saved successfully!',
+            detail: result
+        });
+    })
+});
+
+router.post('/deleteRooms', function(req, res, next){
+    Room.remove(function(err, result){
+      if(err){
+        return res.status(500).json({
+            error: 'An error has occured.',
+            detail: err
+        });
+      }
+      res.status(201).json({
+          message: 'All Rooms are deleted successfully!',
+          detail: result
+      });
+    })
 });
 
 module.exports = router;

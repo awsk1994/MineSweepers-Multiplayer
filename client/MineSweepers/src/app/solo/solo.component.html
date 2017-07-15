@@ -1,11 +1,14 @@
-<div class="forceCenter viewPercent">
+<!--<div class="forceCenter viewPercent">
     <rooms *ngIf="displayRooms" (changeViewToRoom)="changeViewToRoom($event)"></rooms>
     <room *ngIf="displayRoom" (changeViewToRoomList)="changeViewToRoomList()"></room>
-</div>
+</div>-->
 <div class="forceCenter card card-block viewPercent endWithExtra">
+  <div *ngIf="!isSolo" style="color: white">
+    Room Id: {{roomId}}
+  </div>
   <div class="grid">
     <difficulty class="item-left" [isSolo]="isSolo"></difficulty>
-    <chat class="item-right"></chat>
+    <chat class="item-right" [roomId]='roomId'></chat>
     <timer class="item-timer"></timer>
     <gameboard class="item-gameboard"></gameboard>
     <flagbomb class="item-flagbomb"></flagbomb>

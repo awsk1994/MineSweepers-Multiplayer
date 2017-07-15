@@ -8,16 +8,16 @@ import { RequestNameService } from '../request-name/request-name.service';
 })
 export class HeaderComponent implements OnInit {
 
-  nickname:string;
+  public nickname:string;
 
   constructor(private requestNameService:RequestNameService) {
-       this.nickname = localStorage.getItem('nickname');
+       this.nickname = this.requestNameService.getNickname();
   }
   
   ngOnInit() {
     this.requestNameService.nicknameChanged.subscribe(
       ()=>{
-       this.nickname = localStorage.getItem('nickname');
+       this.nickname = this.requestNameService.getNickname();
       }
     );
   }

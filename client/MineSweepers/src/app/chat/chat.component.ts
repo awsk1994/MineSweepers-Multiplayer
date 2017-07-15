@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { LengthLimit } from '../sharedPipes';
 import { SocketService } from '../socket.service';
 import { RequestNameService } from '../request-name/request-name.service';
@@ -15,37 +15,48 @@ import * as io from 'socket.io-client';
 })
 export class ChatComponent implements OnInit {
 
-  logs = [];
+  logs = {'global': [], 'room': []};
+  selectedLog = 'global';
+
   message:string;
   username:string;
-  roomName:string;
+  @Input() roomId;
+
   roomMessage:string;
 
   constructor(private socketService:SocketService,
   private requestNameService:RequestNameService) {
-    this.username = this.getNickname();
+    this.username = this.requestNameService.getNickname();
   }
 
   ngOnInit() {
-    this.socketService.getLogs().subscribe(
+    this.socketService.getGlobalLogs().subscribe(
       (log) => {
-        this.logs.push(log);
+        this.logs.global.push(log);
       }
     );
+
+    this.socketService.getRoomLogs().subscribe(
+      (log) => {
+        this.logs.room.push(log);
+      }
+    );
+
     this.requestNameService.nicknameChanged.subscribe(
       ()=>{
-        this.username = this.getNickname();
+        this.username = this.requestNameService.getNickname();
       }
-    )
+    );
   }
 
-  getNickname(){
-    let nickname = localStorage.getItem('nickname');
-    if(!nickname){
-      nickname = "Unknown";
+  sendMessage(roomId, message){
+    if(this.selectedLog == 'global'){
+      this.sendGlobalMessage(message);
+    } else {
+      this.sendRoomMessage(roomId, message);
     }
-    return nickname;
-  }
+    this.message = '';
+  };
 
   /**
    * Send 'GLOBAL' chat
@@ -54,21 +65,16 @@ export class ChatComponent implements OnInit {
   sendGlobalMessage(message){
     console.log('send global message: ' + message);
     // http send message
-    this.username = this.getNickname();
     this.socketService.sendGlobalMessage(this.username, message);
-    this.message = '';
   }
 
   /**
    * Send to a specific room's chat.
    * @param message The content to send to server.
    */
-  sendRoomMessage(roomName, roomMessage){
-    console.log('send room message: ' + roomMessage + ', to room: ' + roomName);
+  sendRoomMessage(roomId, roomMessage){
+    console.log('send room message: ' + roomMessage + ', to room: ' + roomId);
     // http send message
-    this.username = this.getNickname();
-    this.socketService.sendRoomMessage(this.username, roomName, roomMessage);
-    this.roomName = '';
-    this.roomMessage = '';
+    this.socketService.sendRoomMessage(this.username, roomId, roomMessage);
   }
 }

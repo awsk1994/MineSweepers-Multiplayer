@@ -40,7 +40,8 @@ import { RoomComponent } from './room/room.component';
 const appRoutes: Routes = [
   { path: '', redirectTo: '/solo', pathMatch: 'full' },
   { path: 'solo', component: SoloComponent, data: { isSolo: true } },
-  { path: 'multiplayer', component: SoloComponent, data: { isSolo: false } },
+  { path: 'multiplayer', component: RoomsComponent },
+  { path: 'multiplayer/:roomId', component: SoloComponent, data: { isSolo: false } },
   { path: 'highscore', component: HighscoreComponent },
   { path: 'howToPlay', component: HowToPlayComponent },
   { path: '**', component: PageNotFoundComponent }

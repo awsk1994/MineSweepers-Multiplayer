@@ -20,12 +20,24 @@ export class SocketService {
 
   sendRoomMessage(username, roomName, message){
     console.log(username + ", " + roomName + "," + message);
-    this.socket.emit('roomChat', {'nickname': username, 'roomName': roomName, 'message': message})
+    this.socket.emit('roomChat', username, roomName, message);
   }
 
-  getLogs() {
+  getGlobalLogs() {
     let observable = new Observable(observer => {
       this.socket.on('globalChat', (log) => {
+        observer.next(log);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    })
+    return observable;
+  }
+
+  getRoomLogs() {
+    let observable = new Observable(observer => {
+      this.socket.on('roomChat', (log) => {
         observer.next(log);
       });
       return () => {
@@ -44,6 +56,11 @@ export class SocketService {
   // will trigger roomsUpdate message, and update rooms.
   getRooms() {
     this.socket.emit('getRooms');
+  }
+
+  joinRoom(nickname, roomId){
+    console.log("join room");
+    this.socket.emit('joinRoom', nickname, roomId);
   }
 
   roomsUpdate() {

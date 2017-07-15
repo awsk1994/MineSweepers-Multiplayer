@@ -35,14 +35,14 @@ export class RequestNameComponent implements OnInit {
    */
   submitNickname(nickname){
     localStorage.setItem('nickname', nickname);
-    this.requestNameService.nicknameChanged.emit();
+    this.requestNameService.nicknameChanged.emit(nickname);
     this.nickname = null;
     this.display = 'none';
   }
 
   continueAsGuest(){
     localStorage.setItem('nickname', 'Guest');
-    this.requestNameService.nicknameChanged.emit();
+    this.requestNameService.nicknameChanged.emit('Guest');
     this.nickname = null;
     this.display = 'none';
   }

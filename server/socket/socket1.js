@@ -23,7 +23,7 @@ exports = module.exports = function (io) {
     
     // Global Chat
     socket.on('globalChat', function (username, message) {
-      //console.log("globalChat message Received: username: " + username + ", msg: " + message);
+      console.log("globalChat message Received: username: " + username + ", msg: " + message);
       io.emit('globalChat', {
         'username': username,
         'message': message
@@ -85,13 +85,13 @@ exports = module.exports = function (io) {
     // Join Room. data: {'roomName': BLAH, 'nickname': nickname}
     socket.on('joinRoom', function (nickname, roomname) {
       console.log(nickname + " has joined " + roomname);
-      socket.join(room);
+      socket.join(roomname);
     });
     
     // Send chat to specific room: {'roomName': BLAH, 'nickname': nickname , 'message': CONTENT }
-    socket.on('roomChat', function(data){
-      console.log(data.nickname + " wants to speak to " + data.roomName + ": " + data.message);
-      io.to(data.roomName).emit('roomChat', data.message);
+    socket.on('roomChat', function(username, roomName, message){
+      console.log(username + " wants to speak to " + roomName + ": " + message);
+      io.to(roomName).emit('roomChat', {'username':username, 'roomName': roomName, 'message': message});
     });
     
     // leave chat: {'roomName': BLAH, 'nickname': nickname}

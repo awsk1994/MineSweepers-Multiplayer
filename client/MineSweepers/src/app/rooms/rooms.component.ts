@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SoloService } from '../solo/solo.service';
 import { SocketService } from '../socket.service';
 import { HttpService } from '../http.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'rooms',
@@ -27,7 +28,8 @@ export class RoomsComponent implements OnInit {
 
   constructor(private socketService: SocketService,
               private soloService: SoloService,
-              private httpService: HttpService) {
+              private httpService: HttpService,
+              private router: Router ) {
     this.resetRooms();
   }
 
@@ -69,7 +71,8 @@ export class RoomsComponent implements OnInit {
   }
 
   joinRoom(room) {
-    this.changeViewToRoom.emit(room);
+    //this.changeViewToRoom.emit(room);
+    this.router.navigate(['multiplayer', room._id]);
   }
 
   deleteAllRooms() {

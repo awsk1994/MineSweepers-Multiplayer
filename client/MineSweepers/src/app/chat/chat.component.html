@@ -9,7 +9,13 @@
     Chat ({{ username | lengthLimit:9 }})
   </div>
   <div class="chatLog bgLighterDarkGray">
-    <div class="log" *ngFor='let log of logs'>
+    <button (click)="selectedLog = 'global'">Global Chat!</button>
+    <button (click)="selectedLog = 'room'">Room Chat!</button>
+    <h4 style="color: white">Selected Log: {{selectedLog}}</h4>
+    <p style="color: white" *ngIf="selectedLog=='room' && roomId != null">roomId: {{roomId}}</p>
+    <button *ngIf="selectedLog=='room' && roomId!=null" (click)="QuitRoom">Quit Room</button>
+    
+    <div class="log" *ngFor="let log of logs[selectedLog]">
       <div class="logProfilePic bgLightGray">
          {{log.username | takeFirstCharacter}}
       </div>
@@ -22,12 +28,6 @@
   <div class="chatText bgLighterDarkGray">
     <textarea class="bgLighterDarkGray" [(ngModel)]='message'>
     </textarea>
-    <button class="btn btn-primary" [disabled]="message == null || message == ''" (click)='sendGlobalMessage(message)'>SEND</button>
-  </div>
-  <div class="chatText bgLighterDarkGray">
-    RoomName:
-    <textarea class="bgLighterDarkGray" [(ngModel)]='roomName'></textarea>
-    <textarea class="bgLighterDarkGray" [(ngModel)]='roomMessage'></textarea>
-    <button class="btn btn-primary" [disabled]="roomMessage == null || roomMessage == ''" (click)='sendRoomMessage(roomName, roomMessage)'>SEND</button>
+    <button class="btn btn-primary" [disabled]="message == null || message == ''" (click)='sendMessage(roomId, message)'>SEND</button>
   </div>
 </div>

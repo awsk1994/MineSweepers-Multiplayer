@@ -22,14 +22,10 @@ Bugs:
  - when localStorage's nickname is removed, the requestname will pop up and block the game. Should pause the game and continue game after submitted nickname.
 
 Todo:
-  - chat:
-     - Try to implement chat per rooms
-     - Understand when a user connects/disconnects
-     - Understand socket room functionality for socket.io.
-     - Entering nickname should save it in localstorage (can set expire day?)
-     - need to store chat record in db. When refresh, should fetch last n chat record. Normally, just keep socket open and append to list. If possible, better to refresh with db every n minutes.
-     - understand observables.
-     - temp: can send message to rooms...
+   - room chat works... but should the joinroom be called in constructor or onInit of SoloComponent? Better if onInit.
+   - switchMap :: look into it. Should we use it?
+   - how to leave room? : should detect hyperlink changes and leave room
+
   - enter room:
      - require planning...
      - change room list to a different hyperlink: BASE_URL/multi/rooms
@@ -37,6 +33,15 @@ Todo:
      - req name modal will happen on a higher zIndex
      - room model in db needs 'users' and 'state'
      - how to increase/decrease occupancy.
+
+  - chat:
+     - Try to implement chat per rooms
+     - (DONE) Understand when a user connects/disconnects
+     - (DONE) Understand socket room functionality for socket.io.
+     - (LATER) Entering nickname should save it in localstorage (can set expire day?)
+     - (LATER) need to store chat record in db. When refresh, should fetch last n chat record. Normally, just keep socket open and append to list. If possible, better to refresh with db every n minutes.
+     - understand observables.
+     - temp: can send message to rooms...
   - chat UI 
      - (todo later) heading tab: switch between global and game left
      - hover over the header to see list of users
@@ -89,3 +94,5 @@ http://www.syntaxsuccess.com/viewarticle/socket.io-with-rxjs-in-angular-2.0
 3rd party libraries:
  - https://mattlewis92.github.io/angular-gauge/#
  - https://compodoc.github.io/website/
+
+

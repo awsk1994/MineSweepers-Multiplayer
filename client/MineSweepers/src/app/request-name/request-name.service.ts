@@ -10,4 +10,13 @@ export class RequestNameService {
   handleRequestName() {
       this.triggerRequestName.emit();
   }
+  
+  getNickname(){
+    let nickname = localStorage.getItem('nickname');
+    if(!nickname){
+      this.handleRequestName();
+      nickname = "Unknown";
+    }
+    return nickname;
+  }
 }

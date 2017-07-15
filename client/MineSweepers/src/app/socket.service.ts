@@ -63,6 +63,10 @@ export class SocketService {
     this.socket.emit('joinRoom', nickname, roomId);
   }
 
+  leaveRoom(nickname, roomId){
+    this.socket.emit('leaveRoom', nickname, roomId);
+  }
+
   roomsUpdate() {
     let observable = new Observable(observer => {
       this.socket.on('roomsUpdate', (rooms) => {

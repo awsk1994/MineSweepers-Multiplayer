@@ -95,9 +95,10 @@ exports = module.exports = function (io) {
     });
     
     // leave chat: {'roomName': BLAH, 'nickname': nickname}
-    socket.on('leaveChat', function(nickname, roomName){
-      console.log(nickname + " is leaving " + roomName);
-      socket.leave(roomName);
+    socket.on('leaveRoom', function(nickname, roomId){
+      console.log(nickname + " is leaving " + roomId);
+      io.to(roomId).emit('roomChat', nickname + " is now leaving the room.");
+      socket.leave(roomId);
     });
     
     // Update Game

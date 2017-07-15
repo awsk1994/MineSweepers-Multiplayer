@@ -24,7 +24,8 @@ Bugs:
 Todo:
    - room chat works... but should the joinroom be called in constructor or onInit of SoloComponent? Better if onInit.
    - switchMap :: look into it. Should we use it?
-   - how to leave room? : should detect hyperlink changes and leave room
+   - how to leave room? : should detect hyperlink changes and leave room.
+   - should add how many unack chat messages badge next to "global chat and room chat button"
 
   - enter room:
      - require planning...

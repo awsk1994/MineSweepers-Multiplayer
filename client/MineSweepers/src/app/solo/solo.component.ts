@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { GameService } from '../game.service'
 import { SoloService } from './solo.service';
 import { RequestNameService } from '../request-name/request-name.service';
@@ -45,6 +45,14 @@ export class SoloComponent implements OnInit {
       (nickname) => this.nickname = nickname
     );
   }
+
+  ngOnDestroy() {
+    if(!this.isSolo){
+      console.log("Todo: should Leave Room.");
+      this.socketService.leaveRoom(this.nickname, this.roomId);
+    }
+  };
+
 
   prepareGame(difficulty) { this.gameService.prepareGame(difficulty); };
   startGame() { this.gameService.startGame(); };

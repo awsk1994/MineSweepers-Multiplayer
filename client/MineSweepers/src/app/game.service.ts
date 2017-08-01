@@ -17,7 +17,7 @@ export enum GameState {
   INIT,
   RUNNING,
   PAUSE,
-  GAMEOVER
+  GAMEOVER 
 }
 
 @Injectable()

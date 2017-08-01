@@ -14,14 +14,6 @@ export class SocketService {
     this.socket = io(this.url);
   }
 
-  sendGlobalMessage(username, message) {
-    this.socket.emit('globalChat', username, message);
-  }
-
-  sendRoomMessage(username, roomName, message){
-    console.log(username + ", " + roomName + "," + message);
-    this.socket.emit('roomChat', username, roomName, message);
-  }
 
   getGlobalLogs() {
     let observable = new Observable(observer => {
@@ -46,7 +38,38 @@ export class SocketService {
     })
     return observable;
   }
+  roomsUpdate() {
+    let observable = new Observable(observer => {
+      this.socket.on('roomsUpdate', (rooms) => {
+        observer.next(rooms);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    })
+    return observable;
+  }
 
+  playersUpdate(){
+    let observable = new Observable(observer => {
+      this.socket.on('playersUpdate', (players) => {
+        observer.next(players);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    })
+    return observable;
+  }
+
+  sendGlobalMessage(username, message) {
+    this.socket.emit('globalChat', username, message);
+  }
+
+  sendRoomMessage(username, roomName, message){
+    console.log(username + ", " + roomName + "," + message);
+    this.socket.emit('roomChat', username, roomName, message);
+  }
 
 /* MULTIPLAYER */
   createRoom(data) {
@@ -65,18 +88,6 @@ export class SocketService {
 
   leaveRoom(nickname, roomId){
     this.socket.emit('leaveRoom', nickname, roomId);
-  }
-
-  roomsUpdate() {
-    let observable = new Observable(observer => {
-      this.socket.on('roomsUpdate', (rooms) => {
-        observer.next(rooms);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    })
-    return observable;
   }
 
   gameStart() {

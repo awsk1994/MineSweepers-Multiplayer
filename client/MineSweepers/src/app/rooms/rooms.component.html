@@ -43,7 +43,7 @@
       </tr>
       <tr *ngFor="let room of rooms[difficulty]; let ranking=index" (dblclick)="joinRoom(room)">
         <td>{{room.room_name}}</td>
-        <td>{{room.people_in_it}}</td>
+        <td>{{room.capacity}}</td>
         <td>{{room.created_by}}</td>
         <td>{{room.created_at | date: 'medium'}}</td>
       </tr>

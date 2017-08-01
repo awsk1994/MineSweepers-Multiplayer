@@ -54,7 +54,7 @@
   float: left;
 }
 
-button{
+.sendButton{
   clear: right;
   width: 25%;
   padding: 3px;
@@ -66,11 +66,20 @@ button{
   border: 1px solid #ffa400;
 }
 
-button:hover{
+.sendButton:hover{
   background-color: #cc8400;
 }
 
-button:disabled{
+.sendButton:disabled{
   background-color: #996300;
   border: 1px solid #996300;
+}
+
+.chatSelect{
+  background-color: #aaaaaa;
+}
+
+.isSelectedLog{
+  font-weight: bold;
+  background-color: #fafafa;
 }

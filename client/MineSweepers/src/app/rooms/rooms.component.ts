@@ -3,6 +3,7 @@ import { SoloService } from '../solo/solo.service';
 import { SocketService } from '../socket.service';
 import { HttpService } from '../http.service';
 import { Router } from "@angular/router";
+import { RequestNameService } from '../request-name/request-name.service';
 
 @Component({
   selector: 'rooms',
@@ -29,7 +30,8 @@ export class RoomsComponent implements OnInit {
   constructor(private socketService: SocketService,
               private soloService: SoloService,
               private httpService: HttpService,
-              private router: Router ) {
+              private router: Router,
+              private requestNameService: RequestNameService) {
     this.resetRooms();
   }
 
@@ -44,14 +46,9 @@ export class RoomsComponent implements OnInit {
   }
 
   createRoom(difficulty: number, roomName: string) {
-    var nickname = localStorage.getItem('nickname');
-    if(nickname == null){
-      alert("Nickname not found. Will use 'Unknown User' as nickname for now.");
-      nickname = 'Unknown User';
-    }
     this.httpService.post('/createRoom', {
       'difficulty': difficulty,
-      'created_by': nickname,
+      'created_by': this.requestNameService.getNickname(),
       'room_name': roomName
     }).subscribe(
       (data) => {
@@ -72,6 +69,8 @@ export class RoomsComponent implements OnInit {
 
   joinRoom(room) {
     //this.changeViewToRoom.emit(room);
+    console.log("join Room");
+    console.log(room);
     this.router.navigate(['multiplayer', room._id]);
   }
 

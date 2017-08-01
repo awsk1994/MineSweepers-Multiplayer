@@ -1,7 +1,6 @@
-<!--<div class="forceCenter viewPercent">
-    <rooms *ngIf="displayRooms" (changeViewToRoom)="changeViewToRoom($event)"></rooms>
-    <room *ngIf="displayRoom" (changeViewToRoomList)="changeViewToRoomList()"></room>
-</div>-->
+<div *ngIf="!isSolo" class="forceCenter viewPercent">
+    <room *ngIf="true"></room>
+</div>
 <div class="forceCenter card card-block viewPercent endWithExtra">
   <div *ngIf="!isSolo" style="color: white">
     Room Id: {{roomId}}

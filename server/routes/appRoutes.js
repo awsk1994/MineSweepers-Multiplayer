@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Score = require('../models/score');
 var Room = require ('../models/room');
+var Player = require('../models/player');
 
 router.get('/', function (req, res) {
     console.log("get /");
@@ -98,6 +99,56 @@ router.post('/deleteRooms', function(req, res, next){
           detail: result
       });
     })
+});
+
+router.post('/joinRoom', function(req, res, next){
+  console.log(req.body.nickname + " has joined " + req.body.roomId);
+  
+  var nickname = req.body.nickname;
+  var roomId = req.body.roomId;
+
+  var player = new Player({
+    username: nickname
+  });
+  player.save(function (err, player) {
+    if (err) {
+      return res.status(500).json({
+          error: 'An error has occured while saving the player.',
+          detail: err
+      });
+    }
+    Room.findById(roomId, function(err, room){
+      if(room == null || err){
+        return res.status(500).json({
+          error: 'An error has occured while getting room by id.',
+          detail: err
+        })
+      };
+      room.players.push(player);
+      room.save(function(err, updatedRoom){
+        if(err){
+          return res.status(500).json({
+            error: 'An error has occured while updating the room.',
+            detail: err
+          });
+        };
+        console.log(updatedRoom);
+        
+        var result_hash = [];
+        updatedRoom.players.forEach(function(newPlayer){
+          var player_hash = {'nickname': newPlayer.username,
+                             'isReady': newPlayer.isReady};
+          console.log(newPlayer);
+          result_hash.push(player_hash);
+        });
+        
+        return res.status(201).json({
+          message: 'Joined room successfully!',
+          detail: result_hash
+        });
+      });
+    });
+  });
 });
 
 module.exports = router;

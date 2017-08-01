@@ -4,6 +4,10 @@ To Improve (high):
 
 
 To Improve (mid):
+- join room not done yet.
+   - general:
+     - alot of the socket message should be a HTTP request
+
    - highscore:
      - filter by name
      - should fetch top 10, and then click to load more.
@@ -17,32 +21,24 @@ To Improve (mid):
      - should perhaps make it a number 0,1,2, each representing the different room, rooms.etc.
   - header
      - UI: displaying username.
+  - chat:
+     - should add how many unack chat messages badge next to "global chat and room chat button"...
+    - room chat works... but should the joinroom be called in constructor or onInit of SoloComponent? Better if onInit.
+    - switchMap :: look into it. Should we use it
+    - understand observables.
+ - requestName:
+      - (LATER) Entering nickname should save it in localstorage (can set expire day?)
+     - (LATER) need to store chat record in db. When refresh, should fetch last n chat record. Normally, just keep socket open and append to list. If possible, better to refresh with db every n minutes.
+
+
 
 Bugs:
  - when localStorage's nickname is removed, the requestname will pop up and block the game. Should pause the game and continue game after submitted nickname.
 
-Todo:
-   - room chat works... but should the joinroom be called in constructor or onInit of SoloComponent? Better if onInit.
-   - switchMap :: look into it. Should we use it?
-   - how to leave room? : should detect hyperlink changes and leave room.
-   - should add how many unack chat messages badge next to "global chat and room chat button"
-
+Todo
   - enter room:
-     - require planning...
-     - change room list to a different hyperlink: BASE_URL/multi/rooms
-     - change each room to a hyperlink: BASE_URL/multi/rooms/:roomId
-     - req name modal will happen on a higher zIndex
-     - room model in db needs 'users' and 'state'
+     - room model in db needs 'users' and 'state'                          
      - how to increase/decrease occupancy.
-
-  - chat:
-     - Try to implement chat per rooms
-     - (DONE) Understand when a user connects/disconnects
-     - (DONE) Understand socket room functionality for socket.io.
-     - (LATER) Entering nickname should save it in localstorage (can set expire day?)
-     - (LATER) need to store chat record in db. When refresh, should fetch last n chat record. Normally, just keep socket open and append to list. If possible, better to refresh with db every n minutes.
-     - understand observables.
-     - temp: can send message to rooms...
   - chat UI 
      - (todo later) heading tab: switch between global and game left
      - hover over the header to see list of users
@@ -55,7 +51,6 @@ Todo:
      - footer should be semi-transparent when screen doesn't fit everything. When screen fits all, then should expanded footer (with About Me and Contact)
   - type up how to play (w/ screenshot)
 
-
 Todo (future):
 1. turn to phone app
 2. make website okay when browser size shrink
@@ -64,7 +59,6 @@ Todo (future):
 Next Project?:
 1. Google+, Facebook.etc login
 2. Pass tokens... so can remember 
-
 
 Considerations:
  - have different size tiles depending on difficulty (board size).

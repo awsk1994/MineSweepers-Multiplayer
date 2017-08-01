@@ -1,11 +1,12 @@
 <div class="roomsContainer viewPercent">
-  <span class="boldWhiteText">Room:</span>
-
-  <div class="boldWhiteText">
-      roomId: {{roomId}}
-      \n
-      room: {{room | json}}
+  <div class="boldWhiteText">Waiting Room</div>
+  <hr style="width: 200px">
+  <div class="boldWhiteText">Players Joined:</div>
+  <div class="whiteText" *ngFor="let player of players">
+    {{ player.username }} : {{ player.isReady }}
   </div>
+  <button class="btn btn-primary" *ngIf="ready" (click)="toggleReady()">Unready...</button>
+  <button class="btn btn-primary" *ngIf="!ready" (click)="toggleReady()">Ready?</button>
 
-  <button class="btn btn-primary" (click)="returnToRoomsList()">Back to Room List</button>
+  <button class="btn btn-primary" (click)="returnToRooms()">Back to Rooms</button>
 </div>

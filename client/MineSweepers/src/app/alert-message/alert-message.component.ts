@@ -3,6 +3,7 @@ import { AlertMessageService } from './alert-message.service';
 import { GameService } from '../game.service';
 import { MinToMsPipe } from '../sharedPipes';
 import { SocketService } from '../socket.service';
+import { RequestNameService } from '../request-name/request-name.service';
 
 /**
  *  AlertMessage Component displays a popover when one gives it a title and message. However, it has been adopted to be used to display a popover modal for Game Over.
@@ -22,7 +23,8 @@ export class AlertMessageComponent {
 
   constructor(private alertMessageService: AlertMessageService,
     private gameService: GameService,
-    private socketService: SocketService) {
+    private socketService: SocketService,
+    private requestNameService: RequestNameService) {
     this.alertMessageService.triggerAlertMessage.subscribe(
       (data) => {
         if (data.status == 0) {
@@ -68,7 +70,8 @@ export class AlertMessageComponent {
    * @param {string} name username/nickname
    * @param {number} time in milliseconds. (eg. 1 second = 1000 milliseconds)
    */
-  submitHighscore(name: string, time: number) {
+  submitHighscore(time: number) {
+    var name = this.requestNameService.getNickname();
     let timeInMs = new MinToMsPipe().transform(time);
     this.gameService.sendHighscore(name, timeInMs).subscribe(
       (data) => {

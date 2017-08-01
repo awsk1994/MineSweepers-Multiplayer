@@ -84,7 +84,7 @@ exports = module.exports = function (io) {
     
     // Join Room. data: {'roomName': BLAH, 'nickname': nickname}
     socket.on('joinRoom', function (nickname, roomname) {
-      console.log(nickname + " has joined " + roomname);
+      console.log(nickname + " has joined socket chat for " + roomname);      
       socket.join(roomname);
     });
     
@@ -97,8 +97,33 @@ exports = module.exports = function (io) {
     // leave chat: {'roomName': BLAH, 'nickname': nickname}
     socket.on('leaveRoom', function(nickname, roomId){
       console.log(nickname + " is leaving " + roomId);
+      
+      Room.findOne({'_id': roomId}, function(err, room){
+        if(err){
+          
+        }
+        room.players.forEach(function(player, index, players){
+          if(player.name == nickname){
+            players.splice(index, 1);
+          }
+        });
+        room.save(function(err, updatedRoom){
+          if(err){
+            
+          }
+          var result_hash = [];
+          updatedRoom.players.forEach(function(player){
+            var player_hash = {'nickname': player.username,
+                               'isReady': player.isReady};
+            result_hash.push(player_hash);
+          });
+          
+      io.to(roomId).emit('playerUpdate', result_hash);
       io.to(roomId).emit('roomChat', nickname + " is now leaving the room.");
       socket.leave(roomId);
+          
+        });
+      });
     });
     
     // Update Game

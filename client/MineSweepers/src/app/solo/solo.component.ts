@@ -7,6 +7,7 @@ import { ModalService } from '../modal/modal.service';
 import { ModalContent } from '../modal/modalContent.model';
 import { SocketService } from '../socket.service';
 import { HeaderComponent } from '../header/header.component';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'solo',
@@ -25,19 +26,14 @@ export class SoloComponent implements OnInit {
               private gameService: GameService,
               private soloService: SoloService,
               private requestNameService: RequestNameService,
-              private socketService: SocketService) {
+              private socketService: SocketService,
+              private httpService: HttpService) {
 
     this.isSolo = route.snapshot.data['isSolo'];
 
     this.nickname = this.requestNameService.getNickname();
 
-    // Get Room Id
-    route.params.subscribe(params => {
-      this.roomId = params['roomId'];
-      if (!this.isSolo) {
-        this.socketService.joinRoom(this.nickname, this.roomId);
-      }
-    });
+
   }
 
   ngOnInit() {

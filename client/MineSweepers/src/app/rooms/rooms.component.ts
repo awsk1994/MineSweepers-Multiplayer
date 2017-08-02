@@ -68,9 +68,7 @@ export class RoomsComponent implements OnInit {
   }
 
   joinRoom(room) {
-    //this.changeViewToRoom.emit(room);
-    console.log("join Room");
-    console.log(room);
+    //this.socketService.joinRoom(this.requestNameService.getNickname(), room._id);
     this.router.navigate(['multiplayer', room._id]);
   }
 

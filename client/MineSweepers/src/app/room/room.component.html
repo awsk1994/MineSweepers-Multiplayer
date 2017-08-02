@@ -2,9 +2,15 @@
   <div class="boldWhiteText">Waiting Room</div>
   <hr style="width: 200px">
   <div class="boldWhiteText">Players Joined:</div>
-  <div class="whiteText" *ngFor="let player of players">
-    {{ player.username }} : {{ player.isReady }}
-  </div>
+  <!--{{players | json}}-->
+  <!--<div class="whiteText" *ngFor="(key, player) of players">
+    a
+
+  </div>-->
+
+  <p class="whiteText" *ngFor="let player of players">
+    {{player.username}}, {{player.isReady}}
+  </p>
   <button class="btn btn-primary" *ngIf="ready" (click)="toggleReady()">Unready...</button>
   <button class="btn btn-primary" *ngIf="!ready" (click)="toggleReady()">Ready?</button>
 

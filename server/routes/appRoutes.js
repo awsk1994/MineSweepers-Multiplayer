@@ -107,44 +107,52 @@ router.post('/joinRoom', function(req, res, next){
   var nickname = req.body.nickname;
   var roomId = req.body.roomId;
 
-  var player = new Player({
+  //Create player
+  var newPlayer = new Player({
     username: nickname
   });
-  player.save(function (err, player) {
+  
+  //Save player
+  newPlayer.save(function (err, createdPlayer) {
     if (err) {
-      return res.status(500).json({
+      return res.status(422).json({
           error: 'An error has occured while saving the player.',
           detail: err
       });
     }
+    
+    // Find room by id.
     Room.findById(roomId, function(err, room){
       if(room == null || err){
-        return res.status(500).json({
+        return res.status(422).json({
           error: 'An error has occured while getting room by id.',
           detail: err
         })
       };
-      room.players.push(player);
+      
+      // Add player to players list if not already there.
+      var playerIsUnique = true;
+      for(var i=0;i<room.players.length;i++){        
+        if(room.players[i].username == createdPlayer.username){
+          playerIsUnique = false;
+        }
+      }
+      if(playerIsUnique){
+        room.players.push(createdPlayer.toJSON());
+      }
+      
+      // Save Room
       room.save(function(err, updatedRoom){
         if(err){
-          return res.status(500).json({
+          return res.status(422).json({
             error: 'An error has occured while updating the room.',
             detail: err
           });
         };
-        console.log(updatedRoom);
-        
-        var result_hash = [];
-        updatedRoom.players.forEach(function(newPlayer){
-          var player_hash = {'nickname': newPlayer.username,
-                             'isReady': newPlayer.isReady};
-          console.log(newPlayer);
-          result_hash.push(player_hash);
-        });
         
         return res.status(201).json({
           message: 'Joined room successfully!',
-          detail: result_hash
+          detail: updatedRoom
         });
       });
     });

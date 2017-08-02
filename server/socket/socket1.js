@@ -4,6 +4,8 @@ io.emit('message', 'check this');   // send to all listeners
 socket.broadcast.to('chatroom').emit('message', 'this is the message to all');  // send to a room.
 */
 var Room = require('../models/room');
+var Player = require('../models/player');
+
 /* responses:
  - globalChat
  - roomsUpdate
@@ -83,9 +85,17 @@ exports = module.exports = function (io) {
     });
     
     // Join Room. data: {'roomName': BLAH, 'nickname': nickname}
-    socket.on('joinRoom', function (nickname, roomname) {
-      console.log(nickname + " has joined socket chat for " + roomname);      
-      socket.join(roomname);
+    socket.on('joinRoom', function (nickname, roomId) {
+      console.log(nickname + " has joined socket chat for " + roomId + ". Socket id: " + socket.id);    
+      
+      Room.findById(roomId, function(err, room){
+        if(room == null || err){
+          console.log("Room cannot be found");
+          return;
+        };
+        socket.join(roomId);
+        io.to(roomId).emit('playersUpdate', room.players);
+      });
     });
     
     // Send chat to specific room: {'roomName': BLAH, 'nickname': nickname , 'message': CONTENT }
@@ -94,34 +104,41 @@ exports = module.exports = function (io) {
       io.to(roomName).emit('roomChat', {'username':username, 'roomName': roomName, 'message': message});
     });
     
-    // leave chat: {'roomName': BLAH, 'nickname': nickname}
+    socket.on('test', function(msg){
+      console.log("test: " + msg);
+    })
+    
     socket.on('leaveRoom', function(nickname, roomId){
       console.log(nickname + " is leaving " + roomId);
       
-      Room.findOne({'_id': roomId}, function(err, room){
-        if(err){
-          
+      //Find Room
+      Room.findById(roomId, function(err, room){
+        if(room == null || err){
+          console.log("Room cannot be found");
+          return;
+        };
+
+        // Find index of player that needs to be removed.
+        var playerIdxToRemove = -1;
+        for(var i=0;i<room.players.length;i++){        
+          if(room.players[i].username == nickname){
+            playerIdxToRemove = i;
+          }
         }
-        room.players.forEach(function(player, index, players){
-          if(player.name == nickname){
-            players.splice(index, 1);
-          }
-        });
-        room.save(function(err, updatedRoom){
-          if(err){
-            
-          }
-          var result_hash = [];
-          updatedRoom.players.forEach(function(player){
-            var player_hash = {'nickname': player.username,
-                               'isReady': player.isReady};
-            result_hash.push(player_hash);
-          });
+        if(playerIdxToRemove != -1){
+          room.players.splice(playerIdxToRemove, 1);
+        }
+        
+        // Save room
+        room.save(function(err, savedRoom){
+          if(savedRoom == null || err){
+            console.log("savedRoom cannot be found");
+            return;
+          };
           
-      io.to(roomId).emit('playerUpdate', result_hash);
-      io.to(roomId).emit('roomChat', nickname + " is now leaving the room.");
-      socket.leave(roomId);
-          
+          // Leave the room (socket level) and send playersUpdate socket msg to room
+          socket.leave(roomId);
+          io.to(roomId).emit('playersUpdate', savedRoom.players);
         });
       });
     });

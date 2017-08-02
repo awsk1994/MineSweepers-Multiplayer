@@ -82,7 +82,6 @@ export class SocketService {
   }
 
   joinRoom(nickname, roomId){
-    console.log("join room");
     this.socket.emit('joinRoom', nickname, roomId);
   }
 
@@ -102,6 +101,9 @@ export class SocketService {
     return observable;
   }
 
+ test(msg){
+   this.socket.emit(msg);
+ }
   // whenever flag added or numbers revealed, update server.
   updateGame(data){
     this.socket.emit('updateGame', data);

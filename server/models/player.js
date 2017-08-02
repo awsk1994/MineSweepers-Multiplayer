@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
     username: { type: String, required: true },
+    socketId: { type: String, required: true },
     flags: { type: Number, default: -1 },
     bombs: { type: Number, default: -1 },
     winTime: { type: Date, default: -1 },

@@ -42,12 +42,12 @@ export class SoloComponent implements OnInit {
     );
   }
 
-  ngOnDestroy() {
-    if(!this.isSolo){
-      console.log("Todo: should Leave Room.");
-      this.socketService.leaveRoom(this.nickname, this.roomId);
-    }
-  };
+  // ngOnDestroy() {
+  //   if(!this.isSolo){
+  //     console.log("Todo: should Leave Room.");
+  //     this.socketService.leaveRoom(this.nickname, this.roomId);
+  //   }
+  // };
 
 
   prepareGame(difficulty) { this.gameService.prepareGame(difficulty); };

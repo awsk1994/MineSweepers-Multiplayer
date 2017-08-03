@@ -35,17 +35,22 @@ To Improve (mid):
 Bugs:
  - when localStorage's nickname is removed, the requestname will pop up and block the game. Should pause the game and continue game after submitted nickname.
  - all the error message from server are not returning and being displayed correctly.
- - when you have 2 tabs sharing the same browser (and thus same localStorage for nickname), and one of the tabs leave, then it will remove the user from teh room even though the other tab is still in the room.
-     - maybe somehow figure if socket is killed?
+ - all the error message in socket should get sent to the client-side too.
+ - When you use incognito (without previously using it) mode to directly access a room via URL, then the nickname becomes Unknown in the player list... probably nickname is not sent to server when doing this.
 
 Todo
-  - leave room:
-     - need to detect browser/tab close and update room in db accordingly (and then send out playerUpdate socket msg to the room)
-       - maybe use socket close?
-         - store socketid in player, and when socket is killed, then remove player from room based on socket id. This will fix the 3rd bug too.
-         
-  - enter room:
-     - how to increase/decrease occupancy.
+  - rooms:
+     - increase/decrease occupancy based on room.players.length
+     - room update message sent accordingly... when create, when delete.etc
+     - when create room, should automatically enter it. And when room has no players in it, then should automatically delete it.
+
+ - room:
+     - trigger ready? emit to all in the room.
+     - chat should work here.
+
+ - name: 
+    - prevent duplicate nickname...might want to create new table in db?
+
   - chat UI 
      - (todo later) heading tab: switch between global and game left
      - hover over the header to see list of users

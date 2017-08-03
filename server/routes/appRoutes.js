@@ -103,60 +103,6 @@ router.post('/deleteRooms', function(req, res, next){
 
 router.post('/joinRoom', function(req, res, next){
   console.log(req.body.nickname + " has joined " + req.body.roomId);
-  
-  var nickname = req.body.nickname;
-  var roomId = req.body.roomId;
-
-  //Create player
-  var newPlayer = new Player({
-    username: nickname
-  });
-  
-  //Save player
-  newPlayer.save(function (err, createdPlayer) {
-    if (err) {
-      return res.status(422).json({
-          error: 'An error has occured while saving the player.',
-          detail: err
-      });
-    }
-    
-    // Find room by id.
-    Room.findById(roomId, function(err, room){
-      if(room == null || err){
-        return res.status(422).json({
-          error: 'An error has occured while getting room by id.',
-          detail: err
-        })
-      };
-      
-      // Add player to players list if not already there.
-      var playerIsUnique = true;
-      for(var i=0;i<room.players.length;i++){        
-        if(room.players[i].username == createdPlayer.username){
-          playerIsUnique = false;
-        }
-      }
-      if(playerIsUnique){
-        room.players.push(createdPlayer.toJSON());
-      }
-      
-      // Save Room
-      room.save(function(err, updatedRoom){
-        if(err){
-          return res.status(422).json({
-            error: 'An error has occured while updating the room.',
-            detail: err
-          });
-        };
-        
-        return res.status(201).json({
-          message: 'Joined room successfully!',
-          detail: updatedRoom
-        });
-      });
-    });
-  });
 });
 
 module.exports = router;

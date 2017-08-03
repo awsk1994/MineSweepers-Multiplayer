@@ -35,23 +35,25 @@ export class RoomComponent implements OnInit {
       this.roomId = params['roomId'];
       console.log("try to join room");
       //this.socketService.joinRoom(this.requestNameService.getNickname(), this.roomId);
-      this.httpService.post('/joinRoom', {
-        'roomId': this.roomId,
-        'nickname': this.nickname
-      }).subscribe(
-        (data) => {
-          console.log(data);
-          if (data.error != null) {
-            alert(data.error);
-          } else {
-            this.socketService.joinRoom(this.nickname, this.roomId);
-            this.players = data.detail.players;
-          }
-        },
-        (error)=>{
-          alert(error);
-          this.returnToRooms();
-        });
+      // this.httpService.post('/joinRoom', {
+      //   'roomId': this.roomId,
+      //   'nickname': this.nickname
+      // }).subscribe(
+      //   (data) => {
+      //     console.log(data);
+      //     if (data.error != null) {
+      //       alert(data.error);
+      //     } else {
+      //       this.socketService.joinRoom(this.nickname, this.roomId);
+      //       this.players = data.detail.players;
+      //     }
+      //   },
+      //   (error)=>{
+      //     alert(error);
+      //     this.returnToRooms();
+      //   });
+
+      this.socketService.joinRoom(this.nickname, this.roomId);
     });
 
     this.socketService.playersUpdate().subscribe(

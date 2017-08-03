@@ -16,11 +16,59 @@ exports = module.exports = function (io) {
   
   io.on('connection', function (socket) {    
     clientsConnected++;
-    console.log('>>> a user connected. (clientsConnected: ' + clientsConnected + ')');
+    console.log('>>> a user connected. (socketId: ' + socket.id + ', clientsConnected: ' + clientsConnected + ')');
 
     socket.on('disconnect', function () {
       clientsConnected--;
-      console.log('<<< a user disconnected (clientsConnected: ' + clientsConnected + ')');
+      console.log('<<< a user disconnected (socketId: ' + socket.id + ', clientsConnected: ' + clientsConnected + ')');
+      
+      // Find player by socketId
+      Player.findOne({'socketId': socket.id}, function(err, player){
+        if(err || player==null){
+          console.log("Error: cannot find player");
+          return;
+        }
+                
+        // Find room by Id retrieved from player
+        Room.findById(player.roomId, function(err, room){
+          if(err || room==null){
+            console.log("Error: cannot find room.");
+            return;
+          }
+                    
+          // Remove player from room.
+          var playerIdxToRemove = -1;
+          for(var i=0;i<room.players.length;i++){
+            if(room.players[i].socketId == socket.id){
+              playerIdxToRemove = i;
+              break;
+            }  
+          }
+          if(playerIdxToRemove != -1){
+            room.players.splice(playerIdxToRemove, 1);
+          } else {
+            console.log("Error: Cannot find player to remove from this room.");
+            return;
+          }
+          
+          // save/update room
+          room.save(function(err, savedRoom){
+            if(err){
+              console.log("Error: cannot save room");
+              return;
+            }
+            io.to(room.id).emit('playersUpdate', savedRoom.players);
+
+            Player.remove({'socketId': socket.id}, function(err, result){
+              if(err){
+                console.log("Error: Failed to delete player.");
+                return;
+              }
+              console.log("Disconnect in socket - remove player: DONE");
+            });
+          })
+        });
+      })
     });
     
     // Global Chat
@@ -87,15 +135,59 @@ exports = module.exports = function (io) {
     // Join Room. data: {'roomName': BLAH, 'nickname': nickname}
     socket.on('joinRoom', function (nickname, roomId) {
       console.log(nickname + " has joined socket chat for " + roomId + ". Socket id: " + socket.id);    
-      
-      Room.findById(roomId, function(err, room){
-        if(room == null || err){
-          console.log("Room cannot be found");
-          return;
-        };
-        socket.join(roomId);
-        io.to(roomId).emit('playersUpdate', room.players);
+      //Create player
+      var newPlayer = new Player({
+        username: nickname,
+        socketId: socket.id,
+        roomId: roomId
       });
+
+      //Save player
+      newPlayer.save(function (err, createdPlayer) {
+        if (err) {
+          console.log('An error has occured while saving the player.');
+          return;
+        }
+
+        // Find room by id.
+        Room.findById(roomId, function(err, room){
+          if(room == null || err){
+            console.log('An error has occured while getting room by id.');
+          };
+
+//          // Add player to players list if not already there.
+//          var playerIsUnique = true;
+//          for(var i=0;i<room.players.length;i++){        
+//            if(room.players[i].username == createdPlayer.username){
+//              playerIsUnique = false;
+//            }
+//          }
+          //if(playerIsUnique){
+            room.players.push(createdPlayer.toJSON());
+          //}
+
+          // Save Room
+          room.save(function(err, updatedRoom){
+            if(err){
+              console.log('An error has occured while updating the room.');
+            };
+
+            console.log('Joined room successfully!');
+            socket.join(roomId);
+            io.to(roomId).emit('playersUpdate', room.players);
+          });
+        });
+      });
+      
+      //      
+//      Room.findById(roomId, function(err, room){
+//        if(room == null || err){
+//          console.log("Room cannot be found");
+//          return;
+//        };
+//        socket.join(roomId);
+//        io.to(roomId).emit('playersUpdate', room.players);
+//      });
     });
     
     // Send chat to specific room: {'roomName': BLAH, 'nickname': nickname , 'message': CONTENT }
@@ -109,36 +201,47 @@ exports = module.exports = function (io) {
     })
     
     socket.on('leaveRoom', function(nickname, roomId){
-      console.log(nickname + " is leaving " + roomId);
+      console.log(nickname + " is leaving " + roomId + " on socket id: " + socket.id);
       
       //Find Room
       Room.findById(roomId, function(err, room){
         if(room == null || err){
-          console.log("Room cannot be found");
+          console.log("Error: Room cannot be found");
           return;
         };
 
         // Find index of player that needs to be removed.
         var playerIdxToRemove = -1;
         for(var i=0;i<room.players.length;i++){        
-          if(room.players[i].username == nickname){
+          if(room.players[i].socketId == socket.id){
             playerIdxToRemove = i;
+            break;
           }
-        }
+        }        
         if(playerIdxToRemove != -1){
           room.players.splice(playerIdxToRemove, 1);
+        } else {
+          console.log("Error: Cannot find player to remove from this room.");
+          return;
         }
-        
+
         // Save room
         room.save(function(err, savedRoom){
           if(savedRoom == null || err){
-            console.log("savedRoom cannot be found");
+            console.log("Error: room cannot be saved with updated players list.");
             return;
           };
           
-          // Leave the room (socket level) and send playersUpdate socket msg to room
-          socket.leave(roomId);
-          io.to(roomId).emit('playersUpdate', savedRoom.players);
+          //remove player from db
+          Player.remove({'socketId': socket.id}, function(err, res){
+            if(err){
+              console.log("Error: Failed to remove player with socket id: " + socket.id);
+              return;
+            }
+            // Leave the room (socket level) and send playersUpdate socket msg to room
+            socket.leave(roomId);
+            io.to(roomId).emit('playersUpdate', savedRoom.players);
+          })
         });
       });
     });

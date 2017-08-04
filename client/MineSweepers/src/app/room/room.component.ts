@@ -90,6 +90,7 @@ export class RoomComponent implements OnInit {
 
   toggleReady() {
     this.ready = !this.ready;
+    this.socketService.sendReadyStatus(this.roomId, this.ready)
   }
 
   returnToRooms() {

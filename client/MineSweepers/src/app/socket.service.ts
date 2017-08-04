@@ -123,4 +123,8 @@ export class SocketService {
   agreeRestartGame(status){
     this.socket.emit('agreeRestartGame', status);
   }
+
+  sendReadyStatus(roomId, ready){
+    this.socket.emit('readyStatus', roomId, ready);
+  }
 }

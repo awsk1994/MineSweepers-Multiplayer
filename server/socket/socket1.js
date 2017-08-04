@@ -153,6 +153,7 @@ exports = module.exports = function (io) {
         Room.findById(roomId, function(err, room){
           if(room == null || err){
             console.log('An error has occured while getting room by id.');
+            return;
           };
 
 //          // Add player to players list if not already there.
@@ -250,6 +251,64 @@ exports = module.exports = function (io) {
     socket.on('updateGame', function (data) {
       console.log("updateGame | data: " + data);
       // todo. 
+    });
+    
+    socket.on('readyStatus', function(roomId, ready){
+      console.log("ready status from socket, " + socket.id);
+      Room.findById(roomId, function(err, room){
+        if(err){
+          console.log("Error: Cannot find room by id (id = " + roomId + ")");
+          return;
+        }
+        
+        var playerId = -1;
+        for(var i=0;i<room.players.length;i++){
+          if(room.players[i].socketId == socket.id){
+            console.log("found player. player socket.id: " + room.players[i].socketId + ", socketId: " + socket.id);
+//            room.players[i].isReady = ready;
+            playerId = room.players[i]._id;
+            room.players[i].isReady = ready;
+            break;
+          }
+        }
+        if(playerId == -1){
+          console.log("Error: cannot find player.");
+          return;
+        }
+        
+        Player.findById(room.players[i]._id, function(err, player){
+          if(err || player==null){
+            console.log("Error: cannot find player.");
+            return;
+          }
+          player.isReady = true;
+          player.save(function(err, savedPlayer){
+            if(err){
+              console.log("Error: Cannot save player.");
+              return;
+            }
+
+            if(ready){
+              room.readyCount++;
+            } else {
+              room.readyCount--;
+            }
+            console.log("player saved.");
+            
+            console.log("room.players:");
+            console.log(room);
+
+            room.save(function(err, savedRoom){
+              if(err){
+                console.log("Error: Cannot save room.");
+                return;
+              }
+              io.to(roomId).emit('playersUpdate', room.players);
+              console.log("DONE");
+            });
+          })
+        });
+      });
     });
     
     /* MULTIPLAYER */

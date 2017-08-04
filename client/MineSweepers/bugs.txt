@@ -30,13 +30,12 @@ To Improve (mid):
       - (LATER) Entering nickname should save it in localstorage (can set expire day?)
      - (LATER) need to store chat record in db. When refresh, should fetch last n chat record. Normally, just keep socket open and append to list. If possible, better to refresh with db every n minutes.
 
-
-
 Bugs:
  - when localStorage's nickname is removed, the requestname will pop up and block the game. Should pause the game and continue game after submitted nickname.
  - all the error message from server are not returning and being displayed correctly.
  - all the error message in socket should get sent to the client-side too.
  - When you use incognito (without previously using it) mode to directly access a room via URL, then the nickname becomes Unknown in the player list... probably nickname is not sent to server when doing this.
+ - cannot update room.players - MUST CHANGE DB to SQL DB!!!
 
 Todo
   - rooms:
@@ -46,7 +45,7 @@ Todo
 
  - room:
      - trigger ready? emit to all in the room.
-     - chat should work here.
+     - chat should work here (temporarily fixed)
 
  - name: 
     - prevent duplicate nickname...might want to create new table in db?

@@ -17,8 +17,7 @@ import { HttpService } from '../http.service';
 export class SoloComponent implements OnInit {
 
   isSolo: string;
-  displayRooms: boolean = false;
-  displayRoom: boolean = false;
+  displayRoom: boolean = true;
   roomId: string;
   nickname: string;
 
@@ -28,12 +27,11 @@ export class SoloComponent implements OnInit {
               private requestNameService: RequestNameService,
               private socketService: SocketService,
               private httpService: HttpService) {
-
     this.isSolo = route.snapshot.data['isSolo'];
-
     this.nickname = this.requestNameService.getNickname();
-
-
+    route.params.subscribe(params => {
+      this.roomId = params['roomId'];
+    });
   }
 
   ngOnInit() {
@@ -57,20 +55,4 @@ export class SoloComponent implements OnInit {
   changeDifficulty(difficulty) { this.gameService.changeDifficulty(difficulty); };
   gameOver(status) { this.gameService.gameOver(status); };
   showGameoverModal(status) { this.gameService.showGameoverModal(status); };
-
-  changeViewToNone() {
-    this.displayRooms = false;
-    this.displayRoom = false;
-  }
-
-  changeViewToRoomList() {
-    this.displayRooms = true;
-    this.displayRoom = false;
-  }
-
-  changeViewToRoom(room) {
-    this.soloService.room = room;
-    this.displayRooms = false;
-    this.displayRoom = true;
-  }
 }

@@ -1,27 +1,15 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+'use strict';
+const db = require('../db/db');
+const Sequelize = require('sequelize');
 
-/*
-=== Room State ===
--1: error
-0: default
-1: init
-2: waiting
-3: running
-4: gameoverForAll
-*/
-
-var schema = new Schema({
-    room_name: {type:String, required: true},
-    difficulty: { type: Number, required: true },
-    capacity: { type: Number, default: 0 },
-    state: { type: Number, default: 0 },
-    gameStartTime: { type:Date, default: 0 },
-    readyCount: { type: Number, default: 0 },
-    players: [{}],
-    created_by: {type: String, required: true},
-    created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now }
+const Room = db.define('Room', {
+  roomName: { type: Sequelize.STRING, allowNull: false },
+  difficulty: { type: Sequelize.INTEGER, allowNull: false },
+  capacity: { type: Sequelize.INTEGER, defaultValue: 0 },
+  state: { type: Sequelize.ENUM('error', 'default', 'init', 'waiting', 'running', 'gameoverForAll'), defaultValue: 'default' },
+  gameStartTime: { type: Sequelize.DATE, defaultValue: Sequelize.NOW },
+  readycount: { type: Sequelize.INTEGER, defaultvalue: 0 },
+  //createdBy: { type: Sequelize.STRING, allowNull: false }
 });
 
-module.exports = mongoose.model('Room', schema);
+module.exports = Room;

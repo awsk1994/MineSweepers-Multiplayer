@@ -1,0 +1,13 @@
+
+Some sequelize-cli command:
+
+==Create a model==
+sequelize model:create --name User --attributes name:string,state:boolean,birth:date,card:integer
+
+
+==Execute all Migrations==
+sequelize db:migrate
+
+
+==Make Migrations rollback==
+sequelize db:migrate:undo:all

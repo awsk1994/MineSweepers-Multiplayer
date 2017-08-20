@@ -1,15 +1,17 @@
-'use strict';
-const db = require('../db/db');
-const Sequelize = require('sequelize');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-const Player = db.define('Player', {
-  username: { type: Sequelize.STRING, allowNull: false },
-  flags: { type: Sequelize.INTEGER, defaultValue: -1 },
-  bombs: { type: Sequelize.INTEGER, defaultValue: -1 },
-  winTime: { type: Sequelize.DATE },
-  isPlayer: { type: Sequelize.BOOLEAN, defaultValue: true },
-  isReady: { type: Sequelize.BOOLEAN, defaultValue: false},
-  socketId: { type: Sequelize.STRING }
+var schema = new Schema({
+    username: { type: String, required: true },
+    flags: { type: Number, default: -1 },
+    bombs: { type: Number, default: -1 },
+    winTime: { type: Date, default: -1 },
+    isPlayer: { type: Boolean, default: true },
+    isReady: { type: Boolean, default: false },
+    socketId: { type: String },
+    roomId: { type: String },
+    created_at: { type: Date, default: Date.now },
+    updated_at: { type: Date, default: Date.now }
 });
 
-module.exports = Player;
+module.exports = mongoose.model('Player', schema);

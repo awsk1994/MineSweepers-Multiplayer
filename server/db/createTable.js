@@ -1,7 +1,7 @@
 // Get Table
-const Player = require('../models/player');
-const Room = require('../models/room');
-const Score = require('../models/score');
+const Player = require('../models_sequelize/player');
+const Room = require('../models_sequelize/room');
+const Score = require('../models_sequelize/score');
 
 //// Create Associations
 Player.belongsTo(Room);

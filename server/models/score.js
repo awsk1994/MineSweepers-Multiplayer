@@ -1,11 +1,12 @@
-'use strict';
-const db = require('../db/db');
-const Sequelize = require('sequelize');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-const Score = db.define('Score', {
-  difficulty: { type: Sequelize.INTEGER, allowNull: false },
-  username: { type: Sequelize.STRING, allowNull: false },
-  timeTaken: { type: Sequelize.INTEGER, allowNull: false }
+var schema = new Schema({
+    difficulty: { type: Number, required: true },
+    username: { type: String, required: true },
+    timeTaken: { type: Number, required: true },
+    created_at: { type: Date, default: Date.now },
+    updated_at: { type: Date, default: Date.now }
 });
 
-module.exports = Score;
+module.exports = mongoose.model('Score', schema);

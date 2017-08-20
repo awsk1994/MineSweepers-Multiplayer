@@ -37,5 +37,12 @@ models.Room.findAll({
   where: {'id': 1},
   include: [{model: models.Player}]
 }).then(function(room, err){
-  helper.displayResults(room);
+  if(err != null){
+    console.log("ERROR finding room id = 1.");
+  }
+  else if(room.length == 0){
+    console.log("Cannot find room.");
+  } else {
+    helper.displayResults(room);
+  }
 });

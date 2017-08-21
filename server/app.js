@@ -1,5 +1,4 @@
 var express = require ('express');
-var appRoutes = require('./routes/appRoutes');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -7,6 +6,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 // create db (sequelize)
+console.log("Create tables if not already exist.")
 const createTable = require('./db/create_table.js');
 
 // view engine setup
@@ -21,13 +21,6 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
     next();
-});
-
-app.use('/', appRoutes);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    return res.render('index');
 });
 
 module.exports = app;

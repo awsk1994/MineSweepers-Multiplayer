@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var Score = require('../models/score');
-var Room = require ('../models/room');
-var Player = require('../models/player');
+//var Score = require('../models/score');
+//var Room = require ('../models/room');
+//var Player = require('../models/player');
+const models = require('../models/models');
 
 router.get('/', function (req, res) {
     console.log("get /");
@@ -10,99 +11,107 @@ router.get('/', function (req, res) {
 });
 
 router.get('/highscore', function(req, res, next){
-    Score.find({'difficulty': 0}).sort('timeTaken').exec(function(err, easyScores){
+    models.Score.findAll({
+      where: {'difficulty': 0},
+      order: [
+        ['time_taken', 'ASC']
+      ]
+    }).then(function(easyScores, err){
+      if(err){
+          return res.status(500).json({
+              error: 'An error has occured.',
+              detail: err
+          });
+      };
+      models.Score.findAll({
+        where: {'difficulty': 1},
+        order: [
+          ['time_taken', 'ASC']
+        ]
+      }).then(function(mediumScores, err){
         if(err){
             return res.status(500).json({
                 error: 'An error has occured.',
                 detail: err
             });
-        }
-        
-        Score.find({'difficulty': 1}).sort('timeTaken').exec(function(err, mediumScores){
-            if(err){
-                return res.status(500).json({
-                    error: 'An error has occured.',
-                    detail: err
-                });
-            };
-            
-            Score.find({'difficulty': 2}).sort('timeTaken').exec(function(err, hardScores){
-                if(err){
-                    return res.status(500).json({
-                        error: 'An error has occured.',
-                        detail: err
-                    });
-                };
-                
-                return res.status(200).json({
-                    'easy': easyScores,
-                    'medium': mediumScores,
-                    'hard': hardScores
-                });
-            });
-            
-        });
-    });    
+        };
+        models.Score.findAll({
+          where: {'difficulty': 2},
+          order: [
+            ['time_taken', 'ASC']
+          ]
+        }).then(function(hardScores, err){
+          if(err){
+              return res.status(500).json({
+                  error: 'An error has occured.',
+                  detail: err
+              });
+          };
+          return res.status(200).json({
+              'easy': easyScores,
+              'medium': mediumScores,
+              'hard': hardScores
+          });
+        })
+      })
+    })
 });
 
 router.post('/highscore', function(req, res, next){
     //console.log(req.body);
-    var score = new Score({
+    models.Score.create({
         username: req.body.username,
-        timeTaken: req.body.timeTaken,
+        time_taken: req.body.time_taken,
         difficulty: req.body.difficulty
-    });
-    score.save(function(err, result){
+    }).then((score, err) => {
         if(err){
-            return res.status(500).json({
-                error: 'An error has occured.',
-                detail: err
-            });
+          console.error("ERROR: Error has occured while creating a score. (username: " + req.body.username + ")");
+          return res.status(500).json({
+            error: 'An error has occured while creating a score',
+            detail: err
+          });
         }
+
+        console.log("LOG: Score created. (username: " + score.username + ")");
         res.status(201).json({
-            message: 'Score saved successfully!',
-            detail: result
+          message: 'Score created and saved successfully!',
+          detail: score
         });
     });
 });
 
 router.post('/createRoom', function(req, res, next){
-    var room = new Room({
-        difficulty: req.body.difficulty,
-        room_name: req.body.room_name,
-        created_by: req.body.created_by
-    });
-    room.save(function(err, result){
-        if(err){
-            return res.status(500).json({
-                error: 'An error has occured.',
-                detail: err
-            });
-        }
-        res.status(201).json({
-            message: 'Room created and saved successfully!',
-            detail: result
+    models.Room.create({
+      room_name: req.body.room_name,
+      difficulty: req.body.difficulty,
+      created_by: req.body.created_by
+    }).then((room, err) => {
+      if(err){
+        console.error("ERROR: Error has occured while creating a room. (Room name: " + req.body.room_name + ")");
+        return res.status(500).json({
+          error: 'An error has occured while creating a room',
+          detail: err
         });
-    })
+      }
+      
+      console.log("LOG: Room created. (room_name: " + room.room_name + ")");
+      res.status(201).json({
+        message: 'Room created and saved successfully!',
+        detail: room
+      });
+    });
 });
 
 router.post('/deleteRooms', function(req, res, next){
-    Room.remove(function(err, result){
-      if(err){
-        return res.status(500).json({
-            error: 'An error has occured.',
-            detail: err
-        });
-      }
+    models.Room.destroy({
+      where: {}
+    }).then(()=>{
+      console.log("LOG: Deleted all rooms.");
       res.status(201).json({
-          message: 'All Rooms are deleted successfully!',
-          detail: result
+        message: 'All rooms are deleted.',
+        detail: ''
       });
-    })
-});
-
-router.post('/joinRoom', function(req, res, next){
-  console.log(req.body.nickname + " has joined " + req.body.roomId);
+    });
 });
 
 module.exports = router;

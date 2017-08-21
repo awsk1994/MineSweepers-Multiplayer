@@ -3,12 +3,11 @@ var appRoutes = require('./routes/appRoutes');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 
 var app = express();
-mongoose.Promise = global.Promise;
-mongoose.connect('localhost:27017/minesweeper');
 
+// create db (sequelize)
+const createTable = require('./db/create_table.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

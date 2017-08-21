@@ -10,7 +10,7 @@ export class HighscoreComponent implements OnInit {
 
   scores = [];
   difficulty = 'easy';
-  title = 'timeTaken';
+  title = 'time_taken';
   reverse = false;
 
   constructor(private gameService: GameService,

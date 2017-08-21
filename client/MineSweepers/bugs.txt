@@ -42,7 +42,8 @@ Todo
      - increase/decrease occupancy based on room.players.length
      - room update message sent accordingly... when create, when delete.etc
      - when create room, should automatically enter it. And when room has no players in it, then should automatically delete it.
-
+     - room name should be unique.
+     
  - room:
      - trigger ready? emit to all in the room.
      - chat should work here (temporarily fixed)

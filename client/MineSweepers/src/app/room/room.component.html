@@ -9,7 +9,7 @@
   </div>-->
 
   <p class="whiteText" *ngFor="let player of players">
-    {{player.username}}, {{player.isReady}}
+    {{player.username}}, {{player.is_ready}}
   </p>
   <button class="btn btn-primary" *ngIf="ready" (click)="toggleReady()">Unready...</button>
   <button class="btn btn-primary" *ngIf="!ready" (click)="toggleReady()">Ready?</button>

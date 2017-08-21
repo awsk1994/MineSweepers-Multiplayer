@@ -69,7 +69,7 @@ export class RoomsComponent implements OnInit {
 
   joinRoom(room) {
     //this.socketService.joinRoom(this.requestNameService.getNickname(), room._id);
-    this.router.navigate(['multiplayer', room._id]);
+    this.router.navigate(['multiplayer', room.id]);
   }
 
   deleteAllRooms() {

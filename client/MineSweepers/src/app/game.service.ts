@@ -217,7 +217,7 @@ export class GameService {
 
   sendHighscore(name, time) {
     console.log("sendHighscore");
-    const body = { 'username': name, 'timeTaken': time, 'difficulty': this.difficulty };
+    const body = { 'username': name, 'time_taken': time, 'difficulty': this.difficulty };
     const headers = new Headers({ 'Content-Type': 'application/json' });
     return this.http.post('http://localhost:3000/highscore', body, { headers: headers })
       .map((response: Response) => {

@@ -35,17 +35,15 @@ export class SoloComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("solo | ngOnInit()");
     this.requestNameService.nicknameChanged.subscribe(
       (nickname) => this.nickname = nickname
     );
   }
 
-  // ngOnDestroy() {
-  //   if(!this.isSolo){
-  //     console.log("Todo: should Leave Room.");
-  //     this.socketService.leaveRoom(this.nickname, this.roomId);
-  //   }
-  // };
+  ngOnDestroy() {
+    console.log("solo | ngOnDestroy()");
+  }
 
 
   prepareGame(difficulty) { this.gameService.prepareGame(difficulty); };

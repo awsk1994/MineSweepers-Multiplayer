@@ -6,6 +6,7 @@ socket.broadcast.to('chatroom').emit('message', 'this is the message to all');  
 var Room = require('../models/room');
 var Player = require('../models/player');
 const models = require('../models/models');
+var utils = require('../utils.js');
 
 /* responses:
  - globalChat
@@ -33,12 +34,31 @@ exports = module.exports = function (io) {
           return;
         }
         
+        //If player belonged to a room, send playersUpdate to room player belongs to.
+        var RoomId = player.RoomId;
         player.destroy().then(() => {
-          console.log("Deleted Successfully");
-        })
+          console.log("Deleted Player Successfully");
+          
+          if(RoomId){
+            models.Room.findOne({
+              where: {'id': RoomId },
+              include: models.Player
+            }).then((room, err) => {
+              if(err){
+                console.error("ERROR: Error has occured while finding room by id. (Room Id: " + RoomId + ")");
+                return;
+              } else if(!room){
+                console.error("ERROR: Cannot find room by id (Room Id: " + RoomId + ")");
+                return;
+              };
+              io.to(RoomId).emit('playersUpdate', room.Players);
+            });
+          }
+        });
       });
     });
     
+    // Chat
     socket.on('globalChat', function (username, message) {
       console.log("globalChat message Received: username: " + username + ", msg: " + message);
       io.emit('globalChat', {
@@ -52,55 +72,25 @@ exports = module.exports = function (io) {
       io.to(roomName).emit('roomChat', {'username':username, 'roomName': roomName, 'message': message});
     });
     
+    
+    // Room
     socket.on('getRooms', function () {
-      // Find easy rooms.
-      models.Room.findAll({
-        where: { difficulty: 0 }
-      }).then(function(easyRooms, err){
-        if(err){
-          console.error("ERROR: Error has occured while getting all rooms with difficulty = 0.")
-          return;
-        } 
-        
-        // Find medium rooms.
-        models.Room.findAll({
-          where: { difficulty: 1 }
-        }).then(function(mediumRooms, err){
-          if(err){
-            console.error("ERROR: Error has occured while getting all rooms with difficulty = 1.")
-            return;
-          }
-          
-          // Find hard rooms.
-          models.Room.findAll({
-            where: { difficulty: 2 }
-          }).then(function(hardRooms, err){
-            if(err){
-              console.error("ERROR: Error has occured while getting all rooms with difficulty = 2.")
-              return;
-            }
-
-            io.emit('roomsUpdate', {
-              '0': easyRooms,
-              '1': mediumRooms,
-              '2': hardRooms
-            });
-          });
-        });
-      });
+      utils.emitRoomsList(models, io);
     });
     
     socket.on('joinRoom', function (nickname, roomId) {
       console.log("LOG: " + nickname + " has joined socket chat for " + roomId + ". Socket id: " + socket.id);
-      
-      models.Player.findOrCreate({
-        where: {
-          username: nickname, 
-          socket_id: socket.id,
-          RoomId: roomId
-        }
-      }).then(function(player){
-        console.log('Joined room successfully!');
+    
+      models.Player.create({
+        "username": nickname,
+        "socket_id": socket.id,
+        "RoomId": roomId
+      }).then((player, err) => {
+        if(err){
+          console.log("ERROR: cannot create player to join room.");
+          return;
+        };
+        
         socket.join(roomId);
         
         models.Room.findOne({
@@ -116,40 +106,81 @@ exports = module.exports = function (io) {
           io.to(roomId).emit('playersUpdate', room.Players);
         });
       });
+      
+      /*
+      models.Player.findOrCreate({
+        where: {
+          username: nickname, 
+          socket_id: socket.id
+        }
+      }).then(function(player, created){
+        console.log('Player found/created!');
+        
+        player.updateAttributes({
+          "RoomId": roomId
+        }).then(function(){
+          console.log('Joined room successfully!');
+          socket.join(roomId);
+
+          models.Room.findOne({
+            where: { id: roomId },
+            include: models.Player
+          }).then(function(room, err){
+            // catch error.
+            if(err || !room){
+              console.error("ERROR: cannot find room by id (roomId: " + roomId + ")");
+              io.to(roomId).emit('playersUpdate', {});
+              return;
+            }
+            io.to(roomId).emit('playersUpdate', room.Players);
+          });
+        });
+      });
+      */
     });
     
     socket.on('leaveRoom', function(nickname, roomId){
       console.log("LOG: " + nickname + " is leaving room id, " + roomId + ", on socket id: " + socket.id);
       
-      models.Player.findOne({
+      models.Player.destroy({
         where: {
-          username: nickname
-        },
-        include: models.Room
-      }).then(function(player){
-        if(!player){
-          console.error("ERROR: Cannot find player by username (username = " + nickname + ")");
-          return;
+          socket_id: socket.id
         }
-        
-        // Set player's roomId to null
-        player.updateAttributes({
-          RoomId: null
-        }).then(()=>{
-          models.Room.findAll({
-            where: {
-              id: roomId
-            },
-            include: models.Player
-          }).then((room, err) => {
-            if(err){
-              console.error("ERROR: Error occured while finding room by RoomId (RoomId: " + roomId + ")");
-              return;
-            }
+      }).then(()=>{
+        // socket leave room.
+        socket.leave(roomId);
+
+        models.Room.findOne({
+          where: {
+            id: roomId
+          },
+          include: models.Player
+        }).then((room, err) => {
+          if(err){
+            console.error("ERROR: Error occured while finding room by RoomId (RoomId: " + roomId + ")");
+            return;
+          } else if(!room){
+            console.error("ERROR: Cannot find room (room Id: " + roomId + ")");
+            return;
+          } else if(!room.Players){
+            console.error("ERROR: Room.Players is undefined. (Should be empty if there is none, but not null). (Room Id: " + roomId + ")");
+            return;
+          }
+          // if no players are left in the room, then destroy the room.
+          else if(room.Players.length == 0){
+            console.log("LOG: There are no more players in the room. Deleting the room. (Room Id: " + roomId + ")");
+
+            models.Room.destroy({
+              where: { id: roomId }
+            }).then(()=>{
+              console.log("Deleted Room Successfully");
+              utils.emitRoomsList(models, io);
+            });
+          }
+          // if there are players left, then send playersUpdate.
+          else {
             io.to(room.id).emit('playersUpdate', room.Players);
-          });
-          // Leave the room (socket level) and send playersUpdate socket msg to room
-          socket.leave(roomId);
+          }
         });
       });
     });
@@ -161,8 +192,7 @@ exports = module.exports = function (io) {
         where: {
           RoomId: roomId,
           socket_id: socket.id
-        },
-        include: models.Room
+        }
       }).then(function(player, err){
         if(err){
           console.error("ERROR: Error has occured while finding room. (RoomId: " + roomId + ")");
@@ -175,22 +205,30 @@ exports = module.exports = function (io) {
         // Update player's is_ready.
         player.updateAttributes({
           is_ready: ready
-        });
-        
-        // Update room's ready_count.
-        var updatedRoomCount = ready? player.Room.ready_count++ : player.Room.ready_count--;
-        player.Room.updateAttributes({
-            ready_count: updatedRoomCount
         }).then(()=>{
           // Find Room and send socket message update for list of players
           models.Room.findOne({
             where: { id: roomId },
             include: models.Player
           }).then(function(room, err){
+            //console.log(room);
             if(err || !room.Players){
               console.error("ERROR");
               return;
             }
+            console.log("before update: " + room.ready_count);
+            // Update room's ready_count.
+            var updatedRoomCount = ready? room.ready_count+1 : room.ready_count-1;
+            room.updateAttributes({
+                ready_count: updatedRoomCount
+            }).then(()=>{
+                console.log("updated room's ready_count to " + updatedRoomCount);
+                if(updatedRoomCount >= 2){
+                  console.log("todo: countdown to start game.");
+                  //countDownToStartGame(roomId);
+                }
+            });
+            
             io.to(roomId).emit('playersUpdate', room.Players);
           });
         });

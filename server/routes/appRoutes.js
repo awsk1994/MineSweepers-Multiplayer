@@ -4,6 +4,7 @@ var router = express.Router();
 //var Room = require ('../models/room');
 //var Player = require('../models/player');
 const models = require('../models/models');
+const utils = require('../utils.js');
 
 var returnRouter = function(io){
   router.get('/', function (req, res) {
@@ -100,7 +101,7 @@ var returnRouter = function(io){
           message: 'Room created and saved successfully!',
           detail: room
         });
-        emitRoomsList();
+        utils.emitRoomsList(models, io);
       });
   });
 
@@ -113,49 +114,10 @@ var returnRouter = function(io){
           message: 'All rooms are deleted.',
           detail: ''
         });
-        emitRoomsList();
+        utils.emitRoomsList(models, io);
       });
   });
  
-  // ========= Helper Functions =========
-  function emitRoomsList(){
-    // Find easy rooms.
-    models.Room.findAll({
-      where: { difficulty: 0 }
-    }).then(function(easyRooms, err){
-      if(err){
-        console.error("ERROR: Error has occured while getting all rooms with difficulty = 0.")
-        return;
-      } 
-
-      // Find medium rooms.
-      models.Room.findAll({
-        where: { difficulty: 1 }
-      }).then(function(mediumRooms, err){
-        if(err){
-          console.error("ERROR: Error has occured while getting all rooms with difficulty = 1.")
-          return;
-        }
-
-        // Find hard rooms.
-        models.Room.findAll({
-          where: { difficulty: 2 }
-        }).then(function(hardRooms, err){
-          if(err){
-            console.error("ERROR: Error has occured while getting all rooms with difficulty = 2.")
-            return;
-          }
-
-          io.emit('roomsUpdate', {
-            '0': easyRooms,
-            '1': mediumRooms,
-            '2': hardRooms
-          });
-        });
-      });
-    });
-  }
-
   return router;
 }
 

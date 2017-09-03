@@ -1,7 +1,8 @@
 To Improve (high):
   - socket: keep alive?
   - keep track of user connect/disconnect on server.. is it doing it correctly?
-
+  - if player is in a room, and then server restarts, the player is stuck in the room because it is now a new socket connection. Server should be able to fix this.
+  
 
 To Improve (mid):
 - join room not done yet.
@@ -26,47 +27,50 @@ To Improve (mid):
     - room chat works... but should the joinroom be called in constructor or onInit of SoloComponent? Better if onInit.
     - switchMap :: look into it. Should we use it
     - understand observables.
+     - (todo later) layover for adding username and server not found
  - requestName:
       - (LATER) Entering nickname should save it in localstorage (can set expire day?)
      - (LATER) need to store chat record in db. When refresh, should fetch last n chat record. Normally, just keep socket open and append to list. If possible, better to refresh with db every n minutes.
+
+ - room:
+     - room name should be unique.
+     - increase/decrease occupancy based on room.players.length
 
 Bugs:
  - when localStorage's nickname is removed, the requestname will pop up and block the game. Should pause the game and continue game after submitted nickname.
  - all the error message from server are not returning and being displayed correctly.
  - all the error message in socket should get sent to the client-side too.
  - When you use incognito (without previously using it) mode to directly access a room via URL, then the nickname becomes Unknown in the player list... probably nickname is not sent to server when doing this.
- - cannot update room.players - MUST CHANGE DB to SQL DB!!!
-
+ - when you change the nickname, it should update room's player's name of changed nickname, as well in the chat.
+ 
 Todo
-  - rooms:
-     - increase/decrease occupancy based on room.players.length
-     - room update message sent accordingly... when create, when delete.etc
-     - when create room, should automatically enter it. And when room has no players in it, then should automatically delete it.
-     - room name should be unique.
-     
- - room:
-     - trigger ready? emit to all in the room.
-     - chat should work here (temporarily fixed)
-
  - name: 
-    - prevent duplicate nickname...might want to create new table in db?
+    - nickname should be unique per tab
+       - remove localStorage.
 
-  - chat UI 
-     - (todo later) heading tab: switch between global and game left
-     - hover over the header to see list of users
-     - (todo later) layover for adding username and server not found
-     - date listing for the chat
-     - hit enter to submit... 
-     I prefer (keydown.enter)="mySubmit()" because there won't be added a line break if the cursor was somewhere within a <textarea> but not at its end.
+- unit/e2e testing.
+
+- Room:
+   - create room should be a modal.
+
+- chat UI
+  - hover over the header to see list of users
+  - date listing for the chat
+  - hit enter to submit... 
+  I prefer (keydown.enter)="mySubmit()" because there won't be added a line break if the cursor was somewhere within a <textarea> but not at its end.
 
   - Use jQuery to detect changes in things.
      - footer should be semi-transparent when screen doesn't fit everything. When screen fits all, then should expanded footer (with About Me and Contact)
   - type up how to play (w/ screenshot)
 
+- nickname:
+   - add some id to guest. eg. first guest is guest_1, second is guest_2.etc
+
 Todo (future):
 1. turn to phone app
 2. make website okay when browser size shrink
 3. Local storage save username so don't need to ask username again between Solo and multiplayer and chat ask name.
+4. rename all username to nickname or something that's consistent.
 
 Next Project?:
 1. Google+, Facebook.etc login

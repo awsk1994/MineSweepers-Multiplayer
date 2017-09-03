@@ -42,7 +42,8 @@ export class RoomsComponent implements OnInit {
         this.rooms = rooms;
       }
     );
-    this.getRooms(this.difficulty);
+    this.socketService.getRooms();
+    this.getRoomsByDifficulty(this.difficulty);
   }
 
   createRoom(difficulty: number, roomName: string) {
@@ -58,17 +59,17 @@ export class RoomsComponent implements OnInit {
           this.resetCreateRoom();
           this.difficulty = difficulty;
           this.rooms[difficulty].push(data.detail);
+          this.joinRoom(data.detail);
+          //console.log(data.detail);
         }
       });
   };
 
-  getRooms(difficulty) {
+  getRoomsByDifficulty(difficulty) {
     this.difficulty = difficulty;
-    this.socketService.getRooms();
   }
 
   joinRoom(room) {
-    //this.socketService.joinRoom(this.requestNameService.getNickname(), room._id);
     this.router.navigate(['multiplayer', room.id]);
   }
 

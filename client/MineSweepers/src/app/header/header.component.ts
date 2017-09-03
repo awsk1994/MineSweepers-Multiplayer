@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { RequestNameService } from '../request-name/request-name.service';
 
 @Component({
@@ -15,11 +15,16 @@ export class HeaderComponent implements OnInit {
   }
   
   ngOnInit() {
+    console.log("header | ngOnInit");
     this.requestNameService.nicknameChanged.subscribe(
       ()=>{
        this.nickname = this.requestNameService.getNickname();
       }
     );
+  }
+
+  ngOnDestroy() {
+    console.log("header | ngOnDestroy()");
   }
 
   removeNickname(){

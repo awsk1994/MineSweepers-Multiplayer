@@ -22,13 +22,13 @@
     <ul class="nav justify-content-center">
       <span class="text textWhite">Difficulty: </span>
       <li class="nav-item">
-        <a class="nav-link" [ngClass]="difficulty==0 ? 'active' : 'inactive'" (click)="getRooms(0)">EASY</a>
+        <a class="nav-link" [ngClass]="difficulty==0 ? 'active' : 'inactive'" (click)="getRoomsByDifficulty(0)">EASY</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [ngClass]="difficulty==1 ? 'active' : 'inactive'" (click)="getRooms(1)">MEDIUM</a>
+        <a class="nav-link" [ngClass]="difficulty==1 ? 'active' : 'inactive'" (click)="getRoomsByDifficulty(1)">MEDIUM</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [ngClass]="difficulty==2 ? 'active' : 'inactive'" (click)="getRooms(2)">HARD</a>
+        <a class="nav-link" [ngClass]="difficulty==2 ? 'active' : 'inactive'" (click)="getRoomsByDifficulty(2)">HARD</a>
       </li>
     </ul>
   </div>

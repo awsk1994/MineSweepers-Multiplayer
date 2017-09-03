@@ -10,7 +10,6 @@ import { SocketService } from '../socket.service';
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
-
   players;
   ready = false;
   roomId = -1;
@@ -33,7 +32,7 @@ export class RoomComponent implements OnInit {
     // Get Room Id
     route.params.subscribe(params => {
       this.roomId = params['roomId'];
-      console.log("try to join room");
+      console.log("try to join room: " + this.roomId);
       //this.socketService.joinRoom(this.requestNameService.getNickname(), this.roomId);
       // this.httpService.post('/joinRoom', {
       //   'roomId': this.roomId,
@@ -65,20 +64,6 @@ export class RoomComponent implements OnInit {
     );
   }
 
-
-
-  @HostListener('window:unload', [ '$event' ])
-  unloadHandler(event) {
-    alert("unloadHandler");
-    this.socketService.test("unloadHandler");
-  }
-
-  @HostListener('window:beforeunload', [ '$event' ])
-  beforeUnloadHander(event) {
-    alert("beforeUnloadHander");
-    this.socketService.test("beforeunload");
-  }
-
   ngOnDestroy() {
     console.log("Leaving room: ngOnDestroy. name: " + this.nickname + ", room Id: " + this.roomId);
     this.socketService.leaveRoom(this.nickname, this.roomId);
@@ -94,7 +79,7 @@ export class RoomComponent implements OnInit {
   }
 
   returnToRooms() {
+    console.log("room id: " + this.roomId);
     this.router.navigate(['/multiplayer']);
-    //todo: leaveRoom (update db). Need to set route change to detect leave room.
   }
 }

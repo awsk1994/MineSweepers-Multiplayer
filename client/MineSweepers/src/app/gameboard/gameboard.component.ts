@@ -37,7 +37,7 @@ export class GameboardComponent implements OnInit {
     )
     this.gameboardService.msgDetected.subscribe(
       (message) => {
-        console.log(message);
+        //console.log(message);
         if (message.title === 'resetError') {
           // reset any other error here.
           this.exceedFlagLimitError = false;
@@ -59,7 +59,7 @@ export class GameboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("gameBoard: prepareGame");
+    //console.log("gameBoard: prepareGame");
     this.gameService.prepareGame(0);
   };
 

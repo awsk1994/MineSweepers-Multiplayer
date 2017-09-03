@@ -4,6 +4,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 export class RequestNameService {
   triggerRequestName = new EventEmitter();
   nicknameChanged = new EventEmitter();
+  nickname = "";
   
   constructor() { }
 
@@ -12,11 +13,10 @@ export class RequestNameService {
   }
   
   getNickname(){
-    let nickname = localStorage.getItem('nickname');
-    if(!nickname){
-      this.handleRequestName();
-      nickname = "Unknown";
+    if(!this.nickname || this.nickname == ''){
+      //this.handleRequestName();
+      this.nickname = "Guest";
     }
-    return nickname;
+    return this.nickname;
   }
 }

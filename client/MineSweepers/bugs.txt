@@ -43,12 +43,11 @@ Bugs:
  - When you use incognito (without previously using it) mode to directly access a room via URL, then the nickname becomes Unknown in the player list... probably nickname is not sent to server when doing this.
  - when you change the nickname, it should update room's player's name of changed nickname, as well in the chat.
  
-Todo
- - name: 
-    - nickname should be unique per tab
-       - remove localStorage.
+Todo:
+- countdowntoStartGame.
 
 - unit/e2e testing.
+- upgrade to Angular 4
 
 - Room:
    - create room should be a modal.
@@ -66,11 +65,16 @@ Todo
 - nickname:
    - add some id to guest. eg. first guest is guest_1, second is guest_2.etc
 
+ - concerns:
+   - if you look at console on the browser, you will see that console.log placed in playersUpdate and roomsUpdate are printed many many times... make sure this is normal for streams... maybe it's updating more than it needs?
+
+
 Todo (future):
 1. turn to phone app
 2. make website okay when browser size shrink
 3. Local storage save username so don't need to ask username again between Solo and multiplayer and chat ask name.
 4. rename all username to nickname or something that's consistent.
+5. Make it a bundle of multiplayer games (eg. tanks, hangman, pong)
 
 Next Project?:
 1. Google+, Facebook.etc login

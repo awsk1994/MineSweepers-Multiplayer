@@ -71,7 +71,7 @@ export class SocketService {
     this.socket.emit('roomChat', username, roomName, message);
   }
 
-/* MULTIPLAYER */
+  /* MULTIPLAYER */
   createRoom(data) {
     this.socket.emit('createRoom', data);
   }
@@ -92,6 +92,18 @@ export class SocketService {
   gameStart() {
     let observable = new Observable(observer => {
       this.socket.on('gameStart', (data) => {
+        observer.next(data);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    })
+    return observable;
+  }
+
+  prepareGame() {
+    let observable = new Observable(observer => {
+      this.socket.on('prepareGame', (data) => {
         observer.next(data);
       });
       return () => {

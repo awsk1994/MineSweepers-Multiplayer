@@ -14,6 +14,7 @@ export class RoomComponent implements OnInit {
   ready = false;
   roomId = -1;
   nickname;
+  countDownToStartGame = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -33,25 +34,6 @@ export class RoomComponent implements OnInit {
     route.params.subscribe(params => {
       this.roomId = params['roomId'];
       console.log("try to join room: " + this.roomId);
-      //this.socketService.joinRoom(this.requestNameService.getNickname(), this.roomId);
-      // this.httpService.post('/joinRoom', {
-      //   'roomId': this.roomId,
-      //   'nickname': this.nickname
-      // }).subscribe(
-      //   (data) => {
-      //     console.log(data);
-      //     if (data.error != null) {
-      //       alert(data.error);
-      //     } else {
-      //       this.socketService.joinRoom(this.nickname, this.roomId);
-      //       this.players = data.detail.players;
-      //     }
-      //   },
-      //   (error)=>{
-      //     alert(error);
-      //     this.returnToRooms();
-      //   });
-
       this.socketService.joinRoom(this.nickname, this.roomId);
     });
 

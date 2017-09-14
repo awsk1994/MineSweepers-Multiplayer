@@ -59,7 +59,7 @@ export class GameboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    //console.log("gameBoard: prepareGame");
+    console.log("gameBoard: prepareGame");
     this.gameService.prepareGame(0);
   };
 

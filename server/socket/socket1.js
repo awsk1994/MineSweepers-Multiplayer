@@ -8,6 +8,9 @@ var Player = require('../models/player');
 const models = require('../models/models');
 var utils = require('../utils.js');
 
+//var gb = utils.createAndAssignGameboard(5, 4);
+//console.log(gb);
+
 /* responses:
  - globalChat
  - roomsUpdate
@@ -36,6 +39,8 @@ exports = module.exports = function (io) {
         
         //If player belonged to a room, send playersUpdate to room player belongs to.
         var RoomId = player.RoomId;
+        var playerIsReady = player.is_ready;
+        
         player.destroy().then(() => {
           console.log("Deleted Player Successfully");
           
@@ -51,6 +56,15 @@ exports = module.exports = function (io) {
                 console.error("ERROR: Cannot find room by id (Room Id: " + RoomId + ")");
                 return;
               };
+                            
+              if(playerIsReady){
+                room.updateAttributes({
+                    ready_count: --room.ready_count
+                }).then(()=>{
+                    console.log("updated room's ready_count to " + room.ready_count);
+                });
+              }
+              
               io.to(RoomId).emit('playersUpdate', room.Players);
             });
           }
@@ -216,20 +230,19 @@ exports = module.exports = function (io) {
               console.error("ERROR");
               return;
             }
-            console.log("before update: " + room.ready_count);
+            
+            io.to(roomId).emit('playersUpdate', room.Players);
+
             // Update room's ready_count.
             var updatedRoomCount = ready? room.ready_count+1 : room.ready_count-1;
             room.updateAttributes({
                 ready_count: updatedRoomCount
             }).then(()=>{
                 console.log("updated room's ready_count to " + updatedRoomCount);
-                if(updatedRoomCount >= 2){
-                  console.log("todo: countdown to start game.");
-                  //countDownToStartGame(roomId);
+                if(updatedRoomCount >= 2){  // todo, should change to total players in the room instead of 2 later.
+                  prepareGame(io, room);
                 }
             });
-            
-            io.to(roomId).emit('playersUpdate', room.Players);
           });
         });
       });
@@ -255,4 +268,24 @@ exports = module.exports = function (io) {
   // agreeRestartGame(status)
   // finishGame(status)
   //
+}
+
+function prepareGame(io, room){
+  console.log("prepare game");
+  let gameBoard = utils.createAndAssignGameboard(room.difficulty);
+  io.to(room.id).emit('prepareGame', gameBoard);
+}
+
+function startGame(){
+  console.log("start game");
+  /*
+  // when user clicks on board, start Game.
+  startGame() {
+    console.log("start game");
+    this.state = GameState.RUNNING;
+    this.timerService.reset();
+    this.timerService.run();
+    this.gameboardService.triggerMsgByTitle('clickToStartMsg', false);
+  }
+  */
 }

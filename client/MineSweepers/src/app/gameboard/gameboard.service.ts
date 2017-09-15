@@ -64,6 +64,44 @@ export class GameboardService {
     this.gameboardUpdated.emit(this.gameBoard);
   }
 
+  prepareGameBoardCreatedByServer(gameBoardData: number[][]){
+    this.gameBoard = this.convertServerGameBoard(gameBoardData);
+    this.gameboardUpdated.emit(this.gameBoard);
+  }
+
+  convertServerGameBoard(gameBoardData){
+    console.log("convertServerGameBoard");
+    console.log(gameBoardData);
+
+    let gameBoard: Tile[][] = [];
+    for (let i = 0; i < gameBoardData.length; i++) {
+      let row: Tile[] = [];
+      for (let j = 0; j < gameBoardData[0].length; j++) {
+        if(gameBoardData[i][j] == -1){
+          row.push(new Tile(true, TileState.UnTouched, -1));
+        } else {
+          row.push(new Tile(false, TileState.UnTouched, gameBoardData[i][j]));
+        }
+      }
+      gameBoard.push(row);
+    }
+
+    this.printGameBoard(gameBoard);
+    return gameBoard;
+  }
+
+  printGameBoard(gameBoard: Tile[][]){
+    for(let i=0;i<gameBoard.length;i++){
+      let row: number[] = [];
+      for(let j=0;j<gameBoard[0].length;j++){
+        row.push(gameBoard[i][j].value);
+        console.log('v: ' + gameBoard[i][j].value);
+      }
+      console.log("==");
+      //console.log(row);
+    }
+  }
+
   prepareGameBoard(size: number, numBombs: number) {
     this.tilesLeft = size * size;
     let gameBoard: Tile[][] = this.createEmptyBoard(size);

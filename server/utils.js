@@ -47,6 +47,10 @@ module.exports = {
   }
 }
 
+
+
+/* ========== Helper Functions to prepare Gameboard ========== */
+
 let difficultyConfig = {
     '0': { 'size': 6, 'bombs': 3 }, // easy
     '1': { 'size': 10, 'bombs': 10 }, // medium

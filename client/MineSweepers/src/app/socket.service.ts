@@ -14,7 +14,6 @@ export class SocketService {
     this.socket = io(this.url);
   }
 
-
   getGlobalLogs() {
     let observable = new Observable(observer => {
       this.socket.on('globalChat', (log) => {
@@ -102,7 +101,7 @@ export class SocketService {
   }
 
   prepareGame() {
-    let observable = new Observable(observer => {
+    let observable = new Observable<number[][]>(observer => {
       this.socket.on('prepareGame', (data) => {
         observer.next(data);
       });

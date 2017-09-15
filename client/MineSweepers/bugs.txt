@@ -42,6 +42,7 @@ Bugs:
  - all the error message in socket should get sent to the client-side too.
  - When you use incognito (without previously using it) mode to directly access a room via URL, then the nickname becomes Unknown in the player list... probably nickname is not sent to server when doing this.
  - when you change the nickname, it should update room's player's name of changed nickname, as well in the chat.
+ - when server is down, and back up, somethign always happen.
  
 Todo:
 - countdowntoStartGame.

@@ -8,6 +8,7 @@ import { ModalContent } from '../modal/modalContent.model';
 import { SocketService } from '../socket.service';
 import { HeaderComponent } from '../header/header.component';
 import { HttpService } from '../http.service';
+import { GameboardService } from '../gameboard/gameboard.service';
 
 @Component({
   selector: 'solo',
@@ -26,7 +27,8 @@ export class SoloComponent implements OnInit {
               private soloService: SoloService,
               private requestNameService: RequestNameService,
               private socketService: SocketService,
-              private httpService: HttpService) {
+              private httpService: HttpService,
+              private gameboardService: GameboardService) {
     this.isSolo = route.snapshot.data['isSolo'];
     this.nickname = this.requestNameService.getNickname();
     route.params.subscribe(params => {
@@ -39,6 +41,14 @@ export class SoloComponent implements OnInit {
     this.requestNameService.nicknameChanged.subscribe(
       (nickname) => this.nickname = nickname
     );
+
+    this.socketService.prepareGame().subscribe(
+      (gameBoardData) => {
+        console.log(gameBoardData);
+        this.displayRoom = false;
+        this.gameboardService.prepareGameBoardCreatedByServer(gameBoardData);
+      }
+    )
   }
 
   ngOnDestroy() {

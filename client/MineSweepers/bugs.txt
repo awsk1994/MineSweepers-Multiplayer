@@ -65,7 +65,8 @@ Todo:
     - room should get update of each player’s click status.
 
     Other issues:
-    when the multiplayer game starts, the room is gone… is that okay? or is it server-side error?
+    when the game starts, guest is considered leaving the room (because url changed) and thus, the room is deleted whenever a multiplayer game starts.
+    Need to fix this...
 
 
 - countdowntoStartGame.

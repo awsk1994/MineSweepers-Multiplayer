@@ -45,6 +45,29 @@ Bugs:
  - when server is down, and back up, somethign always happen.
  
 Todo:
+
+ - MULTIPLAYER GAMEFLOW:
+    server (models/room.js): 
+      add state: ‘multiplayerGameOverForOne’
+      modify state: ‘gameoverForAll’ to ‘multiplayerGameOverForAll’
+
+    Client:
+    game.service.ts:GameOver(status):
+      - if multiplayer game, then send information to server via socket.
+      - then, socket will emit message to the room that a player is done -> modify room’s state to ‘multiplayerGameOverForOne’ -> this player should then have a wait screen.
+      - when both players are done -> send to server -> room state change to multiplayerGameOverForAll -> display modal with two buttons: ‘restart game’, ‘back to waiting room’.
+
+    game.service.ts:HandleClick(..)
+      - in if(this.state == Gamestate.GAMEOVER), add condition in it NOT to restart if multiplayer mode.
+      - later on… it should send information back to server via sockets to prepare gameBoard and send it to the room.
+
+    todo:
+    - room should get update of each player’s click status.
+
+    Other issues:
+    when the multiplayer game starts, the room is gone… is that okay? or is it server-side error?
+
+
 - countdowntoStartGame.
 
 - unit/e2e testing.

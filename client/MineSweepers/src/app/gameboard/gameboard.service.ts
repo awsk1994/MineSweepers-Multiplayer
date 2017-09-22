@@ -103,7 +103,7 @@ export class GameboardService {
   }
 
   prepareGameBoard(size: number, numBombs: number) {
-    this.tilesLeft = size * size;
+    // this.tilesLeft = size * size;
     let gameBoard: Tile[][] = this.createEmptyBoard(size);
     this.assignBombs(numBombs, gameBoard);
     this.gameBoard = gameBoard;

@@ -17,7 +17,7 @@ import { GameboardService } from '../gameboard/gameboard.service';
 })
 export class SoloComponent implements OnInit {
 
-  isSolo: string;
+  isSolo: boolean;
   displayRoom: boolean = true;
   roomId: string;
   nickname: string;
@@ -34,6 +34,7 @@ export class SoloComponent implements OnInit {
     route.params.subscribe(params => {
       this.roomId = params['roomId'];
     });
+    this.gameService.isSolo = this.isSolo;
   }
 
   ngOnInit() {
@@ -45,7 +46,11 @@ export class SoloComponent implements OnInit {
     this.socketService.prepareGame().subscribe(
       (gameBoardData) => {
         console.log(gameBoardData);
+        let difficulty = 0;   //todo: should be given by the socket?
         this.displayRoom = false;
+        this.gameboardService.triggerResetAllMsg();
+        this.gameboardService.triggerMsgByTitle('clickToStartMsg', true);
+        this.gameService.resetGameComponents(difficulty);
         this.gameboardService.prepareGameBoardCreatedByServer(gameBoardData);
       }
     )

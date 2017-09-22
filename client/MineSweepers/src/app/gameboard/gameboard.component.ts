@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameboardService } from './gameboard.service';
 import { Tile, TileState } from '../tile/tile.model';
 import { GameService } from '../game.service';
+import { ActivatedRoute } from '@angular/router';
 
 /**
  * This is the gameboard where minesweeper takes place.
@@ -27,14 +28,16 @@ export class GameboardComponent implements OnInit {
    * Boolean to trigger message to prompt user to click the board to start game.
    */
   clickToStartMsg = false;
+  isSolo: boolean = true;
 
   constructor(private gameboardService: GameboardService,
-    private gameService: GameService) {
+    private gameService: GameService,
+    private route:ActivatedRoute) {
     this.gameboardService.gameboardUpdated.subscribe(
       (gameBoard: Tile[][]) => {
         this.gameBoard = gameBoard;
       }
-    )
+    );
     this.gameboardService.msgDetected.subscribe(
       (message) => {
         //console.log(message);
@@ -55,12 +58,15 @@ export class GameboardComponent implements OnInit {
           this.clickToStartMsg = message.status;
         }
       }
-    )
+    );
+    this.isSolo = route.snapshot.data['isSolo'];
   }
 
   ngOnInit() {
     console.log("gameBoard: prepareGame");
-    this.gameService.prepareGame(0);
+    if(this.isSolo){
+      this.gameService.prepareGame(0);
+    }
   };
 
   prepareGameboard(size: number) {

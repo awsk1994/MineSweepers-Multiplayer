@@ -4,9 +4,11 @@ import { GameService } from '../game.service';
 import { MinToMsPipe } from '../sharedPipes';
 import { SocketService } from '../socket.service';
 import { RequestNameService } from '../request-name/request-name.service';
+import { ActivatedRoute } from '@angular/router';
 
 /**
- *  AlertMessage Component displays a popover when one gives it a title and message. However, it has been adopted to be used to display a popover modal for Game Over.
+ *  AlertMessage Component displays a popover when one gives it a title and message. 
+ *  However, it has been adopted to be used to display a popover modal for Game Over.
  */
 @Component({
   selector: 'alert-message',
@@ -20,11 +22,13 @@ export class AlertMessageComponent {
   nickname;
   displayAlertMessage: boolean = false;
   displayNicknameInput: boolean = false;
+  isSolo: boolean = true;
 
   constructor(private alertMessageService: AlertMessageService,
     private gameService: GameService,
     private socketService: SocketService,
-    private requestNameService: RequestNameService) {
+    private requestNameService: RequestNameService,
+    private route:ActivatedRoute) {
     this.alertMessageService.triggerAlertMessage.subscribe(
       (data) => {
         if (data.status == 0) {
@@ -36,10 +40,12 @@ export class AlertMessageComponent {
         this.displayAlertMessage = true;
       }
     );
+    this.isSolo = route.snapshot.data['isSolo'];
   }
 
   /**
-   * Called by UI (reset button) or submitHighscore(). Reset the variables and restart the game.
+   * Called by UI (reset button) or submitHighscore(). 
+   * Reset the variables and restart the game.
    */
   closeAlertMessageAndRestart() {
     this.resetVariables();
@@ -62,7 +68,11 @@ export class AlertMessageComponent {
    * Backdrop is the black background under the alertbox.
    */
   backdropClicked() {
-    this.closeAlertMessageAndRestart();
+    if(this.isSolo){
+      this.closeAlertMessageAndRestart();
+    } else {
+      console.log("INFO | disabling backdrop clicked for multiplayer for now.")
+    }
   }
 
   /**
@@ -71,7 +81,7 @@ export class AlertMessageComponent {
    * @param {number} time in milliseconds. (eg. 1 second = 1000 milliseconds)
    */
   submitHighscore(time: number) {
-    var name = this.requestNameService.getNickname();
+    let name = this.requestNameService.getNickname();
     let timeInMs = new MinToMsPipe().transform(time);
     this.gameService.sendHighscore(name, timeInMs).subscribe(
       (data) => {

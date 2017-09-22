@@ -36,6 +36,7 @@ export class GameService {
   state: number;
   tilesRevealed: number = 0;
   flagBombUpdated = new EventEmitter();
+  isSolo: boolean = true;
 
   constructor(
     private modalSerivce: ModalService,
@@ -47,11 +48,16 @@ export class GameService {
   //------------------------------------------------//
 
   handleClick(tileMsg: number) {
+    console.log("game service is solo: " + this.isSolo);
     //console.log("gameService: click detected. state: " + this.state);
     console.log("tilesLeft: " + this.gameboardService.tilesLeft);
     if (this.state == GameState.GAMEOVER) {
-      this.prepareGame(this.difficulty);
-      this.startGame();
+      if(this.isSolo){
+        this.prepareGame(this.difficulty);
+        this.startGame();
+      } else {
+        // wait for the other person to finish and then send socket message to prepare next board.
+      }
     } else if (this.state == GameState.INIT) {
       this.startGame();
     } else if (this.state == GameState.RUNNING || this.state == GameState.PAUSE) {
@@ -88,16 +94,25 @@ export class GameService {
   //------------------------------------------------//
 
   prepareGame(difficulty) {
-    // prepare gameBoard (size).
-    this.state = GameState.INIT;
-    this.gameboardService.prepareGameBoard(this.difficultyConfig[difficulty].size, this.difficultyConfig[difficulty].bombs);
-    this.gameboardService.triggerResetAllMsg();
-    this.gameboardService.triggerMsgByTitle('clickToStartMsg', true);
-    this.timerService.reset();
-    this.bombCount = this.difficultyConfig[difficulty].bombs;
-    this.flagCount = 0;
-    this.tilesRevealed = 0;
-    this.sendUpdateFlagBombMsg();
+    if(this.isSolo){
+      // prepare gameBoard (size).
+      this.state = GameState.INIT;
+      this.gameboardService.prepareGameBoard(this.difficultyConfig[difficulty].size, this.difficultyConfig[difficulty].bombs);
+      this.gameboardService.triggerResetAllMsg();
+      this.gameboardService.triggerMsgByTitle('clickToStartMsg', true);
+      this.resetGameComponents(difficulty);
+    } else {
+      alert("Sorry, you shouldn't be here. This method is for solo game only!");
+    }
+  }
+
+  resetGameComponents(difficulty){
+      this.timerService.reset();
+      this.bombCount = this.difficultyConfig[difficulty].bombs;
+      this.gameboardService.tilesLeft = this.difficultyConfig[difficulty].size * this.difficultyConfig[difficulty].size;
+      this.flagCount = 0;
+      this.tilesRevealed = 0;
+      this.sendUpdateFlagBombMsg();
   }
 
   // when user clicks on board, start Game.

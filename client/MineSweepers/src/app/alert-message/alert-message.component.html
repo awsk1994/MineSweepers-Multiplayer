@@ -10,8 +10,8 @@
       </tr>
     </table>
     <hr>
-    <button class="btn btn-danger" (click)="closeAlertMessageAndRestart()">Restart Game</button>
-    <button [hidden]='data?.status == 0' class="btn btn-primary" (click)="submitHighscore(data.data['Time Used (min:sec)'])">Submit Highscore</button>
+    <button [hidden]='!isSolo' class="btn btn-danger" (click)="closeAlertMessageAndRestart()">Restart Game</button>
+    <button [hidden]='data?.status == 0 || !isSolo' class="btn btn-primary" (click)="submitHighscore(data.data['Time Used (min:sec)'])">Submit Highscore</button>
     <!--<div [hidden]='!displayNicknameInput'>
       <hr>
       <input size="30" type="text" class="text" [(ngModel)]="nickname" placeholder="Please enter your nickname.">

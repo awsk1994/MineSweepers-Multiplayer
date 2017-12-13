@@ -188,6 +188,11 @@ export class GameService {
       'Flags Placed': this.flagCount,
       'Total Bombs': this.bombCount
     });
+
+    if(!this.isSolo){
+      // send message to server that game is completed.
+    }
+
     // modal gameOver message. win or lose.
     //this.showGameoverModal(status);
   }

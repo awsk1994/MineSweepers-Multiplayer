@@ -58,7 +58,8 @@ Todo:
       - later on… it should send information back to server via sockets to prepare gameBoard and send it to the room.
 
     Server:
-    ! - socket message to UI about the prepared game board should include difficulty (0, 1 or 2) -> then remove hardcoded difficulty in solo.component: ngOnInit();
+    - socket message to UI about the prepared game board should include difficulty (0, 1 or 2) -> then remove hardcoded difficulty in solo.component: ngOnInit();
+    ! - add a column in room to keep track of all the players that won.
 
     todo:
     - room should get update of each player’s click status.

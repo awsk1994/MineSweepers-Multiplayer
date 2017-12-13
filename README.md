@@ -1,20 +1,20 @@
-#ReadMe
+# ReadMe
 ==============================
 
 
-##>How to run:
+## >How to run:
 
-###Start Client:
+### Start Client:
 1. open client/MineSweepers folder via terminal
 2. npm install —-save
 3. npm start
 
-###Start Server:
+### Start Server:
 4. open server folder via terminal
 5. npm install --save
 6. npm start
 
-###Setup Database (If database not already set up - without database, single player will still work)
+### Setup Database (If database not already set up - without database, single player will still work)
 7. Set up mySQL server (Recommended to use MySQLWorkbench)
 8. Change settings on server/db/db.js, specifically the line: mysql://root:asdf123@localhost/sys to match your own configuration.
 9. Navigate to server/db 
@@ -22,10 +22,10 @@
 
 ==============================
 
-##>Basic Components (Client):
+## >Basic Components (Client):
 Angular 2: Front-end UI Framework
 
-##Basic Components (Server):
+## Basic Components (Server):
 nodeJS: Server
 Express: framework of nodeJS to handle API routes
 

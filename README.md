@@ -31,7 +31,7 @@ Highscore chart only works if server and database is setup.
 6. npm start
 
 ### Setup Database (If database not already set up - without database, single player will still work)
-7. Set up mySQL server (Recommended to use MySQLWorkbench)
+7. Set up MySql (Recommended to use MySQLWorkbench)
 8. Change settings on server/db/db.js, specifically the line: mysql://root:asdf123@localhost/sys to match your own configuration.
 9. Navigate to server/db 
 10. run node init_db.js
@@ -49,9 +49,9 @@ nodeJS: Server
 
 Express: framework of nodeJS to handle API routes
 
-SQL Server: Database
+MySQL: Database
 
-Sequelize: SQL Server ORM
+Sequelize: MySQL ORM
 
 Socket.io: Web Socket
 

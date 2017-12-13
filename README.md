@@ -1,8 +1,6 @@
 # ReadMe
-==============================
 
-
-## >How to run:
+## How to run:
 
 ### Start Client:
 1. open client/MineSweepers folder via terminal
@@ -20,9 +18,7 @@
 9. Navigate to server/db 
 10. run node init_db.js
 
-==============================
-
-## >Basic Components (Client):
+## Basic Components (Client):
 Angular 2: Front-end UI Framework
 
 ## Basic Components (Server):

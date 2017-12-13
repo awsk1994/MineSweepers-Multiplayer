@@ -4,7 +4,7 @@
 
 ### Start Client:
 1. open client/MineSweepers folder via terminal
-2. npm install —-save
+2. npm install --save
 3. npm start
 
 ### Start Server:

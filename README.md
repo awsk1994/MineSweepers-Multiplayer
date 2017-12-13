@@ -1,5 +1,23 @@
 # ReadMe
 
+## Brief Overview
+
+This is a web application for MineSweeper. It has single player & multiplayer mode. 
+
+The purpose of this project is to get experience in web application architecture (database, server, client, sockets), as well as experiment on Angular 2 as UI framework.
+
+### General
+
+Gameplay feature 3 difficulties. When user finishes playing the game, he/she can submit their highscore if database and server is setup. Global and Room chat is also only available if server is setup.
+
+### Multiplayer
+
+In multiplayer, you have to create a room, and wait for another user to join the room in order to start the game. The first player to finish the game wins.
+
+### Highscore 
+
+Highscore chart only works if server and database is setup.
+
 ## How to run:
 
 ### Start Client:

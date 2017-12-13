@@ -4,7 +4,7 @@
 
 This is a web application for MineSweeper. It has single player & multiplayer mode. 
 
-The purpose of this project is to get experience in web application architecture (database, server, client, sockets), as well as experiment on Angular 2 as UI framework.
+The purpose of this project is to get experience in web application architecture and process (UI/UX design, database, server, client, sockets), as well as experiment on Angular 2 as UI framework.
 
 ### General
 

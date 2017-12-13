@@ -28,6 +28,4 @@ Express: framework of nodeJS to handle API routes
 SQL Server: Database
 Sequelize: SQL Server ORM
 
-==============================
-
-
+Last Updated: 12/12/2017 Alex Wong

@@ -20,18 +20,22 @@
 
 ## Basic Components (Client):
 Angular 2: Front-end UI Framework (used Angular cli to create seed project)
+
 Font-Awesome: CSS library
+
 BootStrap 4: CSS library
 
 ## Basic Components (Server):
+
 nodeJS: Server
+
 Express: framework of nodeJS to handle API routes
 
 SQL Server: Database
+
 Sequelize: SQL Server ORM
 
 
-
-
-
+## 
+ 
 Last Updated: 12/12/2017 Alex Wong

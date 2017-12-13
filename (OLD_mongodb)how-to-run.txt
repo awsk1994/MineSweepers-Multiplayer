@@ -1,0 +1,47 @@
+=== QUICK RUN ===
+0. run “npm install —-save” 
+1. run go to /client and “npm start” (Start server)
+2. run go to /server and “npm start” (Start server)
+3. find where mongodb’s folder is (originally in /alexwong/mongodb).
+4. run ““./mongod —dbpath ‘../data/db’” (Start MongoDB server)
+5. run “./mongo” (Start MongoDB shell client)
+6. go to /client and run "npm compodoc"
+
+=== BASIC COMPONENTS ===
+angular: front-end (client-side), SPA
+
+nodeJs: server-side
+express: framework of nodeJs to handle routes
+
+mongodb: we will use mongoose to provide concept of schema and model (so we don't need to define it ourselves)
+mongoose: framework around mongodb to add features such as schemas & models, validation, intuitive database operations (so we don’t need to code them ourselves); installed via nom install —save mongoose
+
+compodoc: create documentation
+
+=== SETTING UP WEBSITE & SERVER (seed project) ===
+UI: run ‘npm build’; it will compile a build of our UI and continuously watch for updates and compile accordingly (this does NOT host the UI, UI is hosted by server)
+Server: run ‘npm start’.
+
+=== SETTING UP MONGODB ===
+1. Download mongodb (from website)
+2. navigate to download folder /bin.
+3. You can now move this bin folder to anywhere in your machine.
+4. On the mongodb website, go to quick start and follow the steps.
+5. In monogodb folder, create path: mkdir -p /data/db
+6. Then, from /bin folder, run the mongodb server: and link that /data/db folder with your run command: “./mongod —dbpath ‘../data/db’”
+7. In another terminal, run mongodb shell client (usually node js will do this for us): go to /bin and run: “./mongo”
+
+=== SOME MONGODB NOTES ===
+On terminal with ./mongo, you  can run commands:
+
+use <db> : switch (new) db.
+
+db.<(new)Collection>.insert({<key>.<value>}) : insert data to new collection/table with data as json representation of key and value.
+
+show dbs : print list of all databases on the server
+show databases: print list of all available databases on the server.
+show collections : show all the collections/table within() a db
+
+db.<collection>.find() : print out the items in collections (can do query)
+db.<collection>.deleteMany({“<key>”: “<value>”})
+db.<collection>.remove({<key>: "<value>"})    : delete an item from collection; need to provide at least one key and value.

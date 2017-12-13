@@ -53,6 +53,7 @@ SQL Server: Database
 
 Sequelize: SQL Server ORM
 
+Socket.io: Web Socket
 
 ## 
  

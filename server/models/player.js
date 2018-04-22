@@ -9,7 +9,8 @@ const Player = db.define('Player', {
   win_time: { type: Sequelize.DATE },
   is_player: { type: Sequelize.BOOLEAN, defaultValue: true },
   is_ready: { type: Sequelize.BOOLEAN, defaultValue: false},
-  socket_id: { type: Sequelize.STRING }
+  socket_id: { type: Sequelize.STRING },
+  room_id: { type: Sequelize.INTEGER }
 });
 
 module.exports = Player;

@@ -38,22 +38,22 @@ exports = module.exports = function (io) {
         }
         
         //If player belonged to a room, send playersUpdate to room player belongs to.
-        var RoomId = player.RoomId;
+        var roomId = player.room_id;
         var playerIsReady = player.is_ready;
         
         player.destroy().then(() => {
           console.log("Deleted Player Successfully");
           
-          if(RoomId){
+          if(roomId){
             models.Room.findOne({
-              where: {'id': RoomId },
+              where: {'id': roomId },
               include: models.Player
             }).then((room, err) => {
               if(err){
-                console.error("ERROR: Error has occured while finding room by id. (Room Id: " + RoomId + ")");
+                console.error("ERROR: Error has occured while finding room by id. (Room Id: " + roomId + ")");
                 return;
               } else if(!room){
-                console.error("ERROR: Cannot find room by id (Room Id: " + RoomId + ")");
+                console.error("ERROR: Cannot find room by id (Room Id: " + roomId + ")");
                 return;
               };
                             
@@ -65,7 +65,7 @@ exports = module.exports = function (io) {
                 });
               }
               
-              io.to(RoomId).emit('playersUpdate', room.Players);
+              io.to(roomId).emit('playersUpdate', room.Players);
             });
           }
         });

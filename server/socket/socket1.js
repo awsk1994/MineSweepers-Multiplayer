@@ -38,22 +38,22 @@ exports = module.exports = function (io) {
         }
         
         //If player belonged to a room, send playersUpdate to room player belongs to.
-        var roomId = player.room_id;
+        var RoomId = player.RoomId;
         var playerIsReady = player.is_ready;
         
         player.destroy().then(() => {
           console.log("Deleted Player Successfully");
           
-          if(roomId){
+          if(RoomId){
             models.Room.findOne({
-              where: {'id': roomId },
+              where: {'id': RoomId },
               include: models.Player
             }).then((room, err) => {
               if(err){
-                console.error("ERROR: Error has occured while finding room by id. (Room Id: " + roomId + ")");
+                console.error("ERROR: Error has occured while finding room by id. (Room Id: " + RoomId + ")");
                 return;
               } else if(!room){
-                console.error("ERROR: Cannot find room by id (Room Id: " + roomId + ")");
+                console.error("ERROR: Cannot find room by id (Room Id: " + RoomId + ")");
                 return;
               };
                             
@@ -65,7 +65,7 @@ exports = module.exports = function (io) {
                 });
               }
               
-              io.to(roomId).emit('playersUpdate', room.Players);
+              io.to(RoomId).emit('playersUpdate', room.Players);
             });
           }
         });
@@ -154,49 +154,29 @@ exports = module.exports = function (io) {
     });
     
     socket.on('leaveRoom', function(nickname, roomId){
-      console.log("LOG: " + nickname + " is leaving room id, " + roomId + ", on socket id: " + socket.id);
-      
-      models.Player.destroy({
-        where: {
-          socket_id: socket.id
+      console.log(`LOG: ${nickname} sent 'leaveRoom' socket msg`);
+
+      models.Room.findOne({
+        where: { id: roomId }
+      }).then((room, err) => {
+        console.log('room state');
+        console.log(room.state);
+        if(err){
+          console.error("ERROR: Error occured while finding room by RoomId (RoomId: " + roomId + ")");
+          return;
+        } else if(!room){
+          console.error("ERROR: Cannot find room (room Id: " + roomId + ")");
+          return;
+        } else if(room.state == 'running'){ // room state = 'running'
+          console.log(`Room (id = ${roomId}) state is in 'running'. Will not leave room. TODO: read comments in code.`);
+          // TODO: should find source. If in running, should only leave room if source is from solo.
+          return;
+        } else {
+          deletePlayer(nickname, socket, roomId, io)
         }
-      }).then(()=>{
-        // socket leave room.
-        socket.leave(roomId);
-
-        models.Room.findOne({
-          where: {
-            id: roomId
-          },
-          include: models.Player
-        }).then((room, err) => {
-          if(err){
-            console.error("ERROR: Error occured while finding room by RoomId (RoomId: " + roomId + ")");
-            return;
-          } else if(!room){
-            console.error("ERROR: Cannot find room (room Id: " + roomId + ")");
-            return;
-          } else if(!room.Players){
-            console.error("ERROR: Room.Players is undefined. (Should be empty if there is none, but not null). (Room Id: " + roomId + ")");
-            return;
-          }
-          // if no players are left in the room, then destroy the room.
-          else if(room.Players.length == 0){
-            console.log("LOG: There are no more players in the room. Deleting the room. (Room Id: " + roomId + ")");
-
-            models.Room.destroy({
-              where: { id: roomId }
-            }).then(()=>{
-              console.log("Deleted Room Successfully");
-              utils.emitRoomsList(models, io);
-            });
-          }
-          // if there are players left, then send playersUpdate.
-          else {
-            io.to(room.id).emit('playersUpdate', room.Players);
-          }
-        });
       });
+
+      
     });
     
     socket.on('readyStatus', function(roomId, ready){
@@ -272,8 +252,60 @@ exports = module.exports = function (io) {
 
 function prepareGame(io, room){
   console.log("prepare game");
+  setRoomStatusToRunning(room);
   let gameBoard = utils.createAndAssignGameboard(room.difficulty);
   io.to(room.id).emit('prepareGame', gameBoard);
+}
+
+function setRoomStatusToRunning(room){
+  console.log("update room status to running");
+  room.updateAttributes({state: 5}) // state = 'running'
+    .then(()=> console.log(`Room (id = ${room.id}) started the game.`));
+}
+
+function deletePlayer(nickname, socket, roomId, io){
+  models.Player.destroy({
+    where: {
+      socket_id: socket.id
+    }
+  }).then(()=>{
+    socket.leave(roomId); // socket leave room.
+    console.log(`LOG: ${nickname} is leaving room id ${roomId} on socket id: ${socket.id}`);
+    deleteRoomIfEmpty(roomId, io);
+  });
+}
+
+function deleteRoomIfEmpty(roomId, io){
+  models.Room.findOne({
+    where: {
+      id: roomId
+    },
+    include: models.Player
+  }).then((room, err) => {
+    if(err){
+      console.error("ERROR: Error occured while finding room by RoomId (RoomId: " + roomId + ")");
+      return;
+    } else if(!room){
+      console.error("ERROR: Cannot find room (room Id: " + roomId + ")");
+      return;
+    } else if(!room.Players){
+      console.error("ERROR: Room.Players is undefined. (Should be empty if there is none, but not null). (Room Id: " + roomId + ")");
+      return;
+    }
+    // if no players are left in the room, then destroy the room.
+    else if(room.Players.length == 0){
+      console.log("LOG: There are no more players in the room. Deleting the room. (Room Id: " + roomId + ")");
+
+      models.Room.destroy({ where: { id: roomId }}).then(()=>{
+        console.log("Deleted Room Successfully");
+        utils.emitRoomsList(models, io);
+      });
+    }
+    // if there are players left, then send playersUpdate.
+    else {
+      io.to(room.id).emit('playersUpdate', room.Players);
+    }
+  });
 }
 
 function startGame(){

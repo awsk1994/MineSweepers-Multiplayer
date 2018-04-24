@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { SoloService } from '../solo/solo.service';
 import { SocketService } from '../socket.service';
 import { HttpService } from '../http.service';
 import { Router } from "@angular/router";
@@ -28,7 +27,6 @@ export class RoomsComponent implements OnInit {
   newRoomName: string;
 
   constructor(private socketService: SocketService,
-              private soloService: SoloService,
               private httpService: HttpService,
               private router: Router,
               private requestNameService: RequestNameService) {
@@ -38,6 +36,7 @@ export class RoomsComponent implements OnInit {
   ngOnInit() {
     this.socketService.roomsUpdate().subscribe(
       (rooms) => {
+        console.log("Room Update: ");
         console.log(rooms);
         this.rooms = rooms;
       }
@@ -60,7 +59,6 @@ export class RoomsComponent implements OnInit {
           this.difficulty = difficulty;
           this.rooms[difficulty].push(data.detail);
           this.joinRoom(data.detail);
-          //console.log(data.detail);
         }
       });
   };

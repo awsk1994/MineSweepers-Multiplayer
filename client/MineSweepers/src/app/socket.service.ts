@@ -37,6 +37,7 @@ export class SocketService {
     })
     return observable;
   }
+  
   roomsUpdate() {
     let observable = new Observable(observer => {
       this.socket.on('roomsUpdate', (rooms) => {
@@ -88,9 +89,25 @@ export class SocketService {
     this.socket.emit('leaveRoom', nickname, roomId);
   }
 
+  finishGame(isWin, roomId) {
+    this.socket.emit('finishGame', isWin, roomId )
+  }
+
   gameStart() {
     let observable = new Observable(observer => {
       this.socket.on('gameStart', (data) => {
+        observer.next(data);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    })
+    return observable;
+  }
+
+  onFinishGame() {
+    let observable = new Observable(observer => {
+      this.socket.on('onFinishGame', (data) => {
         observer.next(data);
       });
       return () => {
@@ -118,11 +135,6 @@ export class SocketService {
   // whenever flag added or numbers revealed, update server.
   updateGame(data){
     this.socket.emit('updateGame', data);
-  }
-
-  // status: win or lose?
-  finishGame(status){
-    this.socket.emit('finishGame', status);
   }
 
   // restartGame? true or false

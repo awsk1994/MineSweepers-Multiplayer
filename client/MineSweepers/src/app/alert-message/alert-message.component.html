@@ -12,6 +12,8 @@
     <hr>
     <button [hidden]='!isSolo' class="btn btn-danger" (click)="closeAlertMessageAndRestart()">Restart Game</button>
     <button [hidden]='data?.status == 0 || !isSolo' class="btn btn-primary" (click)="submitHighscore(data.data['Time Used (min:sec)'])">Submit Highscore</button>
+    <button [hidden]='isSolo' type="button" class="btn btn-primary" (click)="returnToMultiplayer()">Return to Multiplayer</button>
+
     <!--<div [hidden]='!displayNicknameInput'>
       <hr>
       <input size="30" type="text" class="text" [(ngModel)]="nickname" placeholder="Please enter your nickname.">

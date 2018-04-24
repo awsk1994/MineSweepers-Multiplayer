@@ -1,8 +1,15 @@
+TODO (import important):
+ - reset the whole db when socket is down.
+ - Think about how to break this whole thing down. Eg. room manager, game manager.etc.
+ - maybe room shouldn't just be inside solo...?
+
 To Improve (high):
+ - some way for client to recognize itself. Maybe create player on the browser level, not on the socket level.
+ - The way the socket listener is implemented right now seems to repeat teh message twice - find better way to listen for socket messages.
   - socket: keep alive?
   - keep track of user connect/disconnect on server.. is it doing it correctly?
   - if player is in a room, and then server restarts, the player is stuck in the room because it is now a new socket connection. Server should be able to fix this.
-  
+  - currently, game starts when 2 players in the room is ready - should start when all players are ready. code change to be applied to socket1.js
 
 To Improve (mid):
 - join room not done yet.
@@ -29,7 +36,7 @@ To Improve (mid):
     - understand observables.
      - (todo later) layover for adding username and server not found
  - requestName:
-      - (LATER) Entering nickname should save it in localstorage (can set expire day?)
+     - (LATER) Entering nickname should save it in localstorage (can set expire day?)
      - (LATER) need to store chat record in db. When refresh, should fetch last n chat record. Normally, just keep socket open and append to list. If possible, better to refresh with db every n minutes.
 
  - room:

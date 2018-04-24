@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalService } from './modal.service';
 import { ModalContent }from './modalContent.model';
 import { GameService }from '../game.service';
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'modal',
@@ -11,7 +12,10 @@ export class ModalComponent implements OnInit {
     modalContent:ModalContent;
     display = 'none';
 
-    constructor(private modalService: ModalService, private gameService:GameService){}
+    constructor(private modalService: ModalService, 
+                private gameService:GameService,
+                private router:Router,
+                private route: ActivatedRoute){}
 
     onClose(){
         this.display = 'none';
@@ -31,4 +35,8 @@ export class ModalComponent implements OnInit {
         //this.gameService.submitScore();
     }
 
+    returnToMultiplayer() {
+        this.router.navigate(["../"], {relativeTo: this.route});
+        window.location.reload();
+    }
 }

@@ -4,7 +4,7 @@ import { GameService } from '../game.service';
 import { MinToMsPipe } from '../sharedPipes';
 import { SocketService } from '../socket.service';
 import { RequestNameService } from '../request-name/request-name.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 /**
  *  AlertMessage Component displays a popover when one gives it a title and message. 
@@ -28,6 +28,7 @@ export class AlertMessageComponent {
     private gameService: GameService,
     private socketService: SocketService,
     private requestNameService: RequestNameService,
+    private router: Router,
     private route:ActivatedRoute) {
     this.alertMessageService.triggerAlertMessage.subscribe(
       (data) => {
@@ -50,6 +51,11 @@ export class AlertMessageComponent {
   closeAlertMessageAndRestart() {
     this.resetVariables();
     this.gameService.restart();
+  }
+
+  returnToMultiplayer() {
+    this.router.navigate(["../"], {relativeTo: this.route});
+    window.location.reload();
   }
 
   /**

@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { GameService } from '../game.service'
-import { SoloService } from './solo.service';
 import { RequestNameService } from '../request-name/request-name.service';
 import { ModalService } from '../modal/modal.service';
 import { ModalContent } from '../modal/modalContent.model';
@@ -24,7 +23,6 @@ export class SoloComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private gameService: GameService,
-              private soloService: SoloService,
               private requestNameService: RequestNameService,
               private socketService: SocketService,
               private httpService: HttpService,
@@ -34,7 +32,11 @@ export class SoloComponent implements OnInit {
     route.params.subscribe(params => {
       this.roomId = params['roomId'];
     });
+
+    // TODO: Set these inside the constructor of game service.
     this.gameService.isSolo = this.isSolo;
+    this.gameService.roomId = parseInt(this.roomId);
+    this.gameService.socketService = this.socketService;
   }
 
   ngOnInit() {
@@ -45,13 +47,22 @@ export class SoloComponent implements OnInit {
 
     this.socketService.prepareGame().subscribe(
       (gameBoardData) => {
-        console.log(gameBoardData);
+        console.log("prepareGame: " + gameBoardData);
         let difficulty = 0;   //todo: should be given by the socket?
         this.displayRoom = false;
         this.gameboardService.triggerResetAllMsg();
         this.gameboardService.triggerMsgByTitle('clickToStartMsg', true);
         this.gameService.resetGameComponents(difficulty);
         this.gameboardService.prepareGameBoardCreatedByServer(gameBoardData);
+      }
+    )
+
+    this.socketService.onFinishGame().subscribe(
+      (otherIsWin) => {
+        console.log("OnFinishGame. Data:");
+        console.log(otherIsWin);
+        let isWin = otherIsWin == 1 ? 0 : 1;
+        this.showGameoverModal(isWin);
       }
     )
   }

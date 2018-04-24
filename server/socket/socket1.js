@@ -62,6 +62,9 @@ exports = module.exports = function (io) {
                     ready_count: --room.ready_count
                 }).then(()=>{
                     console.log("updated room's ready_count to " + room.ready_count);
+                    if(room.ready_count == 0){
+                      deleteRoomIfEmpty(room.id, io);
+                    }
                 });
               }
               
@@ -214,12 +217,12 @@ exports = module.exports = function (io) {
             io.to(roomId).emit('playersUpdate', room.Players);
 
             // Update room's ready_count.
-            var updatedRoomCount = ready? room.ready_count+1 : room.ready_count-1;
+            var updatedReadyCount = ready? room.ready_count+1 : room.ready_count-1;
             room.updateAttributes({
-                ready_count: updatedRoomCount
-            }).then(()=>{
-                console.log("updated room's ready_count to " + updatedRoomCount);
-                if(updatedRoomCount >= 2){  // todo, should change to total players in the room instead of 2 later.
+                ready_count: updatedReadyCount
+            }).then((room, err)=>{
+                console.log("updated room's ready_count to " + updatedReadyCount);
+                if(updatedReadyCount == 2){  // todo, should change to total players in the room instead of 2 later.
                   prepareGame(io, room);
                 }
             });
@@ -227,12 +230,20 @@ exports = module.exports = function (io) {
         });
       });
     });
+
+    socket.on('finishGame', function(isWin, roomId) {
+      // Get players in this room.
+      // For sender, don't need to send any info.
+      // For not-sender, send game status to them.
+      finishGame(io, socket, isWin, roomId);
+    });
     
     // TODO: Update Game
     socket.on('updateGame', function (data) {
       console.log("updateGame | data: " + data);
       // todo. 
     });
+    
     
     // TODO: to be deleted later.
     socket.on('test', function(msg){
@@ -257,10 +268,28 @@ function prepareGame(io, room){
   io.to(room.id).emit('prepareGame', gameBoard);
 }
 
+function finishGame(io, socket, isWin, roomId){
+  console.log("Got message - finish game.")
+  // set room status to default
+  setRoomStatusToDefault(roomId);
+  io.to(roomId).emit('onFinishGame', isWin);
+}
+
+// TODO: combine following 2 methods to one.
 function setRoomStatusToRunning(room){
   console.log("update room status to running");
   room.updateAttributes({state: 5}) // state = 'running'
     .then(()=> console.log(`Room (id = ${room.id}) started the game.`));
+}
+
+function setRoomStatusToDefault(roomId){
+  models.Room.findOne({
+    where: { id: roomId }
+  }).then((room, err) => {
+    console.log("update room status to default");
+    room.updateAttributes({state: 1}) // state = 'default'
+      .then(()=> console.log(`Room (id = ${room.id}) - someone finished the game.`));  
+  })
 }
 
 function deletePlayer(nickname, socket, roomId, io){

@@ -3,7 +3,7 @@ module.exports = {
   emitRoomsList: function(models, io){
     // Find easy rooms.
     models.Room.findAll({
-      where: { difficulty: 0 }
+      where: { difficulty: 0, state: 'default' }
     }).then(function(easyRooms, err){
       if(err){
         console.error("ERROR: Error has occured while getting all rooms with difficulty = 0.")
@@ -12,7 +12,7 @@ module.exports = {
 
       // Find medium rooms.
       models.Room.findAll({
-        where: { difficulty: 1 }
+        where: { difficulty: 1, state: 'default' }
       }).then(function(mediumRooms, err){
         if(err){
           console.error("ERROR: Error has occured while getting all rooms with difficulty = 1.")
@@ -21,7 +21,7 @@ module.exports = {
 
         // Find hard rooms.
         models.Room.findAll({
-          where: { difficulty: 2 }
+          where: { difficulty: 2, state: 'default' }
         }).then(function(hardRooms, err){
           if(err){
             console.error("ERROR: Error has occured while getting all rooms with difficulty = 2.")

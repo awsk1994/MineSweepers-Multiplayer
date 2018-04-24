@@ -37,13 +37,18 @@ export class GameService {
   tilesRevealed: number = 0;
   flagBombUpdated = new EventEmitter();
   isSolo: boolean = true;
+  roomId: number = -1;
+  alreadyShowingGameoverModal: boolean = null;
+  socketService = null;
 
   constructor(
     private modalSerivce: ModalService,
     private gameboardService: GameboardService,
     private timerService: TimerService,
     private alertMessageService: AlertMessageService,
-    private http: Http) { }
+    private http: Http) {
+      
+    }
 
   //------------------------------------------------//
 
@@ -191,14 +196,22 @@ export class GameService {
 
     if(!this.isSolo){
       // send message to server that game is completed.
+      this.socketService.finishGame(status, this.roomId);
     }
 
     // modal gameOver message. win or lose.
-    //this.showGameoverModal(status);
+    this.showGameoverModal(status);
   }
 
   // show up modal. Status = 0 if lose. Status = 1 if win.
   showGameoverModal(status) {
+    if(this.alreadyShowingGameoverModal != null){
+      console.log("Ignore this request - already showing. Temp Fix::")
+      return;
+    } else {
+      this.alreadyShowingGameoverModal = true;
+    }
+
     // todo: show up win/lose message accordingly... details include bombs left (if lose), time used.etc.
     let modalContent;
     if (status == 0) {  // lose  

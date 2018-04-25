@@ -8,6 +8,7 @@ var app = express();
 // create db (sequelize)
 console.log("Create tables if not already exist.")
 const createTable = require('./db/create_table.js');
+const resetDbData = require('./db/reset_db_data');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

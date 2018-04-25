@@ -10,13 +10,13 @@ export class SocketService {
   private socket;
 
   constructor() {
-    console.log("socket service constructor");
+    console.log("socket service constructor.");
     this.socket = io(this.url);
   }
 
-  getGlobalLogs() {
+  getObservable(socketMsgName) {
     let observable = new Observable(observer => {
-      this.socket.on('globalChat', (log) => {
+      this.socket.on(socketMsgName, (log) => {
         observer.next(log);
       });
       return () => {
@@ -26,22 +26,35 @@ export class SocketService {
     return observable;
   }
 
-  getRoomLogs() {
-    let observable = new Observable(observer => {
-      this.socket.on('roomChat', (log) => {
-        observer.next(log);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    })
-    return observable;
-  }
-  
-  roomsUpdate() {
-    let observable = new Observable(observer => {
-      this.socket.on('roomsUpdate', (rooms) => {
-        observer.next(rooms);
+  // roomsUpdate() {
+  //   let observable = new Observable(observer => {
+  //     this.socket.on('roomsUpdate', (rooms) => {
+  //       observer.next(rooms);
+  //     });
+  //     return () => {
+  //       this.socket.disconnect();
+  //     };
+  //   })
+  //   return observable;
+  // }
+
+  // playersUpdate(){
+  //   let observable = new Observable(observer => {
+  //     this.socket.on('playersUpdate', (players) => {
+  //       observer.next(players);
+  //     });
+  //     return () => {
+  //       this.socket.disconnect();
+  //     };
+  //   })
+  //   return observable;
+  // }
+
+  // Can't use getObservable because it specifies a number[][] return type.
+  prepareGame() {
+    let observable = new Observable<number[][]>(observer => {
+      this.socket.on('prepareGame', (data) => {
+        observer.next(data);
       });
       return () => {
         this.socket.disconnect();
@@ -50,17 +63,17 @@ export class SocketService {
     return observable;
   }
 
-  playersUpdate(){
-    let observable = new Observable(observer => {
-      this.socket.on('playersUpdate', (players) => {
-        observer.next(players);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    })
-    return observable;
-  }
+  // gameStart() {
+  //   let observable = new Observable(observer => {
+  //     this.socket.on('gameStart', (data) => {
+  //       observer.next(data);
+  //     });
+  //     return () => {
+  //       this.socket.disconnect();
+  //     };
+  //   })
+  //   return observable;
+  // }
 
   sendGlobalMessage(username, message) {
     this.socket.emit('globalChat', username, message);
@@ -85,53 +98,16 @@ export class SocketService {
     this.socket.emit('joinRoom', nickname, roomId);
   }
 
-  leaveRoom(nickname, roomId){
-    this.socket.emit('leaveRoom', nickname, roomId);
+  leaveRoom(roomId){
+    this.socket.emit('leaveRoom', roomId);
   }
 
   finishGame(isWin, roomId) {
     this.socket.emit('finishGame', isWin, roomId )
   }
-
-  gameStart() {
-    let observable = new Observable(observer => {
-      this.socket.on('gameStart', (data) => {
-        observer.next(data);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    })
-    return observable;
+  test(msg){
+    this.socket.emit(msg);
   }
-
-  onFinishGame() {
-    let observable = new Observable(observer => {
-      this.socket.on('onFinishGame', (data) => {
-        observer.next(data);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    })
-    return observable;
-  }
-
-  prepareGame() {
-    let observable = new Observable<number[][]>(observer => {
-      this.socket.on('prepareGame', (data) => {
-        observer.next(data);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    })
-    return observable;
-  }
-
- test(msg){
-   this.socket.emit(msg);
- }
   // whenever flag added or numbers revealed, update server.
   updateGame(data){
     this.socket.emit('updateGame', data);

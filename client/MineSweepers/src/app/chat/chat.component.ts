@@ -30,13 +30,13 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.socketService.getGlobalLogs().subscribe(
+    this.socketService.getObservable('globalChat').subscribe(
       (log) => {
         this.logs.global.push(log);
       }
     );
 
-    this.socketService.getRoomLogs().subscribe(
+    this.socketService.getObservable('roomChat').subscribe(
       (log) => {
         this.logs.room.push(log);
       }

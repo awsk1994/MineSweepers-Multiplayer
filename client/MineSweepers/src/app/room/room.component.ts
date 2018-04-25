@@ -37,7 +37,7 @@ export class RoomComponent implements OnInit {
       this.socketService.joinRoom(this.nickname, this.roomId);
     });
 
-    this.socketService.playersUpdate().subscribe(
+    this.socketService.getObservable('playersUpdate').subscribe(
       (players) => {
         console.log("players:");
         console.log(players);
@@ -48,7 +48,7 @@ export class RoomComponent implements OnInit {
 
   ngOnDestroy() {
     console.log("Leaving room: ngOnDestroy. name: " + this.nickname + ", room Id: " + this.roomId);
-    this.socketService.leaveRoom(this.nickname, this.roomId);
+    this.socketService.leaveRoom(this.roomId);
   };
 
   ngOnInit() {

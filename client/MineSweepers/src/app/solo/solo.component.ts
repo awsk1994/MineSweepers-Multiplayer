@@ -57,7 +57,7 @@ export class SoloComponent implements OnInit {
       }
     )
 
-    this.socketService.onFinishGame().subscribe(
+    this.socketService.getObservable('onFinishGame').subscribe(
       (otherIsWin) => {
         console.log("OnFinishGame. Data:");
         console.log(otherIsWin);
@@ -70,7 +70,6 @@ export class SoloComponent implements OnInit {
   ngOnDestroy() {
     console.log("solo | ngOnDestroy()");
   }
-
 
   prepareGame(difficulty) { this.gameService.prepareGame(difficulty); };
   startGame() { this.gameService.startGame(); };

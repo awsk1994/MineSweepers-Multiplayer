@@ -30,11 +30,12 @@ export class RoomsComponent implements OnInit {
               private httpService: HttpService,
               private router: Router,
               private requestNameService: RequestNameService) {
+                console.log("constructor rooms");
     this.resetRooms();
   }
 
   ngOnInit() {
-    this.socketService.roomsUpdate().subscribe(
+    this.socketService.getObservable('roomsUpdate').subscribe(
       (rooms) => {
         console.log("Room Update: ");
         console.log(rooms);

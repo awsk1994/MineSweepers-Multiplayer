@@ -55,7 +55,7 @@ export class AlertMessageComponent {
 
   returnToMultiplayer() {
     this.router.navigate(["../"], {relativeTo: this.route});
-    window.location.reload();
+    this.socketService.leaveRoom(null);
   }
 
   /**

@@ -3,9 +3,8 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import { SocketService } from './app/socket.service';
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule, [SocketService]);
+platformBrowserDynamic().bootstrapModule(AppModule);

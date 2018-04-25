@@ -78,10 +78,7 @@ exports = module.exports = function (io) {
     // Chat
     socket.on('globalChat', function (username, message) {
       console.log("globalChat message Received: username: " + username + ", msg: " + message);
-      io.emit('globalChat', {
-        'username': username,
-        'message': message
-      });
+      io.emit('globalChat', {'username': username, 'message': message});
     });
     
     socket.on('roomChat', function(username, roomName, message){
@@ -89,146 +86,22 @@ exports = module.exports = function (io) {
       io.to(roomName).emit('roomChat', {'username':username, 'roomName': roomName, 'message': message});
     });
     
-    
     // Room
     socket.on('getRooms', function () {
       utils.emitRoomsList(models, io);
     });
     
     socket.on('joinRoom', function (nickname, roomId) {
-      console.log("LOG: " + nickname + " has joined socket chat for " + roomId + ". Socket id: " + socket.id);
-    
-      models.Player.create({
-        "username": nickname,
-        "socket_id": socket.id,
-        "RoomId": roomId
-      }).then((player, err) => {
-        if(err){
-          console.log("ERROR: cannot create player to join room.");
-          return;
-        };
-        
-        socket.join(roomId);
-        
-        models.Room.findOne({
-          where: { id: roomId },
-          include: models.Player
-        }).then(function(room, err){
-          // catch error.
-          if(err || !room){
-            console.error("ERROR: cannot find room by id (roomId: " + roomId + ")");
-            io.to(roomId).emit('playersUpdate', {});
-            return;
-          }
-          io.to(roomId).emit('playersUpdate', room.Players);
-        });
-      });
-      
-      /*
-      models.Player.findOrCreate({
-        where: {
-          username: nickname, 
-          socket_id: socket.id
-        }
-      }).then(function(player, created){
-        console.log('Player found/created!');
-        
-        player.updateAttributes({
-          "RoomId": roomId
-        }).then(function(){
-          console.log('Joined room successfully!');
-          socket.join(roomId);
-
-          models.Room.findOne({
-            where: { id: roomId },
-            include: models.Player
-          }).then(function(room, err){
-            // catch error.
-            if(err || !room){
-              console.error("ERROR: cannot find room by id (roomId: " + roomId + ")");
-              io.to(roomId).emit('playersUpdate', {});
-              return;
-            }
-            io.to(roomId).emit('playersUpdate', room.Players);
-          });
-        });
-      });
-      */
+      joinRoom(nickname, roomId, socket, io);
     });
     
-    socket.on('leaveRoom', function(nickname, roomId){
-      console.log(`LOG: ${nickname} sent 'leaveRoom' socket msg`);
-
-      models.Room.findOne({
-        where: { id: roomId }
-      }).then((room, err) => {
-        console.log('room state');
-        console.log(room.state);
-        if(err){
-          console.error("ERROR: Error occured while finding room by RoomId (RoomId: " + roomId + ")");
-          return;
-        } else if(!room){
-          console.error("ERROR: Cannot find room (room Id: " + roomId + ")");
-          return;
-        } else if(room.state == 'running'){ // room state = 'running'
-          console.log(`Room (id = ${roomId}) state is in 'running'. Will not leave room. TODO: read comments in code.`);
-          // TODO: should find source. If in running, should only leave room if source is from solo.
-          return;
-        } else {
-          deletePlayer(nickname, socket, roomId, io)
-        }
-      });
-
-      
+    socket.on('leaveRoom', function(roomId){
+      console.log(`LOG: A player sent 'leaveRoom' socket msg`);
+      leaveRoom(socket, io);      
     });
     
     socket.on('readyStatus', function(roomId, ready){
-      console.log("ready status from socket id, " + socket.id);      
-      
-      models.Player.findOne({
-        where: {
-          RoomId: roomId,
-          socket_id: socket.id
-        }
-      }).then(function(player, err){
-        if(err){
-          console.error("ERROR: Error has occured while finding room. (RoomId: " + roomId + ")");
-          return;
-        } else if(!player){
-          console.error("ERROR: Cannot find player by RoomId and socket_id. (RoomId: " + roomId + ", socket_id: " + socket.id + ")");
-          return;
-        }
-        
-        // Update player's is_ready.
-        player.updateAttributes({
-          is_ready: ready
-        }).then(()=>{
-          // Find Room and send socket message update for list of players
-          models.Room.findOne({
-            where: { id: roomId },
-            include: models.Player
-          }).then(function(room, err){
-            //console.log(room);
-            if(err || !room.Players){
-              console.error("ERROR");
-              return;
-            }
-            
-            io.to(roomId).emit('playersUpdate', room.Players);
-
-            // Update room's ready_count.
-            var updatedReadyCount = ready? room.ready_count+1 : room.ready_count-1;
-            room.updateAttributes({
-                ready_count: updatedReadyCount
-            }).then((room, err)=>{
-                console.log("updated room's ready_count to " + updatedReadyCount);
-                if(updatedReadyCount == 2){  // todo, should change to total players in the room instead of 2 later.
-                  prepareGame(io, room);
-                }
-            });
-          });
-        });
-      });
+      readyStatus(roomId, ready, socket, io);
     });
 
     socket.on('finishGame', function(isWin, roomId) {
@@ -271,7 +144,9 @@ function prepareGame(io, room){
 function finishGame(io, socket, isWin, roomId){
   console.log("Got message - finish game.")
   // set room status to default
-  setRoomStatusToDefault(roomId);
+  setRoomStatusToDefault(roomId)
+  
+  console.log("Emit onFinishGame message")
   io.to(roomId).emit('onFinishGame', isWin);
 }
 
@@ -287,21 +162,117 @@ function setRoomStatusToDefault(roomId){
     where: { id: roomId }
   }).then((room, err) => {
     console.log("update room status to default");
-    room.updateAttributes({state: 1}) // state = 'default'
-      .then(()=> console.log(`Room (id = ${room.id}) - someone finished the game.`));  
+    if(room != null){
+      room.updateAttributes({state: 2}) // state = 'default'
+        .then(()=> console.log(`Room (id = ${room.id}) - someone finished the game.`));  
+      }
   })
 }
 
-function deletePlayer(nickname, socket, roomId, io){
-  models.Player.destroy({
+function joinRoom(nickname, roomId, socket, io){
+  console.log("LOG: " + nickname + " has joined socket chat for " + roomId + ". Socket id: " + socket.id);
+    
+  models.Player.create({
+    "username": nickname,
+    "socket_id": socket.id,
+    "RoomId": roomId
+  }).then((player, err) => {
+    if(err){
+      console.log("ERROR: cannot create player to join room.");
+      return;
+    };
+    
+    socket.join(roomId);
+    
+    models.Room.findOne({
+      where: { id: roomId },
+      include: models.Player
+    }).then(function(room, err){
+      // catch error.
+      if(err || !room){
+        console.error("ERROR: cannot find room by id (roomId: " + roomId + ")");
+        io.to(roomId).emit('playersUpdate', {});
+        return;
+      }
+      io.to(roomId).emit('playersUpdate', room.Players);
+    });
+  });
+}
+
+function readyStatus(roomId, ready, socket, io){
+  console.log("ready status from socket id, " + socket.id);      
+      
+  models.Player.findOne({
     where: {
+      RoomId: roomId,
       socket_id: socket.id
     }
-  }).then(()=>{
-    socket.leave(roomId); // socket leave room.
-    console.log(`LOG: ${nickname} is leaving room id ${roomId} on socket id: ${socket.id}`);
-    deleteRoomIfEmpty(roomId, io);
+  }).then(function(player, err){
+    if(err){
+      console.error("ERROR: Error has occured while finding room. (RoomId: " + roomId + ")");
+      return;
+    } else if(!player){
+      console.error("ERROR: Cannot find player by RoomId and socket_id. (RoomId: " + roomId + ", socket_id: " + socket.id + ")");
+      return;
+    }
+    
+    // Update player's is_ready.
+    player.updateAttributes({
+      is_ready: ready
+    }).then(()=>{
+      // Find Room and send socket message update for list of players
+      models.Room.findOne({
+        where: { id: roomId },
+        include: models.Player
+      }).then(function(room, err){
+        //console.log(room);
+        if(err || !room.Players){
+          console.error("ERROR");
+          return;
+        }
+        
+        io.to(roomId).emit('playersUpdate', room.Players);
+
+        // Update room's ready_count.
+        var updatedReadyCount = ready? room.ready_count+1 : room.ready_count-1;
+        room.updateAttributes({
+            ready_count: updatedReadyCount
+        }).then((room, err)=>{
+            console.log("updated room's ready_count to " + updatedReadyCount);
+            if(updatedReadyCount == 2){  // todo, should change to total players in the room instead of 2 later.
+              prepareGame(io, room);
+            }
+        });
+      });
+    });
   });
+}
+
+function leaveRoom(socket, io){
+  console.log("start");
+  let roomId = -1;
+  models.Player.findOne({
+    where: {socket_id: socket.id},
+    include: models.Room
+  }).then((player, err) => {
+    roomId = player.RoomId;
+    console.log("player.Room.state:" + player.Room.state);
+    if(player.Room.state == 'default'){
+      console.log("destroy player");
+      player.destroy();
+
+      if(roomId == -1){
+        console.error("RoomId == -1");
+        return;
+      }
+
+      socket.leave(roomId); // socket leave room.
+      console.log(`LOG: A player is leaving room id ${roomId} on socket id: ${socket.id}`);
+      deleteRoomIfEmpty(roomId, io);
+    } else {
+      console.log("player not destroyed");
+    }
+  })
 }
 
 function deleteRoomIfEmpty(roomId, io){

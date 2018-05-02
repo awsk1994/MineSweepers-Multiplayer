@@ -1,5 +1,4 @@
 TODO (import important):
- - reset the whole db when socket is down.
  - Think about how to break this whole thing down. Eg. room manager, game manager.etc.
  - maybe room shouldn't just be inside solo...?
 
